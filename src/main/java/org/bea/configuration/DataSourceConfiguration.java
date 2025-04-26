@@ -1,6 +1,7 @@
 package org.bea.configuration;
 
 
+import org.flywaydb.core.Flyway;
 import org.h2.Driver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,13 +42,15 @@ public class DataSourceConfiguration {
         return new JdbcTemplate(dataSource);
     }
 
-    @EventListener
-    public void populate(ContextRefreshedEvent event) {
-        DataSource dataSource = event.getApplicationContext().getBean(DataSource.class);
-
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("schema.sql")); // Файл должен находится в ресурсах
-        populator.execute(dataSource);
+    @Bean
+    public Flyway flyway(DataSource dataSource) {
+        Flyway flyway = Flyway.configure()
+                .dataSource(dataSource)
+                .locations("classpath:db/migration") // Путь к миграциям
+                .baselineOnMigrate(true)
+                .load();
+        flyway.migrate();
+        return flyway;
     }
 
 }
