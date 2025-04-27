@@ -84,6 +84,13 @@
             <version>9.22.3</version> <!-- Проверьте актуальную версию -->
         </dependency>
 
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.38</version>
+                <scope>provided</scope>
+            </dependency>
+
     </dependencies>
 
     <build>
