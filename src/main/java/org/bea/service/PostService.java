@@ -14,7 +14,12 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public List<Post> findAll() {
-        return postRepository.findAll();
+    public List<Post> findAll(int offset) {
+        return postRepository.findAll(offset);
     }
+
+    public long getCount() {
+        return postRepository.getCount();
+    }
+
 }

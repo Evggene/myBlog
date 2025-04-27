@@ -6,9 +6,9 @@ import java.util.UUID;
 
 @Data
 public class Post {
-    private UUID postId;
+    private UUID id;
     private String title;
     private String imagePath;
     private String content;
-    private String previewContent;
+    private String textPreview;
 }

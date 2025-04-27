@@ -12,16 +12,17 @@ insert into users(first_name, last_name, age, active) values ('Петр', 'Пе�
 insert into users(first_name, last_name, age, active) values ('Мария', 'Сидорова', 28, true);
 
 CREATE TABLE post (
-    post_id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     image_path VARCHAR(255),
     content TEXT NOT NULL,
-    preview_content VARCHAR(500) NOT NULL,
+    text_preview VARCHAR(500) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-INSERT INTO POST(POST_ID,TITLE,CONTENT,PREVIEW_CONTENT)
+INSERT INTO POST(ID,TITLE,CONTENT,TEXT_PREVIEW)
 VALUES
-('0a2a4b69-1141-4652-8c6f-ae7fae3ae6e7','test','test test','test');
+('0a2a4b69-1141-4652-8c6f-ae7fae3ae6e7','test','test test','test'),
+('0a2a4b69-2222-4652-8c6f-ae7fae3ae6e7','test2','test2 test2','test2');

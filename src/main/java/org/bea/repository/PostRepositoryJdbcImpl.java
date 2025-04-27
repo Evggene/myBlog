@@ -2,23 +2,44 @@ package org.bea.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.bea.model.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
-public class PostRepositoryJdbcImpl implements PostRepository{
+public class PostRepositoryJdbcImpl implements PostRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final static String DEFAULT_LIMIT = "10";
     private final static String TABLE_NAME = "post";
-    private final static String SQL_SELECT_ALL = "SELECT * FROM " + TABLE_NAME;
+    private final static String SQL_SELECT = """
+            SELECT * FROM post LIMIT :limit OFFSET :offset;
+            """;
+    private final static String COUNT_SQL_SELECT = """
+            SELECT COUNT(*) FROM post;
+            """;
+    @Override
+    public List<Post> findAll(int offset) {
+        var rowMapper = new BeanPropertyRowMapper<>(Post.class);
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("offset", offset);
+        paramMap.put("limit", DEFAULT_LIMIT);
+        return namedParameterJdbcTemplate.query(SQL_SELECT, paramMap, rowMapper);
+    }
 
     @Override
-    public List<Post> findAll() {
-        var rowMapper = new BeanPropertyRowMapper<>(Post.class);
-        return jdbcTemplate.query(SQL_SELECT_ALL, rowMapper);
+    public long getCount() {
+        return jdbcTemplate.queryForObject(COUNT_SQL_SELECT, Long.class);
     }
+
 }
