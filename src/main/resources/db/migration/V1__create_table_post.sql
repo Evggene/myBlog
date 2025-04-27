@@ -1,17 +1,5 @@
--- Таблица с пользователями
-create table if not exists users(
-  id bigserial primary key,
-  first_name varchar(256) not null,
-  last_name varchar(256) not null,
-  age integer not null,
-  active boolean not null
-);
 
-insert into users(first_name, last_name, age, active) values ('Иван', 'Иванов', 30, true);
-insert into users(first_name, last_name, age, active) values ('Петр', 'Петров', 25, false);
-insert into users(first_name, last_name, age, active) values ('Мария', 'Сидорова', 28, true);
-
-CREATE TABLE post (
+CREATE TABLE IF NOT EXISTS posts (
     id UUID PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     image_path VARCHAR(255),
@@ -22,7 +10,7 @@ CREATE TABLE post (
     deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-INSERT INTO POST(ID,TITLE,CONTENT,TEXT_PREVIEW)
+INSERT INTO POSTS(ID,TITLE,CONTENT,TEXT_PREVIEW)
 VALUES
 ('0a2a4b69-1141-4652-8c6f-ae7fae3ae6e7','test','test test','test'),
 ('0a2a4b69-2222-4652-8c6f-ae7fae3ae6e7','test2','test2 test2','test2');

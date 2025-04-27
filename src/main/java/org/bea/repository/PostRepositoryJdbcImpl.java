@@ -21,12 +21,12 @@ public class PostRepositoryJdbcImpl implements PostRepository {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final static String DEFAULT_LIMIT = "10";
-    private final static String TABLE_NAME = "post";
+    private final static String TABLE_NAME = "posts";
     private final static String SQL_SELECT = """
-            SELECT * FROM post LIMIT :limit OFFSET :offset;
+            SELECT * FROM posts LIMIT :limit OFFSET :offset;
             """;
     private final static String COUNT_SQL_SELECT = """
-            SELECT COUNT(*) FROM post;
+            SELECT COUNT(*) FROM posts;
             """;
     @Override
     public List<Post> findAll(int offset) {

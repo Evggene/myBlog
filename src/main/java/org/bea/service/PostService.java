@@ -2,7 +2,6 @@ package org.bea.service;
 
 import lombok.RequiredArgsConstructor;
 import org.bea.model.Post;
-import org.bea.model.User;
 import org.bea.repository.PostRepository;
 import org.springframework.stereotype.Service;
 

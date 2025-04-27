@@ -3,19 +3,11 @@ package org.bea.controller;
 import lombok.RequiredArgsConstructor;
 import org.bea.dao.Page;
 import org.bea.model.Post;
-import org.bea.model.User;
 import org.bea.repository.PostRepository;
-import org.bea.service.PostService;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
