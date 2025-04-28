@@ -2,11 +2,8 @@ package org.bea.dao;
 
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
-public class Page<T> {
+public class PageResponse<T> {
 
     private long count;
     private int pageNumber = 1;

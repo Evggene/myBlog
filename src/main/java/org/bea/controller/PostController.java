@@ -1,7 +1,7 @@
 package org.bea.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.bea.dao.Page;
+import org.bea.dao.PageResponse;
 import org.bea.model.Post;
 import org.bea.repository.PostRepository;
 import org.springframework.stereotype.Controller;
@@ -19,19 +19,19 @@ public class PostController {
     public String users(Model model) {
         var res = postRepository.findAll(0);
         var count = postRepository.getCount();
-        var page = new Page<Post>();
+        var page = new PageResponse<Post>();
         page.setCount(count);
         model.addAttribute("posts", res);
         model.addAttribute("paging", page);
         return "posts";
     }
 
-    @GetMapping(path = "/", params = {"search", "action"})
+    @GetMapping(path = "/", params = {"search", "postSize", "pageNumber"})
     public String handleSearch(@RequestParam("search") String search, Model model) {
         if (search != null && search.isBlank()) {
             var res = postRepository.findAll(0);
             var count = postRepository.getCount();
-            var page = new Page<Post>();
+            var page = new PageResponse<Post>();
             page.setCount(count);
             model.addAttribute("posts", res);
             model.addAttribute("paging", page);
