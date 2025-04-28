@@ -10,11 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.Mapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -73,11 +73,7 @@ public class PostController {
     }
 
     @PostMapping(value = "/posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String addPost(
-            @RequestParam("title") String title,
-            @RequestParam("image") MultipartFile image,
-            @RequestParam("tags") String tags,
-            @RequestParam("text") String text) {
+    public String addPost(@ModelAttribute PostRequest postRequest) {
         return "redirect:/posts";
     }
 

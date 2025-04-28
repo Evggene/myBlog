@@ -1,6 +1,7 @@
 package org.bea.configuration;
 
 
+import jakarta.servlet.MultipartConfigElement;
 import org.flywaydb.core.Flyway;
 import org.h2.Driver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
 import javax.sql.DataSource;
 
@@ -57,6 +60,16 @@ public class DataSourceConfiguration {
                 .load();
         flyway.migrate();
         return flyway;
+    }
+
+    @Bean
+    public MultipartResolver multipartResolver() {
+        return new StandardServletMultipartResolver();
+    }
+
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        return new MultipartConfigElement("", 10485760, 10485760, 0);
     }
 
 }

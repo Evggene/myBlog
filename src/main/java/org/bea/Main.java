@@ -15,6 +15,7 @@ public class Main {
         tomcat.setPort(8082);
 
         StandardContext ctx = (StandardContext) tomcat.addWebapp("/", new File(webAppDirLocation).getAbsolutePath());
+        ctx.setAllowCasualMultipartParsing(true);
 
         Tomcat.addServlet(ctx, "h2Console", new JakartaWebServlet())
                 .addMapping("/h2Console/*");
