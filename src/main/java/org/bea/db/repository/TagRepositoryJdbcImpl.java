@@ -1,10 +1,7 @@
-package org.bea.repository;
+package org.bea.db.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.bea.model.Post;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -12,7 +9,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import javax.security.auth.login.CredentialNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +16,7 @@ import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
-public class PostRepositoryJdbcImpl implements PostRepository {
+public class TagRepositoryJdbcImpl implements TagRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;

@@ -1,4 +1,4 @@
-package org.bea.dao;
+package org.bea.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 

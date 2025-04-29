@@ -1,11 +1,11 @@
-package org.bea.repository;
+package org.bea.db.repository;
 
 import org.bea.model.Post;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface PostRepository {
+public interface LikeRepository {
 
     List<Post> findAll(int offset);
 

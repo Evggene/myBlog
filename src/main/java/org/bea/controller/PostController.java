@@ -1,19 +1,14 @@
 package org.bea.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.bea.dao.PageResponse;
-import org.bea.dao.PostRequest;
+import org.bea.configuration.ResourceRootPathConfiguration;
+import org.bea.dto.PageResponse;
 import org.bea.model.Post;
-import org.bea.repository.PostRepository;
-import org.springframework.http.MediaType;
+import org.bea.db.repository.PostRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
@@ -23,6 +18,7 @@ import java.util.UUID;
 public class PostController {
 
     private final PostRepository postRepository;
+    private final ResourceRootPathConfiguration resourceRootPathConfiguration;
 
     @GetMapping("/")
     public String redirectToPosts() {
@@ -53,11 +49,6 @@ public class PostController {
         return "posts";
     }
 
-    @GetMapping(path = "/posts/add")
-    public String addPost() {
-        return "add-post";
-    }
-
     @GetMapping("/posts/{id}")
     public String getPostById(@PathVariable("id") UUID id, Model model) {
         var post = postRepository.getById(id);
@@ -72,9 +63,11 @@ public class PostController {
         return "add-post";
     }
 
-    @PostMapping(value = "/posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String addPost(@ModelAttribute PostRequest postRequest) {
-        return "redirect:/posts";
+    @GetMapping("/images/{id}")
+    public String getImage(@PathVariable("id") UUID id, Model model) {
+        var post = postRepository.getById(id);
+        model.addAttribute("post", post);
+        return "add-post";
     }
 
 

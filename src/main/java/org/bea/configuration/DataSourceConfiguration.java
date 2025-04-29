@@ -12,6 +12,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -70,6 +72,11 @@ public class DataSourceConfiguration {
     @Bean
     public MultipartConfigElement multipartConfigElement() {
         return new MultipartConfigElement("", 10485760, 10485760, 0);
+    }
+
+    @Bean // Описываем ResourceLoader
+    public ResourceLoader resourceLoader() {
+        return new DefaultResourceLoader();
     }
 
 }

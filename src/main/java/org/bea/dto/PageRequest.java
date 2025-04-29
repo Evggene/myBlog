@@ -1,4 +1,4 @@
-package org.bea.dao;
+package org.bea.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
