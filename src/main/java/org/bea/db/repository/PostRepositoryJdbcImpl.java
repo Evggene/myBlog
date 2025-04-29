@@ -1,6 +1,7 @@
 package org.bea.db.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.bea.db.entity.PostEntity;
 import org.bea.model.Post;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,15 +24,17 @@ public class PostRepositoryJdbcImpl implements PostRepository {
     private final static String DEFAULT_LIMIT = "10";
     private final static String TABLE_NAME = "posts";
     private final static String SQL_SELECT = """
-            SELECT * FROM posts LIMIT :limit OFFSET :offset;
+            SELECT * FROM posts p
+            join likes l on l.post_id = p.id
+            LIMIT :limit OFFSET :offset;
             """;
     private final static String COUNT_SQL_SELECT = """
             SELECT COUNT(*) FROM posts;
             """;
     private final static String SELECT_BY_ID = "SELECT * FROM posts WHERE id = :COLUMN_ID";
     @Override
-    public List<Post> findAll(int offset) {
-        var rowMapper = new BeanPropertyRowMapper<>(Post.class);
+    public List<PostEntity> findAll(int offset) {
+        var rowMapper = new BeanPropertyRowMapper<>(PostEntity.class);
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("offset", offset);
         paramMap.put("limit", DEFAULT_LIMIT);

@@ -21,4 +21,5 @@ public class PostEntity {
     private Instant createdAt;
     private Instant updatedAt;
     private Instant deletedAt;
+    private int likesCount;
 }

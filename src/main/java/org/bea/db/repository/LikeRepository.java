@@ -1,5 +1,6 @@
 package org.bea.db.repository;
 
+import org.bea.model.Like;
 import org.bea.model.Post;
 
 import java.util.List;
@@ -7,11 +8,5 @@ import java.util.UUID;
 
 public interface LikeRepository {
 
-    List<Post> findAll(int offset);
-
-    long getCount();
-
-    void save(Post post);
-
-    Post getById(UUID id);
+    void createForPost(Like like);
 }

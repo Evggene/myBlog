@@ -1,7 +1,9 @@
 package org.bea.service;
 
 import lombok.RequiredArgsConstructor;
+import org.bea.db.repository.LikeRepository;
 import org.bea.db.repository.PostRepository;
+import org.bea.model.Like;
 import org.bea.model.Post;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class AddPostHandler {
 
     private final PostRepository postRepository;
+    private final LikeRepository likeRepository;
     public void addPost(String title, String text, String tags, String originalFilename) {
         var post = Post.builder()
                 .title(title)
@@ -18,5 +21,10 @@ public class AddPostHandler {
                 .content(text)
                 .build();
         postRepository.save(post);
+        var like = Like.builder()
+                .postId(post.getId())
+                .like(0)
+                .build();
+        likeRepository.createForPost(like);
     }
 }
