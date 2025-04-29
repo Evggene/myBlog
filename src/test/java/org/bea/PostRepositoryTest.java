@@ -24,20 +24,14 @@ public class PostRepositoryTest {
 
     @Test
     void save() {
-        var id = UUID.randomUUID();
-        var post = createPost();
-        post.setId(id);
-
-        var postInDb = postRepository.getById(id);
-        Assertions.assertNull(postInDb);
-        postRepository.save(post);
-        postInDb = postRepository.getById(id);
+        var post = createPostWithoutId();
+        var postSaved = postRepository.save(post);
+        var postInDb = postRepository.getById(postSaved.getId());
         Assertions.assertNotNull(postInDb);
     }
 
-    private Post createPost() {
+    private Post createPostWithoutId() {
         var post = new Post();
-        post.setId(UUID.randomUUID());
         post.setTitle("random title");
         post.setContent("random content");
         post.setTextPreview("random preview");

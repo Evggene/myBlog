@@ -47,11 +47,12 @@ public class PostRepositoryJdbcImpl implements PostRepository {
     }
 
     @Override
-    public void save(Post post) {
+    public Post save(Post post) {
         post.setId(UUID.randomUUID());
         var insert = new SimpleJdbcInsert(jdbcTemplate).withTableName(TABLE_NAME);
         var paramSource = new BeanPropertySqlParameterSource(post);
         insert.execute(paramSource);
+        return post;
     }
 
     @Override
