@@ -23,7 +23,7 @@ public class AddPostHandler {
         postRepository.save(post);
         var like = Like.builder()
                 .postId(post.getId())
-                .like(0)
+                .likesCount(0)
                 .build();
         likeRepository.createForPost(like);
     }

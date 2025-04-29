@@ -5,13 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Like {
-    private UUID postId;
-    private int likesCount;
+public class Tag {
+    private String name;
 }
