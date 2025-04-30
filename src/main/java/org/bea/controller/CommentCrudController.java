@@ -16,6 +16,18 @@ public class CommentCrudController {
 
     private final CommentRepository commentRepository;
 
+    @PostMapping("/posts/{postId}/comments")
+    public String addComment(
+            @PathVariable("postId") UUID postId,
+            @RequestParam("text") String text) {
+        var newComment = Comment.builder()
+                .postId(postId)
+                .content(text)
+                .build();
+        commentRepository.setIdAndInsert(newComment);
+        return "redirect:/posts/" + postId;
+    }
+
     @PostMapping("/posts/{postId}/comments/{commentId}")
     public String editComment(
             @PathVariable("postId") UUID postId,
@@ -29,4 +41,13 @@ public class CommentCrudController {
         commentRepository.update(newComment);
         return "redirect:/posts/" + postId;
     }
+
+    @PostMapping("/posts/{postId}/comments/{commentId}/delete")
+    public String deleteComment(
+            @PathVariable("postId") UUID postId,
+            @PathVariable("commentId") UUID commentId) {
+        commentRepository.delete(commentId);
+        return "redirect:/posts/" + postId;
+    }
+
 }

@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,4 +36,19 @@ public class CommentRepositoryJdbcImpl extends BaseRepository<Comment> implement
                 .addValue("content", comment.getContent());
         namedParameterJdbcTemplate.update(sql, params);
     }
+
+    @Override
+    public void delete(UUID id) {
+        var sql = "UPDATE comments SET deleted_at = :deletedAt WHERE id = :id ";
+        var params = new MapSqlParameterSource()
+                .addValue("id", id)
+                .addValue("deletedAt", Instant.now(Clock.systemUTC()));
+        namedParameterJdbcTemplate.update(sql, params);
+    }
+
+    @Override
+    public Comment setIdAndInsert(Comment comment) {
+        return super.setIdAndInsert(comment, TABLE_NAME);
+    }
+
 }

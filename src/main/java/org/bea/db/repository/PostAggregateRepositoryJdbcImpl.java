@@ -41,7 +41,7 @@ public class PostAggregateRepositoryJdbcImpl implements PostAggregateRepository 
             """;
 
     private final static String SELECT_ALL_COMMENTS = """
-            SELECT * from comments where post_id = :postId AND deleted_at IS NOT NULL;
+            SELECT * from comments where post_id = :postId AND deleted_at IS NULL;
             """;
 
     @Override

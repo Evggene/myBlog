@@ -7,7 +7,5 @@ public class CommentEntity {
     private UUID id;
     private UUID postId;
     private String content;
-    private Instant createdAt;
-    private Instant updatedAt;
     private Instant deletedAt;
 }
