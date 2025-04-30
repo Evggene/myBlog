@@ -1,17 +1,8 @@
 package org.bea.db.dao;
 
-import org.bea.model.Post;
-
-import java.util.List;
-import java.util.UUID;
+import org.bea.model.Comment;
 
 public interface CommentRepository {
 
-    List<Post> findAll(int offset);
-
-    long getCount();
-
-    void save(Post post);
-
-    Post getById(UUID id);
+    void update(Comment comment);
 }
