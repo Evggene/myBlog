@@ -6,17 +6,16 @@ import org.springframework.ui.Model;
 
 public class AddPostValidator {
 
-    public static void validatePostRequest(PostRequest postRequest, Model model) {
-        try {
-            if (postRequest.title().isBlank()) {
-                throw new RuntimeException("Empty title");
-            }
-            if (postRequest.text().isBlank()) {
-                throw new RuntimeException("Empty text");
-            }
-        } catch (RuntimeException ex) {
-            model.addAttribute("error", ex.getMessage());
-            throw ex;
+    public static String validatePostRequest(PostRequest postRequest) {
+        if (postRequest == null) {
+            return "empty request";
         }
+        if (postRequest.title() == null || postRequest.title().isBlank()) {
+            return "Empty title";
+        }
+        if (postRequest.text() == null || postRequest.text().isBlank()) {
+            return "Empty text";
+        }
+        return "";
     }
 }

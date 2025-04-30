@@ -1,10 +1,9 @@
 package org.bea.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.bea.configuration.ResourceRootPathConfiguration;
 import org.bea.dto.PostRequest;
-import org.bea.model.Post;
 import org.bea.service.AddPostHandler;
+import org.bea.util.FileStorageService;
 import org.bea.util.SafeNull;
 import org.bea.validator.AddPostValidator;
 import org.springframework.http.MediaType;
@@ -13,19 +12,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 
 @Controller
 @RequiredArgsConstructor
 public class AddPostController {
 
     private final AddPostHandler addPostHandler;
+    private final FileStorageService fileStorageService;
 
     @GetMapping(path = "/posts/add")
     public String addPost() {
@@ -34,12 +27,13 @@ public class AddPostController {
 
     @PostMapping(value = "/posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String addPost(@ModelAttribute PostRequest postRequest, Model model) {
-        try {
-            AddPostValidator.validatePostRequest(postRequest, model);
-        } catch (RuntimeException e) {
+
+        var ex = AddPostValidator.validatePostRequest(postRequest);
+        if (!ex.isBlank()) {
+            model.addAttribute("error", ex);
             return "error-page";
         }
-        addPostHandler.copyImageToResources(postRequest.image());
+        fileStorageService.copyImageToResources(postRequest.image());
         addPostHandler.addPost(
                 postRequest.title(),
                 postRequest.text(),

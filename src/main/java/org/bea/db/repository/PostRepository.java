@@ -1,6 +1,6 @@
 package org.bea.db.repository;
 
-import org.bea.db.entity.PostEntity;
+import org.bea.db.entity.PostAggregate;
 import org.bea.model.Post;
 
 import java.util.List;
@@ -8,11 +8,14 @@ import java.util.UUID;
 
 public interface PostRepository {
 
-    List<PostEntity> findAll(int offset);
+    List<PostAggregate> findAll(int offset);
+    List<Post> findAll();
 
     long getCount();
 
     Post setIdAndInsert(Post post);
 
-    PostEntity getById(UUID id);
+    PostAggregate getById(UUID id);
+
+    Post findPostById(UUID id);
 }

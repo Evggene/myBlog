@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AddPostHandler {
 
-    private final ResourceRootPathConfiguration rootPath;
     private final PostRepository postRepository;
     private final LikeRepository likeRepository;
     private final TagRepository tagRepository;
@@ -83,19 +82,5 @@ public class AddPostHandler {
                 .build();
     }
 
-    public void copyImageToResources(MultipartFile image) {
-        if (image.getOriginalFilename().isBlank()) {
-            return;
-        }
-        try {
-            var path = Path.of(
-                    rootPath.getRootPathTo(ResourceRootPathConfiguration.IMAGES)
-                            + File.separator
-                            + image.getOriginalFilename());
-            Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
 

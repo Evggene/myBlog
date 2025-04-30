@@ -1,6 +1,7 @@
-package org.bea;
+package org.bea.repository;
 
-import org.bea.config.DataTestConfiguration;
+import org.bea.config.DataSourceConfigurationTest;
+import org.bea.config.RepositoryConfiguration;
 import org.bea.configuration.DataSourceConfiguration;
 import org.bea.model.Post;
 import org.bea.db.repository.PostRepository;
@@ -14,7 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {DataSourceConfiguration.class, DataTestConfiguration.class})
+@ContextConfiguration(classes = {DataSourceConfigurationTest.class, RepositoryConfiguration.class})
 public class PostRepositoryTest {
 
     @Autowired
@@ -24,7 +25,7 @@ public class PostRepositoryTest {
     void save() {
         var post = createPostWithoutId();
         var postSaved = postRepository.setIdAndInsert(post);
-        var postInDb = postRepository.getById(postSaved.getId());
+        var postInDb = postRepository.findPostById(postSaved.getId());
         Assertions.assertNotNull(postInDb);
     }
 
