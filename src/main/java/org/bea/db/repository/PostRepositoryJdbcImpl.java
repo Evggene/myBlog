@@ -16,11 +16,12 @@ import java.util.Map;
 import java.util.UUID;
 
 @Repository
-@RequiredArgsConstructor
-public class PostRepositoryJdbcImpl implements PostRepository {
+public class PostRepositoryJdbcImpl extends BaseRepository<Post> implements PostRepository {
 
-    private final JdbcTemplate jdbcTemplate;
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    public PostRepositoryJdbcImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        super(jdbcTemplate, namedParameterJdbcTemplate);
+    }
+
     private final static String DEFAULT_LIMIT = "10";
     private final static String TABLE_NAME = "posts";
     private final static String SQL_SELECT = """
@@ -44,6 +45,7 @@ group by p.id
             WHERE p.id = :COLUMN_ID
             group by p.id
             """;
+
     @Override
     public List<PostEntity> findAll(int offset) {
         var rowMapper = new BeanPropertyRowMapper<>(PostEntity.class);
@@ -59,12 +61,8 @@ group by p.id
     }
 
     @Override
-    public Post save(Post post) {
-        post.setId(UUID.randomUUID());
-        var insert = new SimpleJdbcInsert(jdbcTemplate).withTableName(TABLE_NAME);
-        var paramSource = new BeanPropertySqlParameterSource(post);
-        insert.execute(paramSource);
-        return post;
+    public Post setIdAndInsert(Post post) {
+        return super.setIdAndInsert(post, TABLE_NAME);
     }
 
     @Override

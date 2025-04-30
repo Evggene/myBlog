@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
@@ -25,7 +23,7 @@ public class PostRepositoryTest {
     @Test
     void save() {
         var post = createPostWithoutId();
-        var postSaved = postRepository.save(post);
+        var postSaved = postRepository.setIdAndInsert(post);
         var postInDb = postRepository.getById(postSaved.getId());
         Assertions.assertNotNull(postInDb);
     }

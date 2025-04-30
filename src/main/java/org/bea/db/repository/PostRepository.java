@@ -12,7 +12,7 @@ public interface PostRepository {
 
     long getCount();
 
-    Post save(Post post);
+    Post setIdAndInsert(Post post);
 
     PostEntity getById(UUID id);
 }
