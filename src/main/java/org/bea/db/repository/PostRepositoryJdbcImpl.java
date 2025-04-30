@@ -24,10 +24,11 @@ public class PostRepositoryJdbcImpl implements PostRepository {
     private final static String DEFAULT_LIMIT = "10";
     private final static String TABLE_NAME = "posts";
     private final static String SQL_SELECT = """
-            SELECT p.*, l.likes_count , array_agg(t.name) as tags  FROM posts p
+            SELECT p.*, l.likes_count , array_agg(t.name) as tags , array_agg(c.content) as comments  FROM posts p
             join likes l on l.post_id = p.id
 left join posts_tags pt on pt.post_id = p.id
 join tags t on t.id = pt.tag_id
+left join comments c on c.post_id = p.id
 group by p.id
             LIMIT :limit OFFSET :offset;
             """;

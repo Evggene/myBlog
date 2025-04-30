@@ -26,4 +26,5 @@ public class PostEntity {
     private Instant deletedAt;
     private int likesCount;
     private String[] tags;
+    private String[] comments;
 }
