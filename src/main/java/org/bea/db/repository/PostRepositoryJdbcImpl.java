@@ -35,7 +35,15 @@ group by p.id
     private final static String COUNT_SQL_SELECT = """
             SELECT COUNT(*) FROM posts;
             """;
-    private final static String SELECT_BY_ID = "SELECT * FROM posts WHERE id = :COLUMN_ID";
+    private final static String SELECT_BY_ID = """
+            SELECT p.*, l.likes_count , array_agg(t.name) as tags , array_agg(c.content) as comments  FROM posts p
+            join likes l on l.post_id = p.id
+            left join posts_tags pt on pt.post_id = p.id
+            join tags t on t.id = pt.tag_id
+            left join comments c on c.post_id = p.id
+            WHERE p.id = :COLUMN_ID
+            group by p.id
+            """;
     @Override
     public List<PostEntity> findAll(int offset) {
         var rowMapper = new BeanPropertyRowMapper<>(PostEntity.class);
@@ -60,8 +68,8 @@ group by p.id
     }
 
     @Override
-    public Post getById(UUID id) {
-        var rowMapper = new BeanPropertyRowMapper<>(Post.class);
+    public PostEntity getById(UUID id) {
+        var rowMapper = new BeanPropertyRowMapper<>(PostEntity.class);
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("COLUMN_ID", id);
         var res = namedParameterJdbcTemplate.query(SELECT_BY_ID, paramMap, rowMapper);

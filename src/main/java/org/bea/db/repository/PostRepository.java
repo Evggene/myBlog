@@ -14,5 +14,5 @@ public interface PostRepository {
 
     Post save(Post post);
 
-    Post getById(UUID id);
+    PostEntity getById(UUID id);
 }

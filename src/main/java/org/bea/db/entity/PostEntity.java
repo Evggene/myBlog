@@ -27,4 +27,11 @@ public class PostEntity {
     private int likesCount;
     private String[] tags;
     private String[] comments;
+
+    public String getTagsAsText() {
+        if (tags == null || tags.length == 0) {
+            return "";
+        }
+        return String.join(", ", tags);
+    }
 }

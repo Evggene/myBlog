@@ -70,7 +70,7 @@
                         <button name="like" value="true">&#x1F44D;</button>
                         <span th:text="${post.getLikesCount()}"></span>
                         <button name="like" value="false">&#128078;</button>
-                        <span th:text="${'комментарии '+post.getComments().size()}" style="float:right;"></span>
+                        <span th:text="${'комментарии '+post.getComments().length}" style="float:right;"></span>
                     </form>
                 </p>
                 <p>
@@ -90,7 +90,7 @@
         <tr th:each="comment : ${post.getComments()}">
             <td style="border-left:thin solid grey;">
                 <form method="POST" th:action="${'/posts/'+post.getId()+'/comments/'+comment.getId()}">
-                    <span th:id="${'comment'+comment.getId()}" th:text="${comment.getText()}"></span>
+                    <span th:id="${'comment'+comment.getId()}" th:text="${comment.getContent()}"></span>
                     <button th:id="${comment.getId()}" onclick="editComment(this.id)" style="float:right;">&#9998;</button>
                 </form>
             </td>
