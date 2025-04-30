@@ -1,4 +1,4 @@
-package org.bea.db.repository;
+package org.bea.db.dao;
 
 import org.bea.model.Tag;
 import org.springframework.jdbc.core.JdbcTemplate;

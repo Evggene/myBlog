@@ -1,21 +1,14 @@
 package org.bea.service;
 
 import lombok.RequiredArgsConstructor;
-import org.bea.configuration.ResourceRootPathConfiguration;
-import org.bea.db.repository.LikeRepository;
-import org.bea.db.repository.PostRepository;
-import org.bea.db.repository.TagRepository;
+import org.bea.db.dao.LikeRepository;
+import org.bea.db.dao.PostRepository;
+import org.bea.db.dao.TagRepository;
 import org.bea.model.Like;
 import org.bea.model.Post;
 import org.bea.model.Tag;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;

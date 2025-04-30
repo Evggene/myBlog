@@ -1,4 +1,4 @@
-package org.bea.db.repository;
+package org.bea.db.dao;
 
 import org.bea.db.entity.PostAggregate;
 import org.bea.model.Post;
@@ -8,7 +8,6 @@ import java.util.UUID;
 
 public interface PostRepository {
 
-    List<PostAggregate> findAll(int offset);
     List<Post> findAll();
 
     long getCount();

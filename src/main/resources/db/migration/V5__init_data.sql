@@ -20,4 +20,5 @@ values
 
 INSERT INTO comments (id, post_id , content )
 values
-('77c218d5-62f7-400e-b69c-c46be84150c3', '0a2a4b69-1141-4652-8c6f-ae7fae3ae6e7', 'some comment')
+('77c218d5-62f7-400e-b69c-c46be84150c3', '0a2a4b69-1141-4652-8c6f-ae7fae3ae6e7', 'some comment'),
+('77c218d5-2222-400e-b69c-c46be84150c3', '0a2a4b69-1141-4652-8c6f-ae7fae3ae6e7', 'some comment w');

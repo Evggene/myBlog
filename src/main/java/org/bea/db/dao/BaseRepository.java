@@ -1,4 +1,4 @@
-package org.bea.db.repository;
+package org.bea.db.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.bea.model.UUIDModel;

@@ -1,4 +1,4 @@
-package org.bea.db.repository;
+package org.bea.db.dao;
 
 import org.bea.db.entity.PostAggregate;
 import org.bea.model.Post;
@@ -22,11 +22,10 @@ public class PostRepositoryJdbcImpl extends BaseRepository<Post> implements Post
     private final static String DEFAULT_LIMIT = "10";
     private final static String TABLE_NAME = "posts";
     private final static String SQL_SELECT = """
-            SELECT p.*, l.likes_count , array_agg(t.name) as tags , array_agg(c.content) as comments  FROM posts p
+            SELECT p.*, coalesce(l.likes_count, 0) , array_agg(t.name) as tags  FROM posts p
             left join likes l on l.post_id = p.id
             left join posts_tags pt on pt.post_id = p.id
             left join tags t on t.id = pt.tag_id
-            left join comments c on c.post_id = p.id
             group by p.id
             LIMIT :limit OFFSET :offset;
             """;
@@ -34,23 +33,13 @@ public class PostRepositoryJdbcImpl extends BaseRepository<Post> implements Post
             SELECT COUNT(*) FROM posts;
             """;
     private final static String SELECT_BY_ID = """
-            SELECT p.*, l.likes_count , array_agg(t.name) as tags , array_agg(c.content) as comments  FROM posts p
+            SELECT p.*, l.likes_count , array_agg(t.name) as tags FROM posts p
             join likes l on l.post_id = p.id
             left join posts_tags pt on pt.post_id = p.id
             join tags t on t.id = pt.tag_id
-            left join comments c on c.post_id = p.id
             WHERE p.id = :COLUMN_ID
             group by p.id
             """;
-
-    @Override
-    public List<PostAggregate> findAll(int offset) {
-        var rowMapper = new BeanPropertyRowMapper<>(PostAggregate.class);
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("offset", offset);
-        paramMap.put("limit", DEFAULT_LIMIT);
-        return namedParameterJdbcTemplate.query(SQL_SELECT, paramMap, rowMapper);
-    }
 
 
     public List<Post> findAll() {

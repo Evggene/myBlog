@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bea.model.Comment;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -23,7 +26,7 @@ public class PostAggregate {
     private Instant deletedAt;
     private int likesCount;
     private String[] tags;
-    private String[] comments;
+    private List<Comment> comments;
 
     public String getTagsAsText() {
         if (tags == null || tags.length == 0) {

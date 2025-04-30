@@ -1,4 +1,4 @@
-package org.bea.db.repository;
+package org.bea.db.dao;
 
 import org.bea.model.Like;
 import org.bea.model.Post;

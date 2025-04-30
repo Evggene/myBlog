@@ -2,9 +2,8 @@ package org.bea.repository;
 
 import org.bea.config.DataSourceConfigurationTest;
 import org.bea.config.RepositoryConfiguration;
-import org.bea.configuration.DataSourceConfiguration;
 import org.bea.model.Post;
-import org.bea.db.repository.PostRepository;
+import org.bea.db.dao.PostRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

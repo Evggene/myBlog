@@ -2,9 +2,10 @@ package org.bea.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.bea.configuration.ResourceRootPathConfiguration;
+import org.bea.db.repository.PostAggregateRepository;
 import org.bea.dto.PageResponse;
 import org.bea.model.Post;
-import org.bea.db.repository.PostRepository;
+import org.bea.db.dao.PostRepository;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
@@ -17,16 +18,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
 public class PostController {
 
+    private final PostAggregateRepository postAggregateRepository;
     private final PostRepository postRepository;
     private final ResourceRootPathConfiguration resourceRootPathConfiguration;
 
@@ -37,7 +37,7 @@ public class PostController {
 
     @GetMapping("posts")
     public String posts(Model model) {
-        var res = postRepository.findAll(0);
+        var res = postAggregateRepository.findAll(0);
         var count = postRepository.getCount();
         var page = new PageResponse<Post>();
         page.setCount(count);
@@ -49,7 +49,7 @@ public class PostController {
     @GetMapping(path = "/", params = {"search", "postSize", "pageNumber"})
     public String handleSearch(@RequestParam("search") String search, Model model) {
         if (search != null && search.isBlank()) {
-            var res = postRepository.findAll(0);
+            var res = postAggregateRepository.findAll(0);
             var count = postRepository.getCount();
             var page = new PageResponse<Post>();
             page.setCount(count);
@@ -61,16 +61,9 @@ public class PostController {
 
     @GetMapping("/posts/{id}")
     public String getPostById(@PathVariable("id") UUID id, Model model) {
-        var post = postRepository.getById(id);
+        var post = postAggregateRepository.findById(id);
         model.addAttribute("post", post);
         return "post";
-    }
-
-    @GetMapping("/posts/{id}/edit")
-    public String getAndEdit(@PathVariable("id") UUID id, Model model) {
-        var post = postRepository.getById(id);
-        model.addAttribute("post", post);
-        return "add-post";
     }
 
     @GetMapping("/images/{id}")
