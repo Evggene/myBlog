@@ -3,7 +3,7 @@ package org.bea.controller;
 import lombok.RequiredArgsConstructor;
 import org.bea.configuration.ResourceRootPathConfiguration;
 import org.bea.db.repository.PostAggregateRepository;
-import org.bea.dto.PageResponse;
+import org.bea.dto.PageOfPostsResponse;
 import org.bea.model.Post;
 import org.bea.db.dao.PostRepository;
 import org.springframework.core.io.Resource;
@@ -24,22 +24,17 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-public class PostController {
+public class SearchPostController {
 
     private final PostAggregateRepository postAggregateRepository;
     private final PostRepository postRepository;
     private final ResourceRootPathConfiguration resourceRootPathConfiguration;
 
-    @GetMapping("/")
-    public String redirectToPosts() {
-        return "redirect:/posts";
-    }
-
     @GetMapping("posts")
     public String posts(Model model) {
         var res = postAggregateRepository.findAll(0);
         var count = postRepository.getCount();
-        var page = new PageResponse<Post>();
+        var page = new PageOfPostsResponse<Post>();
         page.setCount(count);
         model.addAttribute("posts", res);
         model.addAttribute("paging", page);
@@ -51,7 +46,7 @@ public class PostController {
         if (search != null && search.isBlank()) {
             var res = postAggregateRepository.findAll(0);
             var count = postRepository.getCount();
-            var page = new PageResponse<Post>();
+            var page = new PageOfPostsResponse<Post>();
             page.setCount(count);
             model.addAttribute("posts", res);
             model.addAttribute("paging", page);

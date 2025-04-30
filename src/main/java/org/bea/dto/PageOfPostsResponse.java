@@ -3,7 +3,7 @@ package org.bea.dto;
 import lombok.Data;
 
 @Data
-public class PageResponse<T> {
+public class PageOfPostsResponse<T> {
 
     private long count;
     private int pageNumber = 1;

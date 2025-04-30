@@ -1,7 +1,7 @@
 package org.bea.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.bea.dto.PostRequest;
+import org.bea.dto.AddPostRequest;
 import org.bea.service.AddPostHandler;
 import org.bea.util.FileStorageService;
 import org.bea.util.SafeNull;
@@ -29,19 +29,19 @@ public class AddPostController {
     }
 
     @PostMapping(value = "/posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String addPost(@ModelAttribute PostRequest postRequest, Model model) {
+    public String addPost(@ModelAttribute AddPostRequest addPostRequest, Model model) {
 
-        var ex = AddPostValidator.validatePostRequest(postRequest);
+        var ex = AddPostValidator.validatePostRequest(addPostRequest);
         if (!ex.isBlank()) {
             model.addAttribute("error", ex);
             return "error-page";
         }
-        fileStorageService.copyImageToResources(postRequest.image());
+        fileStorageService.copyImageToResources(addPostRequest.image());
         addPostHandler.addPost(
-                postRequest.title(),
-                postRequest.text(),
-                postRequest.tags(),
-                SafeNull.getOrNull(() -> postRequest.image().getOriginalFilename()));
+                addPostRequest.title(),
+                addPostRequest.text(),
+                addPostRequest.tags(),
+                SafeNull.getOrNull(() -> addPostRequest.image().getOriginalFilename()));
         return "redirect:/posts";
     }
 

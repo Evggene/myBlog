@@ -1,19 +1,17 @@
 package org.bea.validator;
 
-import org.bea.dto.PostRequest;
-import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
+import org.bea.dto.AddPostRequest;
 
 public class AddPostValidator {
 
-    public static String validatePostRequest(PostRequest postRequest) {
-        if (postRequest == null) {
+    public static String validatePostRequest(AddPostRequest addPostRequest) {
+        if (addPostRequest == null) {
             return "empty request";
         }
-        if (postRequest.title() == null || postRequest.title().isBlank()) {
+        if (addPostRequest.title() == null || addPostRequest.title().isBlank()) {
             return "Empty title";
         }
-        if (postRequest.text() == null || postRequest.text().isBlank()) {
+        if (addPostRequest.text() == null || addPostRequest.text().isBlank()) {
             return "Empty text";
         }
         return "";
