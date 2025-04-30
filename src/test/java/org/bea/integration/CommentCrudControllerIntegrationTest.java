@@ -34,7 +34,7 @@ class CommentCrudControllerIntegrationTest {
     }
 
     @Test
-    void posts_add() throws Exception {
+    void addComment() throws Exception {
         mockMvc.perform(get("/posts/add"))
                 .andExpect(status().isOk());
     }
