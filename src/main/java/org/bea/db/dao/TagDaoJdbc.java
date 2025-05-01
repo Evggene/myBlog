@@ -11,7 +11,10 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Repository
 public class TagDaoJdbc extends BaseDao<Tag> implements TagDao {
@@ -51,5 +54,16 @@ public class TagDaoJdbc extends BaseDao<Tag> implements TagDao {
             return null;
         }
         return tag.get(0);
+    }
+
+    @Override
+    public long countPostsByTags(List<Tag> tags) {
+        var tagIdsForSql = tags.stream()
+                .map(it -> it.getId().toString())
+                .collect(Collectors.joining(","));
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("tagIds", tagIdsForSql);
+        return namedParameterJdbcTemplate.queryForObject(
+                "select count(*) from " + LINK_TABLE_NAME + " where tag_id in (:tagIds);", paramMap, Long.class);
     }
 }

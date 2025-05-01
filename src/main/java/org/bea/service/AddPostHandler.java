@@ -42,7 +42,7 @@ public class AddPostHandler {
     }
 
     private TagsToPost buildTagsToPost(UUID id, Tag it) {
-        return TagsToPost.builder().postId(id).tagId(it.id()).build();
+        return TagsToPost.builder().postId(id).tagId(it.getId()).build();
     }
 
     private List<Tag> handleTags(String tags) {

@@ -3,6 +3,7 @@ package org.bea.db.repository;
 import lombok.RequiredArgsConstructor;
 import org.bea.db.entity.PostAggregate;
 import org.bea.model.Comment;
+import org.bea.model.Tag;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -34,10 +36,24 @@ public class PostAggregateRepositoryJdbc implements PostAggregateRepository {
             LIMIT :limit OFFSET :offset;
             """;
 
+    private final static String SELECT_ALL_BY_TAGS_WITH_LIMIT_WITH_OFFSET = """
+            SELECT
+                p.*, coalesce(l.likes_count, 0) as likesCount,
+                array_agg(t.name) as tags
+            FROM posts p
+                left join likes l on l.post_id = p.id
+                left join tags_to_post pt on pt.post_id = p.id
+                left join tags t on t.id = pt.tag_id
+            WHERE p.deleted_at IS NULL
+            AND t.id in (:tagList)
+            group by p.id
+            LIMIT :limit OFFSET :offset;
+            """;
+
     private final static String SELECT_BY_ID = """
             select
                 p.*,
-                coalesce(l.likes_count, 0) as likesCount , 
+                coalesce(l.likes_count, 0) as likesCount ,
                 array_agg(t.name) as tags 
             from posts p
                 left join likes l on l.post_id = p.id
@@ -83,6 +99,20 @@ public class PostAggregateRepositoryJdbc implements PostAggregateRepository {
 
     @Override
     public void delete(UUID id) {
+        //todo: доделать
+    }
 
+    @Override
+    public List<PostAggregate> findByTag(List<Tag> tags, int offset, int limit) {
+        var tagIdsForSql = tags.stream()
+                .map(it -> it.getId().toString())
+                .collect(Collectors.joining(","));
+        var paramMap = new HashMap<String, Object>();
+        paramMap.put("offset", offset);
+        paramMap.put("limit", limit);
+        paramMap.put("tagList", tagIdsForSql);
+        var posts = namedParameterJdbcTemplate.query(SELECT_ALL_BY_TAGS_WITH_LIMIT_WITH_OFFSET, paramMap, rowMapper);
+        posts.forEach(this::findCommentsAndSet);
+        return posts;
     }
 }

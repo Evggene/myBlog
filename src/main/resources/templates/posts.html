@@ -15,7 +15,7 @@
                 <form>
                     <p>
                         <label for="search">Найти по тегу: </label>
-                        <input id="search" style="width:300px;" name="search" th:value="${search}">
+                        <input id="search" style="width:300px;" name="search" th:value="${paging == null ? search : paging.search}" >
                         <button name="action">&#128269;</button>
                     </p>
                     <p>

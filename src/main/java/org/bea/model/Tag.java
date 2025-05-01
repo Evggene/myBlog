@@ -7,10 +7,16 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+@Data
 @Builder
-public record Tag (UUID id, String name) implements UUIDModel {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Tag implements UUIDModel{
+    private UUID id;
+    private String name;
+
     @Override
     public void setId(UUID id) {
-
+        this.id = id;
     }
 }

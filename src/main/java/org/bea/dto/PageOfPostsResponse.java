@@ -14,6 +14,7 @@ public class PageOfPostsResponse {
     private long count;
     private int pageNumber; // offset -1
     private int postSize;  // limit
+    private String search;
     public boolean hasNext() {
         return count - ((long) pageNumber * postSize) > 0;
     }
