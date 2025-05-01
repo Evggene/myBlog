@@ -2,7 +2,7 @@ package org.bea.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.bea.db.repository.PostAggregateRepository;
-import org.bea.dto.AddPostRequest;
+import org.bea.dto.AddEditPostRequest;
 import org.bea.service.AddPostHandler;
 import org.bea.service.DeletePostHandler;
 import org.bea.service.EditPostHandler;
@@ -21,7 +21,7 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-public class PostHandleController {
+public class PostCrudController {
 
     private final DeletePostHandler deletePostHandler;
     private final AddPostHandler addPostHandler;
@@ -35,19 +35,19 @@ public class PostHandleController {
     }
 
     @PostMapping(value = "/posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String addPost(@ModelAttribute AddPostRequest addPostRequest, Model model) {
+    public String addPost(@ModelAttribute AddEditPostRequest addEditPostRequest, Model model) {
 
-        var ex = AddPostValidator.validatePostRequest(addPostRequest);
+        var ex = AddPostValidator.validatePostRequest(addEditPostRequest);
         if (!ex.isBlank()) {
             model.addAttribute("error", ex);
             return "error-page";
         }
-        fileStorageService.copyImageToResources(addPostRequest.image());
+        fileStorageService.copyImageToResources(addEditPostRequest.image());
         addPostHandler.addPost(
-                addPostRequest.title(),
-                addPostRequest.text(),
-                addPostRequest.tags(),
-                SafeNull.getOrNull(() -> addPostRequest.image().getOriginalFilename()));
+                addEditPostRequest.title(),
+                addEditPostRequest.text(),
+                addEditPostRequest.tags(),
+                SafeNull.getOrNull(() -> addEditPostRequest.image().getOriginalFilename()));
         return "redirect:/posts";
     }
 
@@ -61,23 +61,23 @@ public class PostHandleController {
     @PostMapping(value = "/posts/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String editPost(
             @PathVariable("id") UUID id,
-            @ModelAttribute AddPostRequest addPostRequest,
+            @ModelAttribute AddEditPostRequest addEditPostRequest,
             Model model) {
 
-        var ex = AddPostValidator.validatePostRequest(addPostRequest);
+        var ex = AddPostValidator.validatePostRequest(addEditPostRequest);
         if (!ex.isBlank()) {
             model.addAttribute("error", ex);
             return "error-page";
         }
-        if (!addPostRequest.image().getOriginalFilename().isEmpty()) {
-            fileStorageService.copyImageToResources(addPostRequest.image());
+        if (!addEditPostRequest.image().getOriginalFilename().isEmpty()) {
+            fileStorageService.copyImageToResources(addEditPostRequest.image());
         }
         editPostHandler.editPost(
                 id,
-                addPostRequest.title(),
-                addPostRequest.text(),
-                addPostRequest.tags(),
-                addPostRequest.image().getOriginalFilename());
+                addEditPostRequest.title(),
+                addEditPostRequest.text(),
+                addEditPostRequest.tags(),
+                addEditPostRequest.image().getOriginalFilename());
         return "redirect:/posts";
     }
 

@@ -3,10 +3,9 @@ package org.bea.db.dao;
 import org.bea.db.entity.PostAggregate;
 import org.bea.model.Post;
 
-import java.util.List;
 import java.util.UUID;
 
-public interface PostRepository {
+public interface PostDao {
 
     long getCount();
 

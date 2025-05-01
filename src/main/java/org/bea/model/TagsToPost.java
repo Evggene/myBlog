@@ -9,10 +9,4 @@ import java.rmi.server.UID;
 import java.util.UUID;
 
 @Builder
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class TagsToPost {
-    private UUID postId;
-    private UUID tagId;
-}
+public record TagsToPost (UUID postId, UUID tagId) {}

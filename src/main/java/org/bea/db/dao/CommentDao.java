@@ -4,7 +4,7 @@ import org.bea.model.Comment;
 
 import java.util.UUID;
 
-public interface CommentRepository {
+public interface CommentDao {
 
     void update(Comment comment);
     void delete(UUID id, String byColumn);

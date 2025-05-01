@@ -1,10 +1,9 @@
 package org.bea.service;
 
 import lombok.RequiredArgsConstructor;
-import org.bea.db.dao.CommentRepository;
-import org.bea.db.dao.LikeRepository;
-import org.bea.db.dao.PostRepository;
-import org.bea.db.dao.TagRepository;
+import org.bea.db.dao.CommentDao;
+import org.bea.db.dao.PostDao;
+import org.bea.db.dao.TagDao;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -13,14 +12,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class DeletePostHandler {
 
-    private final PostRepository postRepository;
-    private final TagRepository tagRepository;
-    private final CommentRepository commentRepository;
+    private final PostDao postDao;
+    private final TagDao tagDao;
+    private final CommentDao commentDao;
 
     public void deletePost(UUID id) {
-        postRepository.delete(id);
-        tagRepository.deleteLinkTagsToPost(id);
-        commentRepository.delete(id, "post_id");
+        postDao.delete(id);
+        tagDao.deleteLinkTagsToPost(id);
+        commentDao.delete(id, "post_id");
     }
 }
 

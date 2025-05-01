@@ -5,7 +5,7 @@ import org.bea.configuration.ResourceRootPathConfiguration;
 import org.bea.db.repository.PostAggregateRepository;
 import org.bea.dto.PageOfPostsResponse;
 import org.bea.model.Post;
-import org.bea.db.dao.PostRepository;
+import org.bea.db.dao.PostDao;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
@@ -24,16 +24,16 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-public class SearchPostController {
+public class FindPostController {
 
     private final PostAggregateRepository postAggregateRepository;
-    private final PostRepository postRepository;
+    private final PostDao postDao;
     private final ResourceRootPathConfiguration resourceRootPathConfiguration;
 
     @GetMapping("posts")
     public String posts(Model model) {
         var res = postAggregateRepository.findAll(0);
-        var count = postRepository.getCount();
+        var count = postDao.getCount();
         var page = new PageOfPostsResponse<Post>();
         page.setCount(count);
         model.addAttribute("posts", res);
@@ -45,7 +45,7 @@ public class SearchPostController {
     public String handleSearch(@RequestParam("search") String search, Model model) {
         if (search != null && search.isBlank()) {
             var res = postAggregateRepository.findAll(0);
-            var count = postRepository.getCount();
+            var count = postDao.getCount();
             var page = new PageOfPostsResponse<Post>();
             page.setCount(count);
             model.addAttribute("posts", res);
@@ -63,7 +63,7 @@ public class SearchPostController {
 
     @GetMapping("/images/{id}")
     public ResponseEntity<Resource> getImage(@PathVariable("id") UUID id) throws IOException {
-        var post = postRepository.getById(id);
+        var post = postDao.getById(id);
         var rootPath = resourceRootPathConfiguration.getRootPathTo(ResourceRootPathConfiguration.IMAGES);
         Path imagePath = Paths.get(rootPath + File.separator + post.getImagePath());
         Resource resource = new UrlResource(imagePath.toUri());

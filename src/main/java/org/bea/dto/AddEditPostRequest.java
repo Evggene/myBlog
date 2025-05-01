@@ -2,7 +2,7 @@ package org.bea.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public record AddPostRequest(
+public record AddEditPostRequest(
         String title,
         MultipartFile image,
         String tags,

@@ -2,7 +2,7 @@ package org.bea.service;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.bea.db.dao.LikeRepository;
+import org.bea.db.dao.LikeDao;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class LikeActionHandler {
 
-    private final LikeRepository likeRepository;
+    private final LikeDao likeDao;
 
     @Getter
     public enum LikeActionType {
@@ -40,6 +40,6 @@ public class LikeActionHandler {
 
     public void handle(UUID postId, boolean isIncrement) {
         var action = LikeActionType.fromBoolean(isIncrement);
-        likeRepository.incDec(postId, action);
+        likeDao.incDec(postId, action);
     }
 }

@@ -1,7 +1,7 @@
 package org.bea.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.bea.db.dao.CommentRepository;
+import org.bea.db.dao.CommentDao;
 import org.bea.model.Comment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CommentCrudController {
 
-    private final CommentRepository commentRepository;
+    private final CommentDao commentDao;
 
     @PostMapping("/posts/{postId}/comments")
     public String addComment(
@@ -24,7 +24,7 @@ public class CommentCrudController {
                 .postId(postId)
                 .content(text)
                 .build();
-        commentRepository.setIdAndInsert(newComment);
+        commentDao.setIdAndInsert(newComment);
         return "redirect:/posts/" + postId;
     }
 
@@ -38,7 +38,7 @@ public class CommentCrudController {
                 .postId(postId)
                 .content(text)
                 .build();
-        commentRepository.update(newComment);
+        commentDao.update(newComment);
         return "redirect:/posts/" + postId;
     }
 
@@ -46,7 +46,7 @@ public class CommentCrudController {
     public String deleteComment(
             @PathVariable("postId") UUID postId,
             @PathVariable("commentId") UUID commentId) {
-        commentRepository.delete(commentId, "id");
+        commentDao.delete(commentId, "id");
         return "redirect:/posts/" + postId;
     }
 

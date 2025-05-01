@@ -1,17 +1,17 @@
 package org.bea.validator;
 
-import org.bea.dto.AddPostRequest;
+import org.bea.dto.AddEditPostRequest;
 
 public class AddPostValidator {
 
-    public static String validatePostRequest(AddPostRequest addPostRequest) {
-        if (addPostRequest == null) {
+    public static String validatePostRequest(AddEditPostRequest addEditPostRequest) {
+        if (addEditPostRequest == null) {
             return "empty request";
         }
-        if (addPostRequest.title() == null || addPostRequest.title().isBlank()) {
+        if (addEditPostRequest.title() == null || addEditPostRequest.title().isBlank()) {
             return "Empty title";
         }
-        if (addPostRequest.text() == null || addPostRequest.text().isBlank()) {
+        if (addEditPostRequest.text() == null || addEditPostRequest.text().isBlank()) {
             return "Empty text";
         }
         return "";

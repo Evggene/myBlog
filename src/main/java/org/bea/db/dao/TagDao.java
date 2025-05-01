@@ -5,7 +5,7 @@ import org.bea.model.TagsToPost;
 
 import java.util.UUID;
 
-public interface TagRepository {
+public interface TagDao {
 
     Tag setIdAndInsert(Tag tag);
 

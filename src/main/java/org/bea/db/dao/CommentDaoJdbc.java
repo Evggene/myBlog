@@ -1,29 +1,18 @@
 package org.bea.db.dao;
 
-import lombok.RequiredArgsConstructor;
-import org.bea.db.entity.PostAggregate;
 import org.bea.model.Comment;
-import org.bea.model.Post;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import java.time.Clock;
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Repository
-public class CommentRepositoryJdbcImpl extends BaseRepository<Comment> implements CommentRepository {
+public class CommentDaoJdbc extends BaseDao<Comment> implements CommentDao {
 
     private final static String TABLE_NAME = "comments";
-    public CommentRepositoryJdbcImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public CommentDaoJdbc(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         super(jdbcTemplate, namedParameterJdbcTemplate);
     }
 

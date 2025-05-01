@@ -8,10 +8,9 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Builder
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Tag implements UUIDModel {
-    private UUID id;
-    private String name;
+public record Tag (UUID id, String name) implements UUIDModel {
+    @Override
+    public void setId(UUID id) {
+
+    }
 }

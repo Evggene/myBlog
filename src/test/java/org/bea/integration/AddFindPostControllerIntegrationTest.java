@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringJUnitConfig(classes = {DataSourceConfigurationTest.class, WebConfigurationTest.class})
 @WebAppConfiguration
 @TestPropertySource(locations = "classpath:application.properties")
-class AddSearchPostControllerIntegrationTest {
+class AddFindPostControllerIntegrationTest {
 
     @Autowired
     private WebApplicationContext webApplicationContext;

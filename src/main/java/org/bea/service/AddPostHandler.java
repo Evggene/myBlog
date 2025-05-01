@@ -1,10 +1,10 @@
 package org.bea.service;
 
 import lombok.RequiredArgsConstructor;
-import org.bea.db.dao.CommentRepository;
-import org.bea.db.dao.LikeRepository;
-import org.bea.db.dao.PostRepository;
-import org.bea.db.dao.TagRepository;
+import org.bea.db.dao.CommentDao;
+import org.bea.db.dao.LikeDao;
+import org.bea.db.dao.PostDao;
+import org.bea.db.dao.TagDao;
 import org.bea.model.Like;
 import org.bea.model.Post;
 import org.bea.model.Tag;
@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AddPostHandler {
 
-    private final PostRepository postRepository;
-    private final LikeRepository likeRepository;
-    private final TagRepository tagRepository;
-    private final CommentRepository commentRepository;
+    private final PostDao postDao;
+    private final LikeDao likeDao;
+    private final TagDao tagDao;
+    private final CommentDao commentDao;
 
     public void addPost(String title, String text, String tags, String originalFilename) {
         var tagsCreated = handleTags(tags);
@@ -38,11 +38,11 @@ public class AddPostHandler {
         var entities = tagsCreated.stream()
                 .map(it -> buildTagsToPost(id, it))
                 .collect(Collectors.toSet());
-        entities.forEach(tagRepository::insert);
+        entities.forEach(tagDao::insert);
     }
 
     private TagsToPost buildTagsToPost(UUID id, Tag it) {
-        return TagsToPost.builder().postId(id).tagId(it.getId()).build();
+        return TagsToPost.builder().postId(id).tagId(it.id()).build();
     }
 
     private List<Tag> handleTags(String tags) {
@@ -52,19 +52,19 @@ public class AddPostHandler {
         var tagsUnique = convertToSet(tags);
         var tagsList = buildTags(tagsUnique);
         return tagsList.stream()
-                .map(tagRepository::setIdAndInsert)
+                .map(tagDao::setIdAndInsert)
                 .toList();
     }
 
     private Post handlePost(String title, String text, String originalFilename) {
         var post = buildPost(title, text, originalFilename);
-        postRepository.setIdAndInsert(post);
+        postDao.setIdAndInsert(post);
         return post;
     }
 
     private void handleLike(Post post) {
         var like = buildLike(post);
-        likeRepository.createForPost(like);
+        likeDao.createForPost(like);
     }
 
 
