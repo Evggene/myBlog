@@ -28,10 +28,9 @@ public class FindPostController {
 
     private final PostAggregateRepository postAggregateRepository;
     private final PostDao postDao;
-    private final ResourceRootPathConfiguration resourceRootPathConfiguration;
 
     @GetMapping("posts")
-    public String posts(Model model) {
+    public String findAll(Model model) {
         var res = postAggregateRepository.findAll(0);
         var count = postDao.getCount();
         var page = new PageOfPostsResponse<Post>();
@@ -42,7 +41,7 @@ public class FindPostController {
     }
 
     @GetMapping(path = "/", params = {"search", "postSize", "pageNumber"})
-    public String handleSearch(@RequestParam("search") String search, Model model) {
+    public String findByTags(@RequestParam("search") String search, Model model) {
         if (search != null && search.isBlank()) {
             var res = postAggregateRepository.findAll(0);
             var count = postDao.getCount();
@@ -60,17 +59,4 @@ public class FindPostController {
         model.addAttribute("post", post);
         return "post";
     }
-
-    @GetMapping("/images/{id}")
-    public ResponseEntity<Resource> getImage(@PathVariable("id") UUID id) throws IOException {
-        var post = postDao.getById(id);
-        var rootPath = resourceRootPathConfiguration.getRootPathTo(ResourceRootPathConfiguration.IMAGES);
-        Path imagePath = Paths.get(rootPath + File.separator + post.getImagePath());
-        Resource resource = new UrlResource(imagePath.toUri());
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(resource);
-    }
-
-
 }

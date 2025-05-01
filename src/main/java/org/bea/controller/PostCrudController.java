@@ -52,7 +52,7 @@ public class PostCrudController {
     }
 
     @GetMapping("/posts/{id}/edit")
-    public String getAndEdit(@PathVariable("id") UUID id, Model model) {
+    public String getToEdit(@PathVariable("id") UUID id, Model model) {
        var post = postAggregateRepository.findById(id);
        model.addAttribute("post", post);
        return "add-post";
@@ -63,7 +63,6 @@ public class PostCrudController {
             @PathVariable("id") UUID id,
             @ModelAttribute AddEditPostRequest addEditPostRequest,
             Model model) {
-
         var ex = AddPostValidator.validatePostRequest(addEditPostRequest);
         if (!ex.isBlank()) {
             model.addAttribute("error", ex);
