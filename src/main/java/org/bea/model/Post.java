@@ -15,6 +15,6 @@ public class Post implements UUIDModel{
     private UUID id;
     private String title;
     private String imagePath;
-    private String content;
+    private String text;
     private String textPreview;
 }

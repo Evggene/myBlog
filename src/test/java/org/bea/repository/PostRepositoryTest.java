@@ -31,7 +31,7 @@ public class PostRepositoryTest {
     private Post createPostWithoutId() {
         var post = new Post();
         post.setTitle("random title");
-        post.setContent("random content");
+        post.setText("random content");
         post.setTextPreview("random preview");
         return post;
     }

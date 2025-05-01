@@ -17,4 +17,7 @@ public interface PostRepository {
     PostAggregate getById(UUID id);
 
     Post findPostById(UUID id);
+
+    void update(Post post);
+
 }

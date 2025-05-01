@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.bea.model.Comment;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +18,7 @@ public class PostAggregate {
     private UUID id;
     private String title;
     private String imagePath;
-    private String content;
+    private String text;
     private String textPreview;
     private Instant createdAt;
     private Instant updatedAt;
@@ -32,6 +31,6 @@ public class PostAggregate {
         if (tags == null || tags.length == 0) {
             return "";
         }
-        return String.join(", ", tags);
+        return String.join(" ", tags);
     }
 }

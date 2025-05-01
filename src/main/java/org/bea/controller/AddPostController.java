@@ -1,6 +1,7 @@
 package org.bea.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.bea.db.repository.PostAggregateRepository;
 import org.bea.dto.AddPostRequest;
 import org.bea.service.AddPostHandler;
 import org.bea.util.FileStorageService;
@@ -21,6 +22,7 @@ import java.util.UUID;
 public class AddPostController {
 
     private final AddPostHandler addPostHandler;
+    private final PostAggregateRepository postAggregateRepository;
     private final FileStorageService fileStorageService;
 
     @GetMapping(path = "/posts/add")
@@ -47,8 +49,31 @@ public class AddPostController {
 
     @GetMapping("/posts/{id}/edit")
     public String getAndEdit(@PathVariable("id") UUID id, Model model) {
-//        var post = postRepository.getById(id);
-//        model.addAttribute("post", post);
-        return "add-post";
+       var post = postAggregateRepository.findById(id);
+       model.addAttribute("post", post);
+       return "add-post";
+    }
+
+    @PostMapping(value = "/posts/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String editPost(
+            @PathVariable("id") UUID id,
+            @ModelAttribute AddPostRequest addPostRequest,
+            Model model) {
+
+        var ex = AddPostValidator.validatePostRequest(addPostRequest);
+        if (!ex.isBlank()) {
+            model.addAttribute("error", ex);
+            return "error-page";
+        }
+        if (!addPostRequest.image().getOriginalFilename().isEmpty()) {
+            fileStorageService.copyImageToResources(addPostRequest.image());
+        }
+        addPostHandler.editPost(
+                id,
+                addPostRequest.title(),
+                addPostRequest.text(),
+                addPostRequest.tags(),
+                addPostRequest.image().getOriginalFilename());
+        return "redirect:/posts";
     }
 }

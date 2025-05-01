@@ -9,7 +9,7 @@ public class PostConverter {
                 .id(post.getId())
                 .title(post.getTitle())
                 .textPreview(post.getTextPreview())
-                .content(post.getContent())
+                .text(post.getText())
                 .imagePath(post.getImagePath())
                 .build();
     }

@@ -4,9 +4,12 @@ import org.bea.db.entity.PostAggregate;
 import org.bea.model.Post;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +83,27 @@ public class PostRepositoryJdbcImpl extends BaseRepository<Post> implements Post
             return res.getFirst();
         }
         return null;
+    }
+
+    @Override
+    public void update(Post post) {
+        var params = new MapSqlParameterSource();
+        var sql = new StringBuilder("UPDATE posts SET ");
+        if (!post.getImagePath().isBlank()) {
+            sql.append("image_path = :imagePath, ");
+            params.addValue("imagePath", post.getImagePath());
+        }
+        if (!post.getText().isBlank()) {
+            sql.append("text = :text, ");
+            params.addValue("text", post.getText());
+        }
+        if (!post.getTitle().isBlank()) {
+            sql.append("title = :title ");
+            params.addValue("title", post.getTitle());
+        }
+        sql.append("WHERE id = :id; ");
+        params.addValue("id", post.getId());
+        namedParameterJdbcTemplate.update(sql.toString(), params);
     }
 
 }

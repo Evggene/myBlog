@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,7 +65,7 @@ public class AddPostHandler {
                 .title(title)
                 .imagePath(originalFilename)
                 .textPreview(text)
-                .content(text)
+                .text(text)
                 .build();
     }
 
@@ -75,5 +76,22 @@ public class AddPostHandler {
                 .build();
     }
 
+    public void editPost(UUID id, String title, String text, String tags, String fileName) {
+        var postEdited = buildPostWithId(id, title, text, fileName);
+        postRepository.update(postEdited);
+        // найти теги
+        // вычесть
+        // записать оставшиеся, если остались
+    }
+
+    private Post buildPostWithId(UUID id, String title, String text, String fileName) {
+        return Post.builder()
+                .id(id)
+                .title(title)
+                .imagePath(fileName)
+                .textPreview(text)
+                .text(text)
+                .build();
+    }
 }
 

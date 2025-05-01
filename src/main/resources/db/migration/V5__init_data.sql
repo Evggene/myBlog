@@ -1,5 +1,5 @@
 
-INSERT INTO POSTS(ID,TITLE,CONTENT,TEXT_PREVIEW, IMAGE_PATH)
+INSERT INTO POSTS(ID,TITLE,TEXT,TEXT_PREVIEW, IMAGE_PATH)
 VALUES
 ('0a2a4b69-1141-4652-8c6f-ae7fae3ae6e7','test','test test','test', 'avatar-11060.jpeg'),
 ('0a2a4b69-2222-4652-8c6f-ae7fae3ae6e7','test2','test2 test2','test2', '');
