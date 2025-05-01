@@ -2,7 +2,7 @@ package org.bea.db.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.bea.model.Like;
-import org.bea.service.LikeHandler;
+import org.bea.service.LikeActionHandler;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -10,8 +10,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import java.time.Clock;
-import java.time.Instant;
 import java.util.UUID;
 
 @Repository
@@ -29,9 +27,9 @@ public class LikeRepositoryJdbcImpl implements LikeRepository {
     }
 
     @Override
-    public void incDec(UUID postId, LikeHandler.LikeActionType actionType) {
+    public void incDec(UUID postId, LikeActionHandler.LikeActionType actionType) {
         var sql = new StringBuilder("UPDATE likes SET likes_count = likes_count ");
-        if (LikeHandler.LikeActionType.INCREMENT == actionType) {
+        if (LikeActionHandler.LikeActionType.INCREMENT == actionType) {
             sql.append("+ 1 ");
         } else {
             sql.append("- 1 ");

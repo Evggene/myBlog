@@ -38,12 +38,8 @@ public class CommentRepositoryJdbcImpl extends BaseRepository<Comment> implement
     }
 
     @Override
-    public void delete(UUID id) {
-        var sql = "UPDATE comments SET deleted_at = :deletedAt WHERE id = :id ";
-        var params = new MapSqlParameterSource()
-                .addValue("id", id)
-                .addValue("deletedAt", Instant.now(Clock.systemUTC()));
-        namedParameterJdbcTemplate.update(sql, params);
+    public void delete(UUID id, String byColumn) {
+        super.delete(id, byColumn, TABLE_NAME);
     }
 
     @Override

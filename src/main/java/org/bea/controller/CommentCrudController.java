@@ -46,7 +46,7 @@ public class CommentCrudController {
     public String deleteComment(
             @PathVariable("postId") UUID postId,
             @PathVariable("commentId") UUID commentId) {
-        commentRepository.delete(commentId);
+        commentRepository.delete(commentId, "id");
         return "redirect:/posts/" + postId;
     }
 

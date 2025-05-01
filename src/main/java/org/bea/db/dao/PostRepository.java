@@ -8,8 +8,6 @@ import java.util.UUID;
 
 public interface PostRepository {
 
-    List<Post> findAll();
-
     long getCount();
 
     Post setIdAndInsert(Post post);

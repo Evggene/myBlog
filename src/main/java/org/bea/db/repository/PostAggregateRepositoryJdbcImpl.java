@@ -24,8 +24,8 @@ public class PostAggregateRepositoryJdbcImpl implements PostAggregateRepository 
 
     private final static String SELECT_ALL_WITH_LIMIT_WITH_OFFSET = """
             SELECT
-                p.*, coalesce(l.likes_count, 0) as likesCount, 
-                array_agg(t.name) as tags 
+                p.*, coalesce(l.likes_count, 0) as likesCount,
+                array_agg(t.name) as tags
             FROM posts p
                 left join likes l on l.post_id = p.id
                 left join tags_to_post pt on pt.post_id = p.id
@@ -36,8 +36,8 @@ public class PostAggregateRepositoryJdbcImpl implements PostAggregateRepository 
             """;
 
     private final static String SELECT_BY_ID = """
-            select 
-                p.*, 
+            select
+                p.*,
                 coalesce(l.likes_count, 0) as likesCount , 
                 array_agg(t.name) as tags 
             from posts p

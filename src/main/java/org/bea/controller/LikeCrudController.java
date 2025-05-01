@@ -1,9 +1,7 @@
 package org.bea.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.bea.db.dao.LikeRepository;
-import org.bea.model.Comment;
-import org.bea.service.LikeHandler;
+import org.bea.service.LikeActionHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,13 +13,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class LikeCrudController {
 
-    private final LikeHandler likeHandler;
+    private final LikeActionHandler likeActionHandler;
 
     @PostMapping("/posts/{postId}/like")
     public String likeIncDec(
             @PathVariable("postId") UUID postId,
             @RequestParam("like") boolean isIncrement) {
-        likeHandler.handle(postId, isIncrement);
+        likeActionHandler.handle(postId, isIncrement);
         return "redirect:/posts/" + postId;
     }
 }

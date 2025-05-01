@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PostHandleService {
+public class AddPostHandler {
 
     private final PostRepository postRepository;
     private final LikeRepository likeRepository;
@@ -93,28 +93,6 @@ public class PostHandleService {
                 .postId(post.getId())
                 .likesCount(0)
                 .build();
-    }
-
-    public void editPost(UUID id, String title, String text, String tags, String fileName) {
-        var postEdited = buildPostWithId(id, title, text, fileName);
-        postRepository.update(postEdited);
-        // найти теги
-        // вычесть
-        // записать оставшиеся, если остались
-    }
-
-    private Post buildPostWithId(UUID id, String title, String text, String fileName) {
-        return Post.builder()
-                .id(id)
-                .title(title)
-                .imagePath(fileName)
-                .textPreview(text)
-                .text(text)
-                .build();
-    }
-
-    public void deletePost(UUID id) {
-        postRepository.delete(id);
     }
 }
 

@@ -5,10 +5,13 @@ import org.bea.model.UUIDModel;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.util.UUID;
 
 @Repository
@@ -39,5 +42,13 @@ public abstract class BaseRepository<T> {
             // ignore
         }
         return entity;
+    }
+
+    void delete(UUID id, String idName, String tableName) {
+        var sql = "UPDATE " + tableName + " SET deleted_at = :deletedAt WHERE " + idName + " = :id ";
+        var params = new MapSqlParameterSource()
+                .addValue("id", id)
+                .addValue("deletedAt", Instant.now(Clock.systemUTC()));
+        namedParameterJdbcTemplate.update(sql, params);
     }
 }

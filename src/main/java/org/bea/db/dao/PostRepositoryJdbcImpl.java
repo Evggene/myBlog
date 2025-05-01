@@ -22,16 +22,7 @@ public class PostRepositoryJdbcImpl extends BaseRepository<Post> implements Post
         super(jdbcTemplate, namedParameterJdbcTemplate);
     }
 
-    private final static String DEFAULT_LIMIT = "10";
     private final static String TABLE_NAME = "posts";
-    private final static String SQL_SELECT = """
-            SELECT p.*, coalesce(l.likes_count, 0) , array_agg(t.name) as tags  FROM posts p
-            left join likes l on l.post_id = p.id
-            left join tags_to_post pt on pt.post_id = p.id
-            left join tags t on t.id = pt.tag_id
-            group by p.id
-            LIMIT :limit OFFSET :offset;
-            """;
     private final static String COUNT_SQL_SELECT = """
             SELECT COUNT(*) FROM posts;
             """;
@@ -108,11 +99,7 @@ public class PostRepositoryJdbcImpl extends BaseRepository<Post> implements Post
 
     @Override
     public void delete(UUID id) {
-        var sql = "UPDATE posts SET deleted_at = :deletedAt WHERE id = :id ";
-        var params = new MapSqlParameterSource()
-                .addValue("id", id)
-                .addValue("deletedAt", Instant.now(Clock.systemUTC()));
-        namedParameterJdbcTemplate.update(sql, params);
+        super.delete(id, "id", TABLE_NAME);
     }
 
 }

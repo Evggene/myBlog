@@ -5,14 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.bea.db.dao.LikeRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class LikeHandler {
+public class LikeActionHandler {
 
     private final LikeRepository likeRepository;
 
