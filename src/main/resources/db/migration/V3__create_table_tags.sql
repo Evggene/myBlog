@@ -5,8 +5,3 @@ CREATE TABLE tags (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE posts_tags (
-    post_id UUID NOT NULL,
-    tag_id UUID NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);

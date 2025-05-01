@@ -1,40 +1,59 @@
 package org.bea.service;
 
 import lombok.RequiredArgsConstructor;
+import org.bea.db.dao.CommentRepository;
 import org.bea.db.dao.LikeRepository;
 import org.bea.db.dao.PostRepository;
 import org.bea.db.dao.TagRepository;
 import org.bea.model.Like;
 import org.bea.model.Post;
 import org.bea.model.Tag;
+import org.bea.model.TagsToPost;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class AddPostHandler {
+public class PostHandleService {
 
     private final PostRepository postRepository;
     private final LikeRepository likeRepository;
     private final TagRepository tagRepository;
+    private final CommentRepository commentRepository;
 
     public void addPost(String title, String text, String tags, String originalFilename) {
-        handleTags(tags);
+        var tagsCreated = handleTags(tags);
         var post = handlePost(title, text, originalFilename);
         handleLike(post);
+        handlePostsTags(post.getId(), tagsCreated);
     }
 
-    private void handleTags(String tags) {
+    private void handlePostsTags(UUID id, List<Tag> tagsCreated) {
+        var entities = tagsCreated.stream()
+                .map(it -> buildTagsToPost(id, it))
+                .collect(Collectors.toSet());
+        entities.forEach(tagRepository::insert);
+    }
+
+    private TagsToPost buildTagsToPost(UUID id, Tag it) {
+        return TagsToPost.builder().postId(id).tagId(it.getId()).build();
+    }
+
+    private List<Tag> handleTags(String tags) {
         if (tags.isBlank()) {
-            return;
+            return Collections.emptyList();
         }
         var tagsUnique = convertToSet(tags);
         var tagsList = buildTags(tagsUnique);
-        tagsList.forEach(tagRepository::setIdAndInsert);
+        return tagsList.stream()
+                .map(tagRepository::setIdAndInsert)
+                .toList();
     }
 
     private Post handlePost(String title, String text, String originalFilename) {
@@ -92,6 +111,10 @@ public class AddPostHandler {
                 .textPreview(text)
                 .text(text)
                 .build();
+    }
+
+    public void deletePost(UUID id) {
+        postRepository.delete(id);
     }
 }
 

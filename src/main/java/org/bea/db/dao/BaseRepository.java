@@ -29,4 +29,15 @@ public abstract class BaseRepository<T> {
         }
         return entity;
     }
+
+    public T insert(T entity, String tableName) {
+        var insert = new SimpleJdbcInsert(jdbcTemplate).withTableName(tableName);
+        var paramSource = new BeanPropertySqlParameterSource(entity);
+        try {
+            insert.execute(paramSource);
+        } catch (DuplicateKeyException e) {
+            // ignore
+        }
+        return entity;
+    }
 }

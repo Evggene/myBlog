@@ -27,7 +27,7 @@ public class PostRepositoryJdbcImpl extends BaseRepository<Post> implements Post
     private final static String SQL_SELECT = """
             SELECT p.*, coalesce(l.likes_count, 0) , array_agg(t.name) as tags  FROM posts p
             left join likes l on l.post_id = p.id
-            left join posts_tags pt on pt.post_id = p.id
+            left join tags_to_post pt on pt.post_id = p.id
             left join tags t on t.id = pt.tag_id
             group by p.id
             LIMIT :limit OFFSET :offset;
@@ -38,8 +38,8 @@ public class PostRepositoryJdbcImpl extends BaseRepository<Post> implements Post
     private final static String SELECT_BY_ID = """
             SELECT p.*, l.likes_count , array_agg(t.name) as tags FROM posts p
             join likes l on l.post_id = p.id
-            left join posts_tags pt on pt.post_id = p.id
-            join tags t on t.id = pt.tag_id
+            left join tags_to_post pt on pt.post_id = p.id
+            left join tags t on t.id = pt.tag_id
             WHERE p.id = :COLUMN_ID
             group by p.id
             """;
@@ -104,6 +104,15 @@ public class PostRepositoryJdbcImpl extends BaseRepository<Post> implements Post
         sql.append("WHERE id = :id; ");
         params.addValue("id", post.getId());
         namedParameterJdbcTemplate.update(sql.toString(), params);
+    }
+
+    @Override
+    public void delete(UUID id) {
+        var sql = "UPDATE posts SET deleted_at = :deletedAt WHERE id = :id ";
+        var params = new MapSqlParameterSource()
+                .addValue("id", id)
+                .addValue("deletedAt", Instant.now(Clock.systemUTC()));
+        namedParameterJdbcTemplate.update(sql, params);
     }
 
 }

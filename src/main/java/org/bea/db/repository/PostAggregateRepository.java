@@ -9,4 +9,6 @@ public interface PostAggregateRepository {
 
     List<PostAggregate> findAll(int offset);
     PostAggregate findById(UUID id);
+
+    void delete(UUID id);
 }

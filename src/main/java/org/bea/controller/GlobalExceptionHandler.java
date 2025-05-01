@@ -9,7 +9,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public String handle(RuntimeException ex, Model model) {
-        model.addAttribute("errorMessage", ex.getMessage());
+        model.addAttribute("error", ex.getMessage());
         return "error-page";
     }
 }

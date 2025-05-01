@@ -3,7 +3,7 @@ package org.bea.controller;
 import lombok.RequiredArgsConstructor;
 import org.bea.db.repository.PostAggregateRepository;
 import org.bea.dto.AddPostRequest;
-import org.bea.service.AddPostHandler;
+import org.bea.service.PostHandleService;
 import org.bea.util.FileStorageService;
 import org.bea.util.SafeNull;
 import org.bea.validator.AddPostValidator;
@@ -19,9 +19,9 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-public class AddPostController {
+public class PostHandleController {
 
-    private final AddPostHandler addPostHandler;
+    private final PostHandleService postHandleService;
     private final PostAggregateRepository postAggregateRepository;
     private final FileStorageService fileStorageService;
 
@@ -39,7 +39,7 @@ public class AddPostController {
             return "error-page";
         }
         fileStorageService.copyImageToResources(addPostRequest.image());
-        addPostHandler.addPost(
+        postHandleService.addPost(
                 addPostRequest.title(),
                 addPostRequest.text(),
                 addPostRequest.tags(),
@@ -68,12 +68,19 @@ public class AddPostController {
         if (!addPostRequest.image().getOriginalFilename().isEmpty()) {
             fileStorageService.copyImageToResources(addPostRequest.image());
         }
-        addPostHandler.editPost(
+        postHandleService.editPost(
                 id,
                 addPostRequest.title(),
                 addPostRequest.text(),
                 addPostRequest.tags(),
                 addPostRequest.image().getOriginalFilename());
+        return "redirect:/posts";
+    }
+
+    @PostMapping(value = "/posts/{id}/delete")
+    public String deletePost(
+            @PathVariable("id") UUID id) {
+        postHandleService.deletePost(id);
         return "redirect:/posts";
     }
 }
