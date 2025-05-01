@@ -52,10 +52,10 @@ public class PostAggregateRepositoryJdbc implements PostAggregateRepository {
             """;
 
     @Override
-    public List<PostAggregate> findAll(int offset) {
+    public List<PostAggregate> findAll(int offset, int limit) {
         var paramMap = new HashMap<String, Object>();
         paramMap.put("offset", offset);
-        paramMap.put("limit", 10);
+        paramMap.put("limit", limit);
         var posts = namedParameterJdbcTemplate.query(SELECT_ALL_WITH_LIMIT_WITH_OFFSET, paramMap, rowMapper);
         posts.forEach(this::findCommentsAndSet);
         return posts;

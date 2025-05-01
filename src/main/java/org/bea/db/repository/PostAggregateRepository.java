@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface PostAggregateRepository {
 
-    List<PostAggregate> findAll(int offset);
+    List<PostAggregate> findAll(int offset, int limit);
     PostAggregate findById(UUID id);
 
     void delete(UUID id);

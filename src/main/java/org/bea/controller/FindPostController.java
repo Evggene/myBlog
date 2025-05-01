@@ -2,6 +2,7 @@ package org.bea.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.bea.configuration.ResourceRootPathConfiguration;
+import org.bea.db.entity.PostAggregate;
 import org.bea.db.repository.PostAggregateRepository;
 import org.bea.dto.PageOfPostsResponse;
 import org.bea.model.Post;
@@ -20,6 +21,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -29,29 +32,32 @@ public class FindPostController {
     private final PostAggregateRepository postAggregateRepository;
     private final PostDao postDao;
 
-    @GetMapping("posts")
-    public String findAll(Model model) {
-        var res = postAggregateRepository.findAll(0);
-        var count = postDao.getCount();
-        var page = new PageOfPostsResponse<Post>();
+    @GetMapping(path = "/posts")
+    public String findByTags(
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "action", required = false) String action,
+            @RequestParam(value = "postSize", required = false) Integer postSize,
+            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+            Model model) {
+        var customPostSize = postSize == null ? 10 : postSize;
+        var customSearch = search == null ? "" : search;
+        var customPageNumber = pageNumber == null ? 0 : pageNumber - 1;
+        List<PostAggregate> result = new ArrayList<>();
+        long count = 0;
+        if (customSearch.isBlank()) {
+            result = postAggregateRepository.findAll(customPageNumber * customPostSize, customPostSize);
+            count = postDao.getCount();
+        } else {
+
+        }
+        var page = new PageOfPostsResponse();
         page.setCount(count);
-        model.addAttribute("posts", res);
+        page.setPageNumber(customPageNumber + 1);
+        page.setPostSize(customPostSize);
+        model.addAttribute("posts", result);
         model.addAttribute("paging", page);
         return "posts";
-    }
-
-    @GetMapping(path = "/", params = {"search", "postSize", "pageNumber"})
-    public String findByTags(@RequestParam("search") String search, Model model) {
-        if (search != null && search.isBlank()) {
-            var res = postAggregateRepository.findAll(0);
-            var count = postDao.getCount();
-            var page = new PageOfPostsResponse<Post>();
-            page.setCount(count);
-            model.addAttribute("posts", res);
-            model.addAttribute("paging", page);
         }
-        return "posts";
-    }
 
     @GetMapping("/posts/{id}")
     public String getPostById(@PathVariable("id") UUID id, Model model) {
