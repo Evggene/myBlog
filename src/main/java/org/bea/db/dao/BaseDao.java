@@ -1,6 +1,7 @@
 package org.bea.db.dao;
 
 import lombok.RequiredArgsConstructor;
+import org.bea.model.Comment;
 import org.bea.model.UUIDModel;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.UUID;
 
 @Repository

@@ -13,7 +13,7 @@ INSERT INTO tags(id, name) VALUES
 
 -- Пост 1
 INSERT INTO posts(id, title, text, text_preview, image_path) VALUES
-('20000000-0000-0000-0000-000000000001', '1 The Future of AI', 'Artificial intelligence is transforming industries...', 'How AI is changing the world', 'tech-1.jpg');
+('20000000-0000-0000-0000-000000000001', '1 The Future of AI', 'Artificial intelligence is transforming industries...', 'How AI is changing the world', 'Снимок экрана от 2024-08-29 13-21-40.png');
 
 INSERT INTO likes(post_id, likes_count) VALUES
 ('20000000-0000-0000-0000-000000000001', 42);

@@ -25,7 +25,6 @@ public class AddPostHandler {
     private final PostDao postDao;
     private final LikeDao likeDao;
     private final TagDao tagDao;
-    private final CommentDao commentDao;
 
     public void addPost(String title, String text, String tags, String originalFilename) {
         var tagsCreated = handleTags(tags);

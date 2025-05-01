@@ -33,6 +33,7 @@ public class PostAggregateRepositoryJdbc implements PostAggregateRepository {
                 left join tags t on t.id = pt.tag_id
             WHERE p.deleted_at IS NULL
             group by p.id
+            order by p.updated_at desc
             LIMIT :limit OFFSET :offset;
             """;
 
