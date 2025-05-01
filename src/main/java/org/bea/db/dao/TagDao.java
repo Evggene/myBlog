@@ -12,4 +12,6 @@ public interface TagDao {
     void insert(TagsToPost tagsToPost);
 
     void deleteLinkTagsToPost(UUID id);
+
+    Tag findByName(String name);
 }

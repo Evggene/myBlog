@@ -1,31 +1,24 @@
 package org.bea.dto;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Builder
 @Getter
 @Data
 public class PageOfPostsResponse {
 
     private long count;
-    private int pageNumber = 1; // offser -1
-    private int postSize = 10;  // limit
+    private int pageNumber; // offset -1
+    private int postSize;  // limit
     public boolean hasNext() {
-        return true;
+        return count - ((long) pageNumber * postSize) > 0;
     }
     public boolean hasPrevious() {
-        return true;
+        return pageNumber != 1;
     }
 
-    public void setCount(long count) {
-        this.count = count;
-    }
-
-    public void setPageNumber(int pageNumber) {
-        this.pageNumber = pageNumber;
-    }
-
-    public void setPostSize(int postSize) {
-        this.postSize = postSize;
-    }
 }

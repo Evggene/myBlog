@@ -7,6 +7,7 @@ import org.bea.db.repository.PostAggregateRepository;
 import org.bea.dto.PageOfPostsResponse;
 import org.bea.model.Post;
 import org.bea.db.dao.PostDao;
+import org.bea.service.FindPostHandler;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
@@ -30,7 +31,7 @@ import java.util.UUID;
 public class FindPostController {
 
     private final PostAggregateRepository postAggregateRepository;
-    private final PostDao postDao;
+    private final FindPostHandler findPostHandler;
 
     @GetMapping(path = "/posts")
     public String findByTags(
@@ -39,23 +40,9 @@ public class FindPostController {
             @RequestParam(value = "postSize", required = false) Integer postSize,
             @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
             Model model) {
-        var customPostSize = postSize == null ? 10 : postSize;
-        var customSearch = search == null ? "" : search;
-        var customPageNumber = pageNumber == null ? 0 : pageNumber - 1;
-        List<PostAggregate> result = new ArrayList<>();
-        long count = 0;
-        if (customSearch.isBlank()) {
-            result = postAggregateRepository.findAll(customPageNumber * customPostSize, customPostSize);
-            count = postDao.getCount();
-        } else {
-
-        }
-        var page = new PageOfPostsResponse();
-        page.setCount(count);
-        page.setPageNumber(customPageNumber + 1);
-        page.setPostSize(customPostSize);
-        model.addAttribute("posts", result);
-        model.addAttribute("paging", page);
+        var res = findPostHandler.findByTags(search, postSize, pageNumber);
+        model.addAttribute("posts", res.posts());
+        model.addAttribute("paging", res.pageOfPosts());
         return "posts";
         }
 
