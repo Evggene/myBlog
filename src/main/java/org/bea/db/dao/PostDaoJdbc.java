@@ -51,19 +51,7 @@ public class PostDaoJdbc extends BaseDao<Post> implements PostDao {
     }
 
     @Override
-    public PostAggregate getById(UUID id) {
-        var rowMapper = new BeanPropertyRowMapper<>(PostAggregate.class);
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("COLUMN_ID", id);
-        var res = namedParameterJdbcTemplate.query(SELECT_BY_ID, paramMap, rowMapper);
-        if (!res.isEmpty()) {
-            return res.getFirst();
-        }
-        return null;
-    }
-
-    @Override
-    public Post findPostById(UUID id) {
+    public Post findById(UUID id) {
         var rowMapper = new BeanPropertyRowMapper<>(Post.class);
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("COLUMN_ID", id);

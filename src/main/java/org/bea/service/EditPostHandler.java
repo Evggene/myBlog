@@ -15,13 +15,11 @@ import java.util.UUID;
 public class EditPostHandler {
 
     private final PostDao postDao;
-    private final LikeDao likeDao;
-    private final TagDao tagDao;
-    private final CommentDao commentDao;
 
     public void editPost(UUID id, String title, String text, String tags, String fileName) {
         var postEdited = buildPostWithId(id, title, text, fileName);
         postDao.update(postEdited);
+        //todo: доделать
         // найти теги
         // вычесть
         // записать оставшиеся, если остались

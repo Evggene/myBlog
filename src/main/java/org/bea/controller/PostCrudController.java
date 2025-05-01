@@ -7,7 +7,6 @@ import org.bea.service.AddPostHandler;
 import org.bea.service.DeletePostHandler;
 import org.bea.service.EditPostHandler;
 import org.bea.util.FileStorageService;
-import org.bea.util.SafeNull;
 import org.bea.validator.AddPostValidator;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -47,7 +46,7 @@ public class PostCrudController {
                 addEditPostRequest.title(),
                 addEditPostRequest.text(),
                 addEditPostRequest.tags(),
-                SafeNull.getOrNull(() -> addEditPostRequest.image().getOriginalFilename()));
+                addEditPostRequest.image().getOriginalFilename());
         return "redirect:/posts";
     }
 

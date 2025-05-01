@@ -11,9 +11,7 @@ public interface PostDao {
 
     Post setIdAndInsert(Post post);
 
-    PostAggregate getById(UUID id);
-
-    Post findPostById(UUID id);
+    Post findById(UUID id);
 
     void update(Post post);
 

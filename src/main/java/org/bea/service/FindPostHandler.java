@@ -7,6 +7,7 @@ import org.bea.db.entity.PostAggregate;
 import org.bea.db.repository.PostAggregateRepository;
 import org.bea.dto.PageOfPostsResponse;
 import org.bea.dto.PostsAndPageInfo;
+import org.bea.model.Tag;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,23 +27,27 @@ public class FindPostHandler {
         var search = searchRaw == null ? "" : searchRaw;
         var pageNumber = pageNumberRaw == null ? 0 : pageNumberRaw - 1;
 
-        List<PostAggregate> result = new ArrayList<>();
-        long count = 0;
+        List<PostAggregate> result;
+        long count;
         if (search.isBlank()) {
             result = postAggregateRepository.findAll(pageNumber * postSize, postSize);
             count = postDao.getCount();
         } else {
-            var tagsName = Arrays.stream(search.split(" "))
-                    .distinct()
-                    .toList();
-            var tags = tagsName.stream()
-                    .map(tagDao::findByName)
-                    .toList();
+            var tags = handleTagsRaw(search);
             result = postAggregateRepository.findByTag(tags, pageNumber * postSize, postSize);
             count = tagDao.countPostsByTags(tags);
         }
         var pageResult = buildPageOfPosts(count, pageNumber, postSize, searchRaw);
         return new PostsAndPageInfo(result, pageResult);
+    }
+
+    private List<Tag> handleTagsRaw(String search) {
+        var tagsName = Arrays.stream(search.split(" "))
+                .distinct()
+                .toList();
+        return tagsName.stream()
+                .map(tagDao::findByName)
+                .toList();
     }
 
     private PageOfPostsResponse buildPageOfPosts(long count, int customPageNumber, int customPostSize, String searchRaw) {

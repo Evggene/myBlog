@@ -26,7 +26,7 @@ public class ResourceController {
 
     @GetMapping("/images/{id}")
     public ResponseEntity<Resource> getImage(@PathVariable("id") UUID id) throws IOException {
-        var post = postDao.getById(id);
+        var post = postDao.findById(id);
         var rootPath = resourceRootPathConfiguration.getRootPathTo(ResourceRootPathConfiguration.IMAGES);
         Path imagePath = Paths.get(rootPath + File.separator + post.getImagePath());
         Resource resource = new UrlResource(imagePath.toUri());

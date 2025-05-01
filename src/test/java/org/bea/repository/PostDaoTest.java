@@ -24,7 +24,7 @@ public class PostDaoTest {
     void save() {
         var post = createPostWithoutId();
         var postSaved = postDao.setIdAndInsert(post);
-        var postInDb = postDao.findPostById(postSaved.getId());
+        var postInDb = postDao.findById(postSaved.getId());
         Assertions.assertNotNull(postInDb);
     }
 
