@@ -98,11 +98,6 @@ public class PostAggregateRepositoryJdbc implements PostAggregateRepository {
     }
 
     @Override
-    public void delete(UUID id) {
-        //todo: доделать
-    }
-
-    @Override
     public List<PostAggregate> findByTag(List<Tag> tags, int offset, int limit) {
         var tagIdsForSql = tags.stream()
                 .map(it -> it.getId().toString())

@@ -64,6 +64,6 @@ public class TagDaoJdbc extends BaseDao<Tag> implements TagDao {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("tagIds", tagIdsForSql);
         return namedParameterJdbcTemplate.queryForObject(
-                "select count(*) from " + LINK_TABLE_NAME + " where tag_id in (:tagIds);", paramMap, Long.class);
+                "select count(*) from " + LINK_TABLE_NAME + " where tag_id in (:tagIds) and deleted_at is null;", paramMap, Long.class);
     }
 }
