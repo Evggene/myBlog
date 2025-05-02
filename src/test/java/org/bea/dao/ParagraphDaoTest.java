@@ -1,4 +1,4 @@
-package org.bea.repository;
+package org.bea.dao;
 
 import org.bea.config.DataSourceConfigurationTest;
 import org.bea.config.RepositoryConfiguration;
@@ -19,18 +19,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {DataSourceConfigurationTest.class, RepositoryConfiguration.class})
-public class ParagraphDaoTest {
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-    @Autowired
-    private ParagraphDao paragraphDao;
-    @Autowired
-    private PostDao postDao;
-    @Autowired
-    private PostAggregateRepository postAggregateRepository;
+public class ParagraphDaoTest extends CommonContext{
 
     private final static UUID initialParagraphId = UUID.fromString("30000000-0000-0000-0000-000000000001");
     private final static UUID postId = UUID.fromString("20000000-0000-0000-0000-000000000001");
