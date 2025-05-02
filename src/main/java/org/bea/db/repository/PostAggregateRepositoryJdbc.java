@@ -55,11 +55,13 @@ public class PostAggregateRepositoryJdbc implements PostAggregateRepository {
             select
                 p.*,
                 coalesce(l.likes_count, 0) as likesCount ,
-                array_agg(t.name) as tags 
+                array_agg(t.name) as tags,
+                array_agg(pg.text) as textParts
             from posts p
                 left join likes l on l.post_id = p.id
                 left join tags_to_post pt on pt.post_id = p.id
                 left join tags t on t.id = pt.tag_id
+                left join paragraphs pg on pg.post_id = p.id
             where p.id = :COLUMN_ID
             group by p.id
             """;

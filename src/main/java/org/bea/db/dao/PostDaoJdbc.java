@@ -70,10 +70,6 @@ public class PostDaoJdbc extends BaseDao<Post> implements PostDao {
             sql.append("image_path = :imagePath, ");
             params.addValue("imagePath", post.getImagePath());
         }
-        if (!post.getText().isBlank()) {
-            sql.append("text = :text, ");
-            params.addValue("text", post.getText());
-        }
         if (!post.getTitle().isBlank()) {
             sql.append("title = :title ");
             params.addValue("title", post.getTitle());

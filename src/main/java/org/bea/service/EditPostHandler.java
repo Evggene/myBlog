@@ -31,7 +31,6 @@ public class EditPostHandler {
                 .title(title)
                 .imagePath(fileName)
                 .textPreview(text)
-                .text(text)
                 .build();
     }
 

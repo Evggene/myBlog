@@ -1,11 +1,10 @@
 
-CREATE TABLE IF NOT EXISTS posts (
+CREATE TABLE paragraphs (
     id UUID PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    image_path VARCHAR(255),
-    text_preview VARCHAR(500) NOT NULL,
+    post_id UUID NOT NULL,
+    ord INT NOT NULL,
+    text TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP
 );
-

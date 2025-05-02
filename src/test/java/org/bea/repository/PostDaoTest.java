@@ -31,7 +31,6 @@ public class PostDaoTest {
     private Post createPostWithoutId() {
         var post = new Post();
         post.setTitle("random title");
-        post.setText("random content");
         post.setTextPreview("random preview");
         return post;
     }

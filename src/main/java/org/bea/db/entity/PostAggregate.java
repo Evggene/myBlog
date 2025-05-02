@@ -18,7 +18,7 @@ public class PostAggregate {
     private UUID id;
     private String title;
     private String imagePath;
-    private String text;
+    private String[] textParts;
     private String textPreview;
     private Instant createdAt;
     private Instant updatedAt;
