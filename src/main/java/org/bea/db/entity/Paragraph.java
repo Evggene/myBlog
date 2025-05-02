@@ -1,4 +1,4 @@
-package org.bea.model;
+package org.bea.db.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,16 +7,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-@Data
 @Builder
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-public class Tag implements UUIDModel{
+@NoArgsConstructor
+public class Paragraph implements UUIDModel{
     private UUID id;
-    private String name;
-
-    @Override
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    private UUID postId;
+    private int ord;
+    private String text;
 }

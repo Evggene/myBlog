@@ -1,7 +1,7 @@
 package org.bea.db.dao;
 
 import lombok.RequiredArgsConstructor;
-import org.bea.model.Like;
+import org.bea.db.entity.Like;
 import org.bea.service.LikeActionHandler;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;

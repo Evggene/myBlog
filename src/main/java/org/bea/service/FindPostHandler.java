@@ -3,14 +3,13 @@ package org.bea.service;
 import lombok.RequiredArgsConstructor;
 import org.bea.db.dao.PostDao;
 import org.bea.db.dao.TagDao;
-import org.bea.db.entity.PostAggregate;
+import org.bea.model.PostAggregate;
 import org.bea.db.repository.PostAggregateRepository;
 import org.bea.dto.PageOfPostsResponse;
 import org.bea.dto.PostsAndPageInfo;
-import org.bea.model.Tag;
+import org.bea.db.entity.Tag;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

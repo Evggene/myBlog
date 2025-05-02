@@ -1,6 +1,6 @@
 package org.bea.db.dao;
 
-import org.bea.model.Like;
+import org.bea.db.entity.Like;
 import org.bea.service.LikeActionHandler;
 
 import java.util.UUID;

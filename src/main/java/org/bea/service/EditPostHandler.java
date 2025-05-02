@@ -1,11 +1,8 @@
 package org.bea.service;
 
 import lombok.RequiredArgsConstructor;
-import org.bea.db.dao.CommentDao;
-import org.bea.db.dao.LikeDao;
 import org.bea.db.dao.PostDao;
-import org.bea.db.dao.TagDao;
-import org.bea.model.Post;
+import org.bea.db.entity.Post;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

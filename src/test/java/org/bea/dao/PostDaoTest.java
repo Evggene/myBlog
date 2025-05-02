@@ -1,6 +1,6 @@
 package org.bea.dao;
 
-import org.bea.model.Post;
+import org.bea.db.entity.Post;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

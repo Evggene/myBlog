@@ -1,8 +1,7 @@
 package org.bea.db.dao;
 
-import org.bea.model.Post;
-import org.bea.model.Tag;
-import org.bea.model.TagsToPost;
+import org.bea.db.entity.Tag;
+import org.bea.db.entity.TagsToPost;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;

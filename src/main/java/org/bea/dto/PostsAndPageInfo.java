@@ -1,7 +1,6 @@
 package org.bea.dto;
 
-import org.bea.db.entity.PostAggregate;
-import org.bea.model.Post;
+import org.bea.model.PostAggregate;
 
 import java.util.List;
 

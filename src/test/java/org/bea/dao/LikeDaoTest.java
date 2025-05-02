@@ -1,6 +1,6 @@
 package org.bea.dao;
 
-import org.bea.model.Like;
+import org.bea.db.entity.Like;
 import org.bea.service.LikeActionHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

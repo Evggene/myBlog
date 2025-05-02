@@ -1,14 +1,8 @@
 package org.bea.dao;
 
-import org.bea.db.dao.CommentDao;
-import org.bea.db.dao.PostDao;
-import org.bea.model.Comment;
-import org.bea.model.Like;
-import org.bea.service.LikeActionHandler;
-import org.junit.jupiter.api.Assertions;
+import org.bea.db.entity.Comment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 

@@ -1,6 +1,6 @@
 package org.bea.db.dao;
 
-import org.bea.model.Comment;
+import org.bea.db.entity.Comment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

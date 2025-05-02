@@ -1,7 +1,6 @@
 package org.bea.db.dao;
 
-import org.bea.model.Comment;
-import org.bea.model.Paragraph;
+import org.bea.db.entity.Paragraph;
 
 import java.util.UUID;
 

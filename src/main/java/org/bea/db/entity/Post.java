@@ -1,4 +1,4 @@
-package org.bea.model;
+package org.bea.db.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,9 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comment implements UUIDModel {
+public class Post implements UUIDModel{
     private UUID id;
-    private UUID postId;
-    private String content;
+    private String title;
+    private String imagePath;
+    private String textPreview;
 }

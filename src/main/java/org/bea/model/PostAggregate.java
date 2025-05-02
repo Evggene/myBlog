@@ -1,10 +1,10 @@
-package org.bea.db.entity;
+package org.bea.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bea.model.Comment;
+import org.bea.db.entity.Comment;
 
 import java.time.Instant;
 import java.util.List;
@@ -18,18 +18,15 @@ public class PostAggregate {
     private UUID id;
     private String title;
     private String imagePath;
-    private String[] textParts;
     private String textPreview;
-    private Instant createdAt;
-    private Instant updatedAt;
-    private Instant deletedAt;
+    private String[] textParts;
     private int likesCount;
     private String[] tags;
     private List<Comment> comments;
 
     public String getTagsAsText() {
         if (tags == null || tags.length == 0) {
-            return "";
+            return null;
         }
         return String.join(" ", tags);
     }

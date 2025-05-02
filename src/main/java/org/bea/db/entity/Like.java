@@ -1,4 +1,4 @@
-package org.bea.model;
+package org.bea.db.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

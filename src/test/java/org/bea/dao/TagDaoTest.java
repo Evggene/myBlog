@@ -1,13 +1,9 @@
 package org.bea.dao;
 
-import org.bea.db.dao.CommentDaoJdbc;
-import org.bea.db.dao.PostDao;
-import org.bea.db.dao.TagDao;
-import org.bea.model.Tag;
-import org.bea.model.TagsToPost;
+import org.bea.db.entity.Tag;
+import org.bea.db.entity.TagsToPost;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.UUID;

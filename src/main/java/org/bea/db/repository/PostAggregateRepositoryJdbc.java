@@ -1,11 +1,10 @@
 package org.bea.db.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.bea.db.entity.PostAggregate;
-import org.bea.model.Comment;
-import org.bea.model.Tag;
+import org.bea.model.PostAggregate;
+import org.bea.db.entity.Comment;
+import org.bea.db.entity.Tag;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 

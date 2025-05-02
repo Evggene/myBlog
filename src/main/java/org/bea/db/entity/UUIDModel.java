@@ -1,4 +1,4 @@
-package org.bea.model;
+package org.bea.db.entity;
 
 import java.util.UUID;
 

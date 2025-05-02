@@ -1,7 +1,7 @@
 package org.bea.db.dao;
 
-import org.bea.model.Tag;
-import org.bea.model.TagsToPost;
+import org.bea.db.entity.Tag;
+import org.bea.db.entity.TagsToPost;
 
 import java.util.List;
 import java.util.UUID;

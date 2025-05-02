@@ -1,7 +1,7 @@
 package org.bea.db.repository;
 
-import org.bea.db.entity.PostAggregate;
-import org.bea.model.Tag;
+import org.bea.model.PostAggregate;
+import org.bea.db.entity.Tag;
 
 import java.util.List;
 import java.util.UUID;

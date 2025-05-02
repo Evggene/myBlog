@@ -1,7 +1,6 @@
 package org.bea.db.dao;
 
-import org.bea.db.entity.PostAggregate;
-import org.bea.model.Post;
+import org.bea.db.entity.Post;
 
 import java.util.UUID;
 

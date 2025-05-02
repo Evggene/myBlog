@@ -1,6 +1,6 @@
 package org.bea.dao;
 
-import org.bea.model.Paragraph;
+import org.bea.db.entity.Paragraph;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

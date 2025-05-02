@@ -1,7 +1,6 @@
 package org.bea.db.dao;
 
-import org.bea.db.entity.PostAggregate;
-import org.bea.model.Post;
+import org.bea.db.entity.Post;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

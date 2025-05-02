@@ -11,7 +11,6 @@ public class Main {
         String webAppDirLocation = "src/main/";
         Tomcat tomcat = new Tomcat();
 
-        //Set Port #
         tomcat.setPort(8082);
 
         StandardContext ctx = (StandardContext) tomcat.addWebapp("/", new File(webAppDirLocation).getAbsolutePath());
