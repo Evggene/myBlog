@@ -6,7 +6,6 @@ import org.bea.db.dao.PostDao;
 import org.bea.db.repository.PostAggregateRepository;
 import org.bea.model.Paragraph;
 import org.bea.db.dao.ParagraphDao;
-import org.bea.model.Post;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +32,7 @@ public class ParagraphDaoTest {
     @Autowired
     private PostAggregateRepository postAggregateRepository;
 
-    private final static UUID id = UUID.fromString("30000000-0000-0000-0000-000000000001");
+    private final static UUID initialParagraphId = UUID.fromString("30000000-0000-0000-0000-000000000001");
     private final static UUID postId = UUID.fromString("20000000-0000-0000-0000-000000000001");
 
     @BeforeEach
@@ -64,15 +63,15 @@ public class ParagraphDaoTest {
 
     @Test
     void setIdAndInsertTest() {
-        var post = postDao.setIdAndInsert(createPostWithoutId());
-        var paragraph = createParagraphWithoutId(post.getId());
+        var paragraph = createParagraphWithoutId(postId);
         paragraphDao.setIdAndInsert(paragraph);
 
-        var postAgg = postAggregateRepository.findById(post.getId());
+        var postAgg = postAggregateRepository.findById(postId);
         Assertions.assertNotNull(postAgg);
         Assertions.assertNotNull(postAgg.getTextParts());
-        Assertions.assertEquals(1, postAgg.getTextParts().length);
-        Assertions.assertEquals("Test paragraph text", postAgg.getTextParts()[0]);
+        Assertions.assertEquals(2, postAgg.getTextParts().length);
+        Assertions.assertEquals("Initial paragraph text", postAgg.getTextParts()[0]);
+        Assertions.assertEquals("Test paragraph text", postAgg.getTextParts()[1]);
     }
 
     //todo: доделать
@@ -93,33 +92,35 @@ public class ParagraphDaoTest {
 //        assertEquals(newOrd, paragraphEdited.getOrd());
 //    }
 
+    /**
+     * К созданному посту с одним параграфом добавляем второй
+     * удаляем его, затем удаляем первоначальный параграф
+     */
     @Test
     void deleteTest() {
-        var post = postDao.setIdAndInsert(createPostWithoutId());
-        var paragraphRaw = createParagraphWithoutId(post.getId());
-        var paragraph = paragraphDao.setIdAndInsert(paragraphRaw);
+        var paragraphRaw = createParagraphWithoutId(postId);
+        var secondParagraph = paragraphDao.setIdAndInsert(paragraphRaw);
 
-        paragraphDao.delete(paragraph.getId());
+        var postAgg = postAggregateRepository.findById(postId);
+        Assertions.assertEquals(2, postAgg.getTextParts().length);
 
-        var postAgg = postAggregateRepository.findById(post.getId());
-        Assertions.assertNotNull(postAgg);
-        Assertions.assertNull(postAgg.getTextParts()[0]);
+        paragraphDao.delete(secondParagraph.getId());
+
+        var postAggWithDeletedParagraph = postAggregateRepository.findById(postId);
+        Assertions.assertEquals("Initial paragraph text", postAggWithDeletedParagraph.getTextParts()[0]);
+
+        paragraphDao.delete(initialParagraphId);
+
+        var postAggWithoutParagraph = postAggregateRepository.findById(postId);
+        Assertions.assertNull(postAggWithoutParagraph.getTextParts()[0]);
 
     }
 
     private Paragraph createParagraphWithoutId(UUID id) {
         var paragraph = new Paragraph();
         paragraph.setPostId(id);
-        paragraph.setOrd(1);
+        paragraph.setOrd(2);
         paragraph.setText("Test paragraph text");
         return paragraph;
-    }
-
-    private Post createPostWithoutId() {
-        var post = new Post();
-        post.setTitle("random title");
-        post.setTextPreview("random preview");
-        post.setImagePath("");
-        return post;
     }
 }

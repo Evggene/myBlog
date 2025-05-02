@@ -28,7 +28,7 @@ public class PostAggregateRepositoryJdbc implements PostAggregateRepository {
                 array_agg(t.name) as tags
             FROM posts p
                 left join likes l on l.post_id = p.id
-                left join tags_to_post pt on pt.post_id = p.id
+                left join tags_to_post pt on pt.post_id = p.id and pt.deleted_at is null
                 left join tags t on t.id = pt.tag_id
             WHERE p.deleted_at IS NULL
             group by p.id
