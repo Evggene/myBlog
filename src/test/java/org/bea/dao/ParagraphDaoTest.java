@@ -83,12 +83,12 @@ public class ParagraphDaoTest extends CommonDaoContext {
         var postAgg = postAggregateRepository.findById(postId);
         Assertions.assertEquals(2, postAgg.getTextParts().length);
 
-        paragraphDao.delete(secondParagraph.getId());
+        paragraphDao.delete(secondParagraph.getId(), "id");
 
         var postAggWithDeletedParagraph = postAggregateRepository.findById(postId);
         Assertions.assertEquals("Initial paragraph text", postAggWithDeletedParagraph.getTextParts()[0]);
 
-        paragraphDao.delete(initialParagraphId);
+        paragraphDao.delete(initialParagraphId, "id");
 
         var postAggWithoutParagraph = postAggregateRepository.findById(postId);
         Assertions.assertNull(postAggWithoutParagraph.getTextParts()[0]);

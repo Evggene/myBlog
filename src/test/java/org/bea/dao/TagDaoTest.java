@@ -51,7 +51,7 @@ public class TagDaoTest extends CommonDaoContext {
         var tagSaved = tagDao.setIdAndInsert(newTag);
 
         var newLink = TagsToPost.builder().postId(postId).tagId(tagSaved.getId()).build();
-        tagDao.insert(newLink);
+        tagDao.creatLinkTagToPost(newLink);
 
         var post = postAggregateRepository.findById(postId);
         assertEquals(1, post.getTags().length);
@@ -64,7 +64,7 @@ public class TagDaoTest extends CommonDaoContext {
         var firstTagSaved = tagDao.setIdAndInsert(firstTag);
 
         var firstLink = TagsToPost.builder().postId(postId).tagId(firstTagSaved.getId()).build();
-        tagDao.insert(firstLink);
+        tagDao.creatLinkTagToPost(firstLink);
 
         var post = postAggregateRepository.findById(postId);
         assertEquals(1, post.getTags().length);
@@ -82,7 +82,7 @@ public class TagDaoTest extends CommonDaoContext {
         var tagSaved = tagDao.setIdAndInsert(newTag);
 
         var newLink = TagsToPost.builder().postId(postId).tagId(tagSaved.getId()).build();
-        tagDao.insert(newLink);
+        tagDao.creatLinkTagToPost(newLink);
 
         var post = postAggregateRepository.findById(postId);
         assertEquals(1, post.getTags().length);
@@ -101,10 +101,10 @@ public class TagDaoTest extends CommonDaoContext {
         var secondTagSaved = tagDao.setIdAndInsert(secondTag);
 
         var firstLink = TagsToPost.builder().postId(postId).tagId(firstTagSaved.getId()).build();
-        tagDao.insert(firstLink);
+        tagDao.creatLinkTagToPost(firstLink);
 
         var secondLink = TagsToPost.builder().postId(postId).tagId(secondTagSaved.getId()).build();
-        tagDao.insert(secondLink);
+        tagDao.creatLinkTagToPost(secondLink);
 
         var post = postAggregateRepository.findById(postId);
         assertEquals(2, post.getTags().length);

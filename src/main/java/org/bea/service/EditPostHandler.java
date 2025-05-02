@@ -1,25 +1,31 @@
 package org.bea.service;
 
 import lombok.RequiredArgsConstructor;
+import org.bea.db.dao.LikeDao;
+import org.bea.db.dao.ParagraphDao;
 import org.bea.db.dao.PostDao;
+import org.bea.db.dao.TagDao;
 import org.bea.db.entity.Post;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
-public class EditPostHandler {
+public class EditPostHandler extends CommonHandler {
 
-    private final PostDao postDao;
+    public EditPostHandler(TagDao tagDao, ParagraphDao paragraphDao, PostDao postDao, LikeDao likeDao) {
+        super(tagDao, paragraphDao, postDao, likeDao);
+    }
 
     public void editPost(UUID id, String title, String text, String tags, String fileName) {
-        var postEdited = buildPostWithId(id, title, text, fileName);
+        var paragraphs = text.split("\n");
+        paragraphDao.delete(id, "post_id");
+        super.handleParagraphs(paragraphs, id);
+        var postEdited = buildPostWithId(id, title, paragraphs[0], fileName);
         postDao.update(postEdited);
-        //todo: доделать
-        // найти теги
-        // вычесть
-        // записать оставшиеся, если остались
+        tagDao.deleteLinkTagsToPost(postEdited.getId());
+        var tagsToLink = super.handleTags(tags);
+        super.handlePostsTags(postEdited.getId(), tagsToLink);
     }
 
     private Post buildPostWithId(UUID id, String title, String text, String fileName) {

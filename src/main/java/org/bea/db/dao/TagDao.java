@@ -10,7 +10,7 @@ public interface TagDao {
 
     Tag setIdAndInsert(Tag tag);
 
-    void insert(TagsToPost tagsToPost);
+    void creatLinkTagToPost(TagsToPost tagsToPost);
 
     void deleteLinkTagsToPost(UUID id);
 

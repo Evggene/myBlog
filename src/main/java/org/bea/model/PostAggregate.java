@@ -30,4 +30,8 @@ public class PostAggregate {
         }
         return String.join(" ", tags);
     }
+
+    public String getText() {
+        return String.join("\n", textParts);
+    }
 }

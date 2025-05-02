@@ -22,7 +22,7 @@ public class DeletePostHandler {
         postDao.delete(id);
         tagDao.deleteLinkTagsToPost(id);
         commentDao.delete(id, "post_id");
-        paragraphDao.delete(id);
+        paragraphDao.delete(id, "post_id");
     }
 }
 

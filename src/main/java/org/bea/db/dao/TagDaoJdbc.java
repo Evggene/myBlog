@@ -33,7 +33,8 @@ public class TagDaoJdbc extends BaseDao<Tag> implements TagDao {
     }
 
     @Override
-    public void insert(TagsToPost tagsToPost) {
+    public void creatLinkTagToPost(TagsToPost tagsToPost) {
+        tagsToPost.setId(UUID.randomUUID());
         var insert = new SimpleJdbcInsert(jdbcTemplate).withTableName(LINK_TABLE_NAME);
         var paramSource = new BeanPropertySqlParameterSource(tagsToPost);
         insert.execute(paramSource);

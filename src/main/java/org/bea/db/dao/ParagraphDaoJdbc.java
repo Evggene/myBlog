@@ -23,8 +23,8 @@ public class ParagraphDaoJdbc extends BaseDao<Paragraph> implements ParagraphDao
     }
 
     @Override
-    public void delete(UUID id) {
-        super.delete(id, "id", TABLE_NAME);
+    public void delete(UUID id, String byColumn) {
+        super.delete(id, byColumn, TABLE_NAME);
     }
 
     @Override
