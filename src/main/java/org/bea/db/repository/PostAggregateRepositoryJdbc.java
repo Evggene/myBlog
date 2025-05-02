@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostAggregateRepositoryJdbc implements PostAggregateRepository {
 
-    private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final BeanPropertyRowMapper<PostAggregate> rowMapper = new BeanPropertyRowMapper<>(PostAggregate.class);
     private final BeanPropertyRowMapper<Comment> commentMapper = new BeanPropertyRowMapper<>(Comment.class);
@@ -59,9 +58,9 @@ public class PostAggregateRepositoryJdbc implements PostAggregateRepository {
                 array_agg(pg.text) as textParts
             from posts p
                 left join likes l on l.post_id = p.id
-                left join tags_to_post pt on pt.post_id = p.id
+                left join tags_to_post pt on pt.post_id = p.id and pt.deleted_at is null
                 left join tags t on t.id = pt.tag_id
-                left join paragraphs pg on pg.post_id = p.id
+                left join paragraphs pg on pg.post_id = p.id and pg.deleted_at is null
             where p.id = :COLUMN_ID
             group by p.id
             """;
