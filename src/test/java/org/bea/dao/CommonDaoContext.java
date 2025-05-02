@@ -2,9 +2,11 @@ package org.bea.dao;
 
 import org.bea.config.DataSourceConfigurationTest;
 import org.bea.config.RepositoryConfiguration;
+import org.bea.db.dao.CommentDao;
 import org.bea.db.dao.LikeDao;
 import org.bea.db.dao.ParagraphDao;
 import org.bea.db.dao.PostDao;
+import org.bea.db.dao.TagDao;
 import org.bea.db.repository.PostAggregateRepository;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,10 @@ public class CommonDaoContext {
     protected PostDao postDao;
     @Autowired
     protected LikeDao likeDao;
+    @Autowired
+    protected CommentDao commentDao;
+    @Autowired
+    protected TagDao tagDao;
     @Autowired
     protected PostAggregateRepository postAggregateRepository;
 }

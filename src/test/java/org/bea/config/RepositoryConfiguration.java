@@ -1,11 +1,15 @@
 package org.bea.config;
 
+import org.bea.db.dao.CommentDao;
+import org.bea.db.dao.CommentDaoJdbc;
 import org.bea.db.dao.LikeDao;
 import org.bea.db.dao.LikeDaoJdbc;
 import org.bea.db.dao.ParagraphDao;
 import org.bea.db.dao.ParagraphDaoJdbc;
 import org.bea.db.dao.PostDao;
 import org.bea.db.dao.PostDaoJdbc;
+import org.bea.db.dao.TagDao;
+import org.bea.db.dao.TagDaoJdbc;
 import org.bea.db.repository.PostAggregateRepository;
 import org.bea.db.repository.PostAggregateRepositoryJdbc;
 import org.springframework.context.annotation.Bean;
@@ -42,6 +46,18 @@ public class RepositoryConfiguration {
     @Bean
     LikeDao likeDao(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         return new LikeDaoJdbc(jdbcTemplate, namedParameterJdbcTemplate);
+    }
+
+    @Primary
+    @Bean
+    CommentDao commentDao(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        return new CommentDaoJdbc(jdbcTemplate, namedParameterJdbcTemplate);
+    }
+
+    @Primary
+    @Bean
+    TagDao tagDao(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        return new TagDaoJdbc(jdbcTemplate, namedParameterJdbcTemplate);
     }
 
 }

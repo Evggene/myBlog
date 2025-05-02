@@ -59,11 +59,11 @@ public class TagDaoJdbc extends BaseDao<Tag> implements TagDao {
     @Override
     public long countPostsByTags(List<Tag> tags) {
         var tagIdsForSql = tags.stream()
-                .map(it -> it.getId().toString())
-                .collect(Collectors.joining(","));
+                .map(Tag::getId)
+                .collect(Collectors.toSet());
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("tagIds", tagIdsForSql);
         return namedParameterJdbcTemplate.queryForObject(
-                "select count(*) from " + LINK_TABLE_NAME + " where tag_id in (:tagIds) and deleted_at is null;", paramMap, Long.class);
+                "select count(distinct post_id) from " + LINK_TABLE_NAME + " where tag_id in (:tagIds) and deleted_at is null;", paramMap, Long.class);
     }
 }
