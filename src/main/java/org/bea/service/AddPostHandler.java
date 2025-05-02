@@ -6,6 +6,7 @@ import org.bea.db.dao.PostDao;
 import org.bea.db.dao.TagDao;
 import org.bea.db.entity.Like;
 import org.bea.db.entity.Post;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 @Service

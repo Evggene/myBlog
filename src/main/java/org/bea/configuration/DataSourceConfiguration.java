@@ -57,7 +57,7 @@ public class DataSourceConfiguration {
     public Flyway flyway(DataSource dataSource) {
         Flyway flyway = Flyway.configure()
                 .dataSource(dataSource)
-                .locations("classpath:db/migration") // Путь к миграциям
+                .locations("classpath:db/migration", "classpath:db/init") // Путь к миграциям
                 .baselineOnMigrate(true)
                 .load();
         flyway.migrate();
