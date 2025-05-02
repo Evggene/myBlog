@@ -34,7 +34,7 @@ public abstract class CommonHandler {
      * находит существующие и вставляет новые,
      * возвращает коллекцию объектов из бд
      */
-    protected Collection<Tag> handleTags(String tagsNameRawString) {
+    protected Collection<Tag> prepareTagsAndInsertNew(String tagsNameRawString) {
         if (tagsNameRawString.isBlank()) {
             return Collections.emptyList();
         }
@@ -84,25 +84,25 @@ public abstract class CommonHandler {
                 .collect(Collectors.toSet());
     }
 
-    protected void handlePostsTags(UUID id, Collection<Tag> tagsCreated) {
+    protected void buildLinkTagsToPostAndInsert(UUID id, Collection<Tag> tagsCreated) {
         var entities = tagsCreated.stream()
                 .map(it -> buildTagsToPost(id, it))
                 .collect(Collectors.toSet());
-        entities.forEach(tagDao::creatLinkTagToPost);
+        entities.forEach(tagDao::createLinkTagToPost);
     }
 
     private TagsToPost buildTagsToPost(UUID id, Tag it) {
         return TagsToPost.builder().postId(id).tagId(it.getId()).build();
     }
 
-    protected void handleParagraphs(String[] paragraphs, UUID postId) {
+    protected void buildParagraphsAndInsert(String[] paragraphs, UUID postId) {
         var entities = IntStream.range(0, paragraphs.length)
                 .mapToObj(i -> buildParagraphs(paragraphs, postId, i))
                 .toList();
         entities.forEach(paragraphDao::setIdAndInsert);
     }
 
-    private static Paragraph buildParagraphs(String[] paragraphs, UUID postId, int i) {
+    private Paragraph buildParagraphs(String[] paragraphs, UUID postId, int i) {
         return Paragraph.builder()
                 .ord(i + 1)
                 .postId(postId)

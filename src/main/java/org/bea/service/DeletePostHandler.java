@@ -20,7 +20,7 @@ public class DeletePostHandler {
 
     public void deletePost(UUID id) {
         postDao.delete(id);
-        tagDao.deleteLinkTagsToPost(id);
+        tagDao.deleteLinkTagsToPost(id, "post_id");
         commentDao.delete(id, "post_id");
         paragraphDao.delete(id, "post_id");
     }

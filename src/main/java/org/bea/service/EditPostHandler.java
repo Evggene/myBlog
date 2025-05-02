@@ -1,6 +1,5 @@
 package org.bea.service;
 
-import lombok.RequiredArgsConstructor;
 import org.bea.db.dao.LikeDao;
 import org.bea.db.dao.ParagraphDao;
 import org.bea.db.dao.PostDao;
@@ -20,12 +19,14 @@ public class EditPostHandler extends CommonHandler {
     public void editPost(UUID id, String title, String text, String tags, String fileName) {
         var paragraphs = text.split("\n");
         paragraphDao.delete(id, "post_id");
-        super.handleParagraphs(paragraphs, id);
+        super.buildParagraphsAndInsert(paragraphs, id);
+
         var postEdited = buildPostWithId(id, title, paragraphs[0], fileName);
         postDao.update(postEdited);
-        tagDao.deleteLinkTagsToPost(postEdited.getId());
-        var tagsToLink = super.handleTags(tags);
-        super.handlePostsTags(postEdited.getId(), tagsToLink);
+
+        var tagsToLink = super.prepareTagsAndInsertNew(tags);
+        tagDao.deleteLinkTagsToPost(postEdited.getId(), "post_id");
+        super.buildLinkTagsToPostAndInsert(postEdited.getId(), tagsToLink);
     }
 
     private Post buildPostWithId(UUID id, String title, String text, String fileName) {

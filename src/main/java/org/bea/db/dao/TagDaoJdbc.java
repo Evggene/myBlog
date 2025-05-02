@@ -33,7 +33,7 @@ public class TagDaoJdbc extends BaseDao<Tag> implements TagDao {
     }
 
     @Override
-    public void creatLinkTagToPost(TagsToPost tagsToPost) {
+    public void createLinkTagToPost(TagsToPost tagsToPost) {
         tagsToPost.setId(UUID.randomUUID());
         var insert = new SimpleJdbcInsert(jdbcTemplate).withTableName(LINK_TABLE_NAME);
         var paramSource = new BeanPropertySqlParameterSource(tagsToPost);
@@ -41,8 +41,8 @@ public class TagDaoJdbc extends BaseDao<Tag> implements TagDao {
     }
 
     @Override
-    public void deleteLinkTagsToPost(UUID id) {
-        super.delete(id, "post_id", LINK_TABLE_NAME);
+    public void deleteLinkTagsToPost(UUID id, String byColumn) {
+        super.delete(id, byColumn, LINK_TABLE_NAME);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class TagDaoJdbc extends BaseDao<Tag> implements TagDao {
         if (tag.isEmpty()) {
             return null;
         }
-        return tag.get(0);
+        return tag.getFirst();
     }
 
     @Override
@@ -64,6 +64,9 @@ public class TagDaoJdbc extends BaseDao<Tag> implements TagDao {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("tagIds", tagIdsForSql);
         return namedParameterJdbcTemplate.queryForObject(
-                "select count(distinct post_id) from " + LINK_TABLE_NAME + " where tag_id in (:tagIds) and deleted_at is null;", paramMap, Long.class);
+                "select count(distinct post_id) from "
+                        + LINK_TABLE_NAME
+                        + " where tag_id in (:tagIds) and deleted_at is null;",
+                paramMap, Long.class);
     }
 }

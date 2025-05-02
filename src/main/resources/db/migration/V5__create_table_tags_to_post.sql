@@ -1,5 +1,6 @@
 
 CREATE TABLE tags_to_post (
+    id UUID PRIMARY KEY,
     post_id UUID NOT NULL,
     tag_id UUID NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

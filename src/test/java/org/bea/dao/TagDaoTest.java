@@ -51,7 +51,7 @@ public class TagDaoTest extends CommonDaoContext {
         var tagSaved = tagDao.setIdAndInsert(newTag);
 
         var newLink = TagsToPost.builder().postId(postId).tagId(tagSaved.getId()).build();
-        tagDao.creatLinkTagToPost(newLink);
+        tagDao.createLinkTagToPost(newLink);
 
         var post = postAggregateRepository.findById(postId);
         assertEquals(1, post.getTags().length);
@@ -64,13 +64,13 @@ public class TagDaoTest extends CommonDaoContext {
         var firstTagSaved = tagDao.setIdAndInsert(firstTag);
 
         var firstLink = TagsToPost.builder().postId(postId).tagId(firstTagSaved.getId()).build();
-        tagDao.creatLinkTagToPost(firstLink);
+        tagDao.createLinkTagToPost(firstLink);
 
         var post = postAggregateRepository.findById(postId);
         assertEquals(1, post.getTags().length);
         assertEquals(tagName1, post.getTags()[0]);
 
-        tagDao.deleteLinkTagsToPost(postId);
+        tagDao.deleteLinkTagsToPost(postId, "post_id");
 
         var postWithoutTag = postAggregateRepository.findById(postId);
         assertNull(postWithoutTag.getTags()[0]);
@@ -82,7 +82,7 @@ public class TagDaoTest extends CommonDaoContext {
         var tagSaved = tagDao.setIdAndInsert(newTag);
 
         var newLink = TagsToPost.builder().postId(postId).tagId(tagSaved.getId()).build();
-        tagDao.creatLinkTagToPost(newLink);
+        tagDao.createLinkTagToPost(newLink);
 
         var post = postAggregateRepository.findById(postId);
         assertEquals(1, post.getTags().length);
@@ -101,10 +101,10 @@ public class TagDaoTest extends CommonDaoContext {
         var secondTagSaved = tagDao.setIdAndInsert(secondTag);
 
         var firstLink = TagsToPost.builder().postId(postId).tagId(firstTagSaved.getId()).build();
-        tagDao.creatLinkTagToPost(firstLink);
+        tagDao.createLinkTagToPost(firstLink);
 
         var secondLink = TagsToPost.builder().postId(postId).tagId(secondTagSaved.getId()).build();
-        tagDao.creatLinkTagToPost(secondLink);
+        tagDao.createLinkTagToPost(secondLink);
 
         var post = postAggregateRepository.findById(postId);
         assertEquals(2, post.getTags().length);

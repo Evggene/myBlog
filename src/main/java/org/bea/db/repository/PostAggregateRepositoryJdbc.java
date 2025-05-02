@@ -54,7 +54,7 @@ public class PostAggregateRepositoryJdbc implements PostAggregateRepository {
                 p.*,
                 coalesce(l.likes_count, 0) as likesCount ,
                 array_agg(distinct t.name) as tags,
-                array_agg(distinct pg.text) as textParts
+                array_agg(distinct pg.text order by pg.ord) as textParts
             from posts p
                 left join likes l on l.post_id = p.id
                 left join tags_to_post pt on pt.post_id = p.id and pt.deleted_at is null
@@ -65,7 +65,7 @@ public class PostAggregateRepositoryJdbc implements PostAggregateRepository {
             """;
 
     private final static String SELECT_ALL_COMMENTS = """
-            SELECT * from comments where post_id = :postId AND deleted_at IS NULL;
+            SELECT * from comments where post_id = :postId AND deleted_at IS NULL order by updated_at;
             """;
 
     @Override

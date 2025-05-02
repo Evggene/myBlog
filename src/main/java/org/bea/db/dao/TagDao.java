@@ -10,9 +10,9 @@ public interface TagDao {
 
     Tag setIdAndInsert(Tag tag);
 
-    void creatLinkTagToPost(TagsToPost tagsToPost);
+    void createLinkTagToPost(TagsToPost tagsToPost);
 
-    void deleteLinkTagsToPost(UUID id);
+    void deleteLinkTagsToPost(UUID id, String byColumn);
 
     Tag findByName(String name);
 

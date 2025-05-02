@@ -6,7 +6,6 @@ import java.util.UUID;
 
 public interface ParagraphDao {
 
-    void update(Paragraph comment);
     void delete(UUID id, String byColumn);
     Paragraph setIdAndInsert(Paragraph paragraph);
 }

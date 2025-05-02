@@ -16,12 +16,6 @@ public class ParagraphDaoJdbc extends BaseDao<Paragraph> implements ParagraphDao
         super(jdbcTemplate, namedParameterJdbcTemplate);
     }
 
-
-    @Override
-    public void update(Paragraph comment) {
-
-    }
-
     @Override
     public void delete(UUID id, String byColumn) {
         super.delete(id, byColumn, TABLE_NAME);
