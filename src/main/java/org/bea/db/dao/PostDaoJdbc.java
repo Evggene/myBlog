@@ -22,7 +22,7 @@ public class PostDaoJdbc extends BaseDao<Post> implements PostDao {
 
     private final static String TABLE_NAME = "posts";
     private final static String COUNT_SQL_SELECT = """
-            SELECT COUNT(*) FROM posts;
+            SELECT COUNT(*) FROM posts where deleted_at is null;
             """;
     private final static String SELECT_BY_ID = """
             SELECT p.*, l.likes_count , array_agg(t.name) as tags FROM posts p
@@ -55,7 +55,8 @@ public class PostDaoJdbc extends BaseDao<Post> implements PostDao {
         var rowMapper = new BeanPropertyRowMapper<>(Post.class);
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("COLUMN_ID", id);
-        var res = namedParameterJdbcTemplate.query("select * from posts p WHERE p.id = :COLUMN_ID", paramMap, rowMapper);
+        var res = namedParameterJdbcTemplate.query(
+                "select * from posts p WHERE p.id = :COLUMN_ID and deleted_at is null", paramMap, rowMapper);
         if (!res.isEmpty()) {
             return res.getFirst();
         }
