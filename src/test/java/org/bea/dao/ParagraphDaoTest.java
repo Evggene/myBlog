@@ -1,25 +1,15 @@
 package org.bea.dao;
 
-import org.bea.config.DataSourceConfigurationTest;
-import org.bea.config.RepositoryConfiguration;
-import org.bea.db.dao.PostDao;
-import org.bea.db.repository.PostAggregateRepository;
 import org.bea.model.Paragraph;
-import org.bea.db.dao.ParagraphDao;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ParagraphDaoTest extends CommonContext{
+public class ParagraphDaoTest extends CommonDaoContext {
 
     private final static UUID initialParagraphId = UUID.fromString("30000000-0000-0000-0000-000000000001");
     private final static UUID postId = UUID.fromString("20000000-0000-0000-0000-000000000001");

@@ -2,6 +2,7 @@ package org.bea.dao;
 
 import org.bea.config.DataSourceConfigurationTest;
 import org.bea.config.RepositoryConfiguration;
+import org.bea.db.dao.LikeDao;
 import org.bea.db.dao.ParagraphDao;
 import org.bea.db.dao.PostDao;
 import org.bea.db.repository.PostAggregateRepository;
@@ -13,7 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {DataSourceConfigurationTest.class, RepositoryConfiguration.class})
-public class CommonContext {
+public class CommonDaoContext {
 
     @Autowired
     protected JdbcTemplate jdbcTemplate;
@@ -21,6 +22,8 @@ public class CommonContext {
     protected ParagraphDao paragraphDao;
     @Autowired
     protected PostDao postDao;
+    @Autowired
+    protected LikeDao likeDao;
     @Autowired
     protected PostAggregateRepository postAggregateRepository;
 }

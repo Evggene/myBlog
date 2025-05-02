@@ -1,5 +1,7 @@
 package org.bea.config;
 
+import org.bea.db.dao.LikeDao;
+import org.bea.db.dao.LikeDaoJdbc;
 import org.bea.db.dao.ParagraphDao;
 import org.bea.db.dao.ParagraphDaoJdbc;
 import org.bea.db.dao.PostDao;
@@ -34,6 +36,12 @@ public class RepositoryConfiguration {
     @Bean
     PostAggregateRepository postAggregateRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         return new PostAggregateRepositoryJdbc(namedParameterJdbcTemplate);
+    }
+
+    @Primary
+    @Bean
+    LikeDao likeDao(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        return new LikeDaoJdbc(jdbcTemplate, namedParameterJdbcTemplate);
     }
 
 }
