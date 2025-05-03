@@ -19,7 +19,7 @@ public class AddPostHandler extends CommonHandler{
     public void addPost(String title, String text, String tagsRaw, String originalFilename) {
         var tagsCreated = super.prepareTagsAndInsertNew(tagsRaw);
         var paragraphs = splitTextToParagraphs(text);
-        var post = buildPostAndInsert(title, paragraphs[0], originalFilename);
+        var post = buildPostAndInsert(title, paragraphs[0].strip(), originalFilename);
         super.buildParagraphsAndInsert(paragraphs, post.getId());
         buildLikeAndInsert(post);
         super.buildLinkTagsToPostAndInsert(post.getId(), tagsCreated);

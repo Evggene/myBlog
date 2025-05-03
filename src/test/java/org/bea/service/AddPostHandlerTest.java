@@ -2,6 +2,7 @@ package org.bea.service;
 
 import org.assertj.core.api.Assertions;
 import org.bea.model.PostAggregate;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,10 +11,20 @@ public class AddPostHandlerTest extends CommonServiceContext {
 
     // поля title и text не могут быть пустыми (валидация в контроллере)
 
+    @BeforeEach
+    void truncateAllTable() {
+        jdbcTemplate.execute("DELETE FROM posts");
+        jdbcTemplate.execute("DELETE FROM likes");
+        jdbcTemplate.execute("DELETE FROM tags");
+        jdbcTemplate.execute("DELETE FROM tags_to_post");
+        jdbcTemplate.execute("DELETE FROM paragraphs");
+        jdbcTemplate.execute("DELETE FROM comments");
+    }
+
     @Test
     void addPost_onlyTitleAndText_success() {
         addPostHandler.addPost("test", "test", "", "");
-        var postsPreviewMode = postAggregateRepository.findAllPreviewMode(0, 1);
+        var postsPreviewMode = postAggregateRepository.findAllPreviewMode(0, 10);
         org.junit.jupiter.api.Assertions.assertEquals(1, postsPreviewMode.size());
         var postFullMode = postAggregateRepository.findByIdFullMode(postsPreviewMode.get(0).getId());
 
@@ -26,6 +37,7 @@ public class AddPostHandlerTest extends CommonServiceContext {
                 .tags(new String[]{null})
                 .comments(new ArrayList<>())
                 .build();
+
         Assertions.assertThat(postFullMode)
                 .usingRecursiveComparison()
                 .ignoringFields("id")
@@ -34,36 +46,104 @@ public class AddPostHandlerTest extends CommonServiceContext {
 
     @Test
     void addPost_withTag_success() {
-        addPostHandler.addPost("test", "test", "", "");
-        var post = postAggregateRepository.findAllPreviewMode(0, 1);
-        System.out.println();
+        addPostHandler.addPost("test", "test", "123", "");
+        var postsPreviewMode = postAggregateRepository.findAllPreviewMode(0, 10);
+        org.junit.jupiter.api.Assertions.assertEquals(1, postsPreviewMode.size());
+        var postFullMode = postAggregateRepository.findByIdFullMode(postsPreviewMode.get(0).getId());
+
+        var postExpectedFullMode = PostAggregate.builder()
+                .title("test")
+                .textPreview("test")
+                .textParts(new String[]{"test"})
+                .likesCount(0)
+                .imagePath("")
+                .tags(new String[]{"123"})
+                .comments(new ArrayList<>())
+                .build();
+
+        Assertions.assertThat(postFullMode)
+                .usingRecursiveComparison()
+                .ignoringFields("id")
+                .isEqualTo(postExpectedFullMode);
     }
 
     @Test
     void addPost_withTags_success() {
-        addPostHandler.addPost("test", "test", "", "");
-        var post = postAggregateRepository.findAllPreviewMode(0, 1);
-        System.out.println();
+        addPostHandler.addPost("test", "test", "123 456", "");
+        var postsPreviewMode = postAggregateRepository.findAllPreviewMode(0, 10);
+        org.junit.jupiter.api.Assertions.assertEquals(1, postsPreviewMode.size());
+        var postFullMode = postAggregateRepository.findByIdFullMode(postsPreviewMode.get(0).getId());
+
+        var postExpectedFullMode = PostAggregate.builder()
+                .title("test")
+                .textPreview("test")
+                .textParts(new String[]{"test"})
+                .likesCount(0)
+                .imagePath("")
+                .tags(new String[]{"123", "456"})
+                .comments(new ArrayList<>())
+                .build();
+
+        Assertions.assertThat(postFullMode)
+                .usingRecursiveComparison()
+                .ignoringFields("id")
+                .isEqualTo(postExpectedFullMode);
     }
 
     @Test
     void addPost_withTwoParagraph_success() {
-        addPostHandler.addPost("test", "test", "", "");
-        var post = postAggregateRepository.findAllPreviewMode(0, 1);
-        System.out.println();
+        addPostHandler.addPost("test", "test \n test2", "", "");
+        var postsPreviewMode = postAggregateRepository.findAllPreviewMode(0, 10);
+        org.junit.jupiter.api.Assertions.assertEquals(1, postsPreviewMode.size());
+        var postFullMode = postAggregateRepository.findByIdFullMode(postsPreviewMode.get(0).getId());
+
+        var postExpectedFullMode = PostAggregate.builder()
+                .title("test")
+                .textPreview("test")
+                .textParts(new String[]{"test", "test2"})
+                .likesCount(0)
+                .imagePath("")
+                .tags(new String[]{null})
+                .comments(new ArrayList<>())
+                .build();
+
+        Assertions.assertThat(postFullMode)
+                .usingRecursiveComparison()
+                .ignoringFields("id")
+                .isEqualTo(postExpectedFullMode);
     }
 
     @Test
-    void addSecondPost_withSameTags_success() {
-        addPostHandler.addPost("test", "test", "", "");
-        var post = postAggregateRepository.findAllPreviewMode(0, 1);
-        System.out.println();
-    }
+    void addSecondPost_withSameAndAnotherTags_success() {
+        addPostHandler.addPost("test", "test", "123 456", "");
+        addPostHandler.addPost("test 2", "test", "456 789", "");
 
-    @Test
-    void addSecondPost_withAnotherTags_success() {
-        addPostHandler.addPost("test", "test", "", "");
-        var post = postAggregateRepository.findAllPreviewMode(0, 1);
-        System.out.println();
+        var postsPreviewMode = postAggregateRepository.findAllPreviewMode(0, 10);
+        org.junit.jupiter.api.Assertions.assertEquals(2, postsPreviewMode.size());
+        var postFullMode0 = postAggregateRepository.findByIdFullMode(postsPreviewMode.get(0).getId());
+        var postFullMode1 = postAggregateRepository.findByIdFullMode(postsPreviewMode.get(1).getId());
+
+        var postExpectedFullMode = PostAggregate.builder()
+                .title("test")
+                .textPreview("test")
+                .textParts(new String[]{"test"})
+                .likesCount(0)
+                .imagePath("")
+                .tags(new String[]{"123", "456"})
+                .comments(new ArrayList<>())
+                .build();
+
+        Assertions.assertThat(postFullMode0)
+                .usingRecursiveComparison()
+                .ignoringFields("id")
+                .isEqualTo(postExpectedFullMode);
+
+        postExpectedFullMode.setTitle("test 2");
+        postExpectedFullMode.setTags(new String[]{"456", "789"});
+
+        Assertions.assertThat(postFullMode1)
+                .usingRecursiveComparison()
+                .ignoringFields("id")
+                .isEqualTo(postExpectedFullMode);
     }
 }

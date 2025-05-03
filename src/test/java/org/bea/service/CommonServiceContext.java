@@ -10,4 +10,9 @@ public class CommonServiceContext extends CommonDaoContext {
 
     @Autowired
     protected AddPostHandler addPostHandler;
+    @Autowired
+    protected DeletePostHandler deletePostHandler;
+    @Autowired
+    protected EditPostHandler editPostHandler;
+
 }
