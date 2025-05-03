@@ -45,7 +45,7 @@ public class ParagraphDaoTest extends CommonDaoContext {
         var paragraph = createParagraphWithoutId(postId);
         paragraphDao.setIdAndInsert(paragraph);
 
-        var postAgg = postAggregateRepository.findById(postId);
+        var postAgg = postAggregateRepository.findByIdFullMode(postId);
         Assertions.assertNotNull(postAgg);
         Assertions.assertNotNull(postAgg.getTextParts());
         Assertions.assertEquals(2, postAgg.getTextParts().length);
@@ -80,17 +80,17 @@ public class ParagraphDaoTest extends CommonDaoContext {
         var paragraphRaw = createParagraphWithoutId(postId);
         var secondParagraph = paragraphDao.setIdAndInsert(paragraphRaw);
 
-        var postAgg = postAggregateRepository.findById(postId);
+        var postAgg = postAggregateRepository.findByIdFullMode(postId);
         Assertions.assertEquals(2, postAgg.getTextParts().length);
 
         paragraphDao.delete(secondParagraph.getId(), "id");
 
-        var postAggWithDeletedParagraph = postAggregateRepository.findById(postId);
+        var postAggWithDeletedParagraph = postAggregateRepository.findByIdFullMode(postId);
         Assertions.assertEquals("Initial paragraph text", postAggWithDeletedParagraph.getTextParts()[0]);
 
         paragraphDao.delete(initialParagraphId, "id");
 
-        var postAggWithoutParagraph = postAggregateRepository.findById(postId);
+        var postAggWithoutParagraph = postAggregateRepository.findByIdFullMode(postId);
         Assertions.assertNull(postAggWithoutParagraph.getTextParts()[0]);
 
     }

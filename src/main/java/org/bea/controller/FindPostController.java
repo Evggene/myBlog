@@ -33,7 +33,7 @@ public class FindPostController {
 
     @GetMapping("/posts/{id}")
     public String getPostById(@PathVariable("id") UUID id, Model model) {
-        var post = postAggregateRepository.findById(id);
+        var post = postAggregateRepository.findByIdFullMode(id);
         model.addAttribute("post", post);
         return "post";
     }

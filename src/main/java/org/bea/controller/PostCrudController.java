@@ -52,7 +52,7 @@ public class PostCrudController {
 
     @GetMapping("/posts/{id}/edit")
     public String getToEdit(@PathVariable("id") UUID id, Model model) {
-       var post = postAggregateRepository.findById(id);
+       var post = postAggregateRepository.findByIdFullMode(id);
        model.addAttribute("post", post);
        return "add-post";
     }

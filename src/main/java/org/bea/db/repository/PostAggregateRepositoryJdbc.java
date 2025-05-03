@@ -69,7 +69,7 @@ public class PostAggregateRepositoryJdbc implements PostAggregateRepository {
             """;
 
     @Override
-    public List<PostAggregate> findAll(int offset, int limit) {
+    public List<PostAggregate> findAllPreviewMode(int offset, int limit) {
         var paramMap = new HashMap<String, Object>();
         paramMap.put("offset", offset);
         paramMap.put("limit", limit);
@@ -87,7 +87,7 @@ public class PostAggregateRepositoryJdbc implements PostAggregateRepository {
     }
 
     @Override
-    public PostAggregate findById(UUID id) {
+    public PostAggregate findByIdFullMode(UUID id) {
         var paramMap = new HashMap<String, Object>();
         paramMap.put("COLUMN_ID", id);
         var res = namedParameterJdbcTemplate.query(SELECT_BY_ID, paramMap, rowMapper);
@@ -99,7 +99,7 @@ public class PostAggregateRepositoryJdbc implements PostAggregateRepository {
     }
 
     @Override
-    public List<PostAggregate> findByTag(List<Tag> tags, int offset, int limit) {
+    public List<PostAggregate> findByTagPreviewMode(List<Tag> tags, int offset, int limit) {
         var tagIdsForSql = tags.stream()
                 .map(it -> it.getId().toString())
                 .collect(Collectors.joining(","));

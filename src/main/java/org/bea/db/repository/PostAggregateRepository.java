@@ -8,7 +8,17 @@ import java.util.UUID;
 
 public interface PostAggregateRepository {
 
-    List<PostAggregate> findAll(int offset, int limit);
-    PostAggregate findById(UUID id);
-    List<PostAggregate> findByTag(List<Tag> tags, int offset, int limit);
+    /**
+     * Находит все посты для списка без списка комментариев и параграфов
+     */
+    List<PostAggregate> findAllPreviewMode(int offset, int limit);
+
+    /**
+     * Возвращает пост по идентификатору со всеми связанными объектами
+     */
+    PostAggregate findByIdFullMode(UUID id);
+    /**
+     * Находит все посты по списку тегов для списка без списка комментариев и параграфов
+     */
+    List<PostAggregate> findByTagPreviewMode(List<Tag> tags, int offset, int limit);
 }

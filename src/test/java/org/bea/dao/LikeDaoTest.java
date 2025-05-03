@@ -31,7 +31,7 @@ public class LikeDaoTest extends CommonDaoContext {
     @Test
     void createForPostTest() {
         likeDao.createForPost(createLike());
-        var postWithLIke = postAggregateRepository.findById(postId);
+        var postWithLIke = postAggregateRepository.findByIdFullMode(postId);
         Assertions.assertEquals(7, postWithLIke.getLikesCount());
     }
 
@@ -40,11 +40,11 @@ public class LikeDaoTest extends CommonDaoContext {
         likeDao.createForPost(createLike());
 
         likeDao.incDec(postId, LikeActionHandler.LikeActionType.INCREMENT);
-        var postWithLikeInc = postAggregateRepository.findById(postId);
+        var postWithLikeInc = postAggregateRepository.findByIdFullMode(postId);
         Assertions.assertEquals(8, postWithLikeInc.getLikesCount());
 
         likeDao.incDec(postId, LikeActionHandler.LikeActionType.DECREMENT);
-        var postWithLikeDec = postAggregateRepository.findById(postId);
+        var postWithLikeDec = postAggregateRepository.findByIdFullMode(postId);
         Assertions.assertEquals(7, postWithLikeDec.getLikesCount());
     }
 

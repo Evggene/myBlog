@@ -32,7 +32,7 @@ public class CommentDaoTest extends CommonDaoContext {
         var comment = createCommentWithoutId();
         var commentSaved = commentDao.setIdAndInsert(comment);
 
-        var postWithComment = postAggregateRepository.findById(postId);
+        var postWithComment = postAggregateRepository.findByIdFullMode(postId);
 
         assertEquals(commentSaved.getContent(), postWithComment.getComments().get(0).getContent());
         assertEquals(1, postWithComment.getComments().size());
@@ -44,14 +44,14 @@ public class CommentDaoTest extends CommonDaoContext {
         var comment = createCommentWithoutId();
         var commentSaved = commentDao.setIdAndInsert(comment);
 
-        var postWithComment = postAggregateRepository.findById(postId);
+        var postWithComment = postAggregateRepository.findByIdFullMode(postId);
         assertEquals(commentSaved.getContent(), postWithComment.getComments().get(0).getContent());
         assertEquals(1, postWithComment.getComments().size());
 
         commentSaved.setContent(newContent);
         commentDao.update(commentSaved);
 
-        var postWithNewComment = postAggregateRepository.findById(postId);
+        var postWithNewComment = postAggregateRepository.findByIdFullMode(postId);
         assertEquals(commentSaved.getContent(), postWithNewComment.getComments().get(0).getContent());
         assertEquals(1, postWithNewComment.getComments().size());
     }
@@ -63,7 +63,7 @@ public class CommentDaoTest extends CommonDaoContext {
 
         commentDao.delete(commentSaved.getId(), "id");
 
-        var postWithComment = postAggregateRepository.findById(postId);
+        var postWithComment = postAggregateRepository.findByIdFullMode(postId);
         assertEquals(0, postWithComment.getComments().size());
     }
 
@@ -74,7 +74,7 @@ public class CommentDaoTest extends CommonDaoContext {
 
         commentDao.delete(commentSaved.getPostId(), "post_id");
 
-        var postWithComment = postAggregateRepository.findById(postId);
+        var postWithComment = postAggregateRepository.findByIdFullMode(postId);
         assertEquals(0, postWithComment.getComments().size());
     }
 

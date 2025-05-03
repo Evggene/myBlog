@@ -29,11 +29,11 @@ public class FindPostHandler {
         List<PostAggregate> result;
         long count;
         if (search.isBlank()) {
-            result = postAggregateRepository.findAll(pageNumber * postSize, postSize);
+            result = postAggregateRepository.findAllPreviewMode(pageNumber * postSize, postSize);
             count = postDao.getCount();
         } else {
             var tags = handleTagsRaw(search);
-            result = postAggregateRepository.findByTag(tags, pageNumber * postSize, postSize);
+            result = postAggregateRepository.findByTagPreviewMode(tags, pageNumber * postSize, postSize);
             count = tagDao.countPostsByTags(tags);
         }
         var pageResult = buildPageOfPosts(count, pageNumber, postSize, searchRaw);

@@ -53,7 +53,7 @@ public class TagDaoTest extends CommonDaoContext {
         var newLink = TagsToPost.builder().postId(postId).tagId(tagSaved.getId()).build();
         tagDao.createLinkTagToPost(newLink);
 
-        var post = postAggregateRepository.findById(postId);
+        var post = postAggregateRepository.findByIdFullMode(postId);
         assertEquals(1, post.getTags().length);
         assertEquals(tagName1, post.getTags()[0]);
     }
@@ -66,13 +66,13 @@ public class TagDaoTest extends CommonDaoContext {
         var firstLink = TagsToPost.builder().postId(postId).tagId(firstTagSaved.getId()).build();
         tagDao.createLinkTagToPost(firstLink);
 
-        var post = postAggregateRepository.findById(postId);
+        var post = postAggregateRepository.findByIdFullMode(postId);
         assertEquals(1, post.getTags().length);
         assertEquals(tagName1, post.getTags()[0]);
 
         tagDao.deleteLinkTagsToPost(postId, "post_id");
 
-        var postWithoutTag = postAggregateRepository.findById(postId);
+        var postWithoutTag = postAggregateRepository.findByIdFullMode(postId);
         assertNull(postWithoutTag.getTags()[0]);
     }
 
@@ -84,7 +84,7 @@ public class TagDaoTest extends CommonDaoContext {
         var newLink = TagsToPost.builder().postId(postId).tagId(tagSaved.getId()).build();
         tagDao.createLinkTagToPost(newLink);
 
-        var post = postAggregateRepository.findById(postId);
+        var post = postAggregateRepository.findByIdFullMode(postId);
         assertEquals(1, post.getTags().length);
 
         var count = tagDao.countPostsByTags(List.of(tagSaved));
@@ -106,7 +106,7 @@ public class TagDaoTest extends CommonDaoContext {
         var secondLink = TagsToPost.builder().postId(postId).tagId(secondTagSaved.getId()).build();
         tagDao.createLinkTagToPost(secondLink);
 
-        var post = postAggregateRepository.findById(postId);
+        var post = postAggregateRepository.findByIdFullMode(postId);
         assertEquals(2, post.getTags().length);
 
         var count = tagDao.countPostsByTags(List.of(firstTagSaved, secondTagSaved));
