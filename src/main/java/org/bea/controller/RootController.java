@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class RootController {
 
     @GetMapping("/")
-    public String redirectToPosts() {
+    public String root() {
         return "redirect:/posts";
     }
 }

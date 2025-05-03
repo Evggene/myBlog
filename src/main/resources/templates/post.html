@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<!DOCTYPE html [
+        <!ENTITY cudarrr "⤸">
+]>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -63,7 +65,7 @@
             <td>
                 <h2 th:text="${post.getTitle()}"></h2>
                 <p>
-                    <img height="300" th:src="${'http://localhost:8082/images/'+post.getId()}">
+                    <img height="300" th:src="${'http://localhost:8082/images/'+post.getId()}"/>
                 </p>
                 <p>
                     <form th:action="${'/posts/'+post.getId()+'/like'}" method="post">
@@ -83,7 +85,7 @@
         </tr>
         <tr>
             <td>
-                <hr>
+                <hr/>
                 <h2>Комментарии</h2>
             </td>
         </tr>
@@ -109,3 +111,4 @@
         </tr>
     </table>
 </body>
+</html>

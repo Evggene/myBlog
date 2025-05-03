@@ -5,9 +5,11 @@ import org.bea.db.dao.LikeDao;
 import org.bea.db.dao.ParagraphDao;
 import org.bea.db.dao.PostDao;
 import org.bea.db.dao.TagDao;
+import org.bea.db.repository.PostAggregateRepository;
 import org.bea.service.AddPostHandler;
 import org.bea.service.DeletePostHandler;
 import org.bea.service.EditPostHandler;
+import org.bea.service.FindPostHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,5 +29,11 @@ public class ServiceConfiguration {
     @Bean
     EditPostHandler editPostHandler(TagDao tagDao, ParagraphDao paragraphDao, PostDao postDao, LikeDao likeDao) {
         return new EditPostHandler(tagDao, paragraphDao, postDao, likeDao);
+    }
+
+    @Bean
+    FindPostHandler findPostHandler(
+            PostAggregateRepository postAggregateRepository, PostDao postDao, TagDao tagDao) {
+        return new FindPostHandler(postAggregateRepository, postDao, tagDao);
     }
 }
