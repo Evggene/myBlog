@@ -24,8 +24,6 @@ public class CommonServiceContext extends CommonDaoContext {
     protected EditPostHandler editPostHandler;
     @Autowired
     protected FindPostHandler findPostHandler;
-    @Autowired
-    protected LikeActionHandler likeActionHandler;
 
     @AfterEach
     void truncateAllTable() {

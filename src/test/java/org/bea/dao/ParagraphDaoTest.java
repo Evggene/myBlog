@@ -53,24 +53,6 @@ public class ParagraphDaoTest extends CommonDaoContext {
         Assertions.assertEquals("Test paragraph text", postAgg.getTextParts()[1]);
     }
 
-    //todo: доделать
-//    @Test
-//    void updateTest() {
-//        var newText = "Updated paragraph text";
-//        var newOrd = 2;
-//        var paragraphRaw = createParagraphWithoutId();
-//
-//        var paragraph = paragraphDao.setIdAndInsert(paragraphRaw);
-//        paragraph.setText(newText);
-//        paragraph.setOrd(newOrd);
-//
-//        paragraphDao.update(paragraph);
-//        var paragraphEdited = paragraphDao.findById(paragraph.getId());
-//
-//        assertEquals(newText, paragraphEdited.getText());
-//        assertEquals(newOrd, paragraphEdited.getOrd());
-//    }
-
     /**
      * К созданному посту с одним параграфом добавляем второй
      * удаляем его, затем удаляем первоначальный параграф

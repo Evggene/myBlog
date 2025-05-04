@@ -2,8 +2,14 @@ package org.bea.controller;
 
 import org.bea.config.DataSourceConfigurationTest;
 import org.bea.config.WebConfigurationTest;
+import org.bea.db.dao.CommentDao;
+import org.bea.db.entity.Comment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -13,46 +19,74 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.UUID;
+
+import static org.hamcrest.Matchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 class CommentCrudControllerTest extends CommonControllerContext{
 
-    @Test
-    void addComment() throws Exception {
-        mockMvc.perform(get("/posts/add"))
-                .andExpect(status().isOk());
+    @Mock
+    CommentDao commentDao;
+    @InjectMocks
+    CommentCrudController commentCrudController;
+
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(commentCrudController).build();
     }
 
-    /**
-     * примеры
-     *     @Test
-     *     void getUsers_shouldReturnHtmlWithUsers() throws Exception {
-     *         mockMvc.perform(get("/users"))
-     *                 .andExpect(status().isOk())
-     *                 .andExpect(content().contentType("text/html;charset=UTF-8"))
-     *                 .andExpect(view().name("users"))
-     *                 .andExpect(model().attributeExists("users"))
-     *                 .andExpect(xpath("//table/tbody/tr").nodeCount(2))
-     *                 .andExpect(xpath("//table/tbody/tr[1]/td[2]").string("Иван"));
-     *     }
-     *
-     *     @Test
-     *     void save_shouldAddUserToDatabaseAndRedirect() throws Exception {
-     *         mockMvc.perform(post("/users")
-     *                         .param("id", "4")
-     *                         .param("firstName", "Анна")
-     *                         .param("lastName", "Смирнова")
-     *                         .param("age", "28")
-     *                         .param("active", "true"))
-     *                 .andExpect(status().is3xxRedirection())
-     *                 .andExpect(redirectedUrl("/users"));
-     *     }
-     */
+    @Test
+    public void testAddComment() throws Exception {
+        UUID postId = UUID.randomUUID();
+        String commentText = "Test comment";
 
+        mockMvc.perform(post("/posts/{postId}/comments", postId)
+                        .param("text", commentText))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/posts/" + postId));
 
+        verify(commentDao).setIdAndInsert(ArgumentMatchers.any(Comment.class));
+    }
+
+    // Тест редактирования комментария
+    @Test
+    void editComment_ShouldUpdateAndRedirect() throws Exception {
+        UUID postId = UUID.fromString("550e8400-e29b-41d4-a716-446655440001");
+        UUID commentId = UUID.randomUUID();
+        String updatedText = "Updated comment text";
+
+        mockMvc.perform(post("/posts/{postId}/comments/{commentId}", postId, commentId)
+                        .param("text", updatedText))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/posts/" + postId));
+
+        verify(commentDao).update(argThat(comment ->
+                comment.getId().equals(commentId) &&
+                        comment.getPostId().equals(postId) &&
+                        comment.getContent().equals(updatedText)
+        ));
+    }
+
+    @Test
+    void deleteComment_ShouldDeleteAndRedirect() throws Exception {
+        UUID postId = UUID.fromString("550e8400-e29b-41d4-a716-446655440001");
+        UUID commentId = UUID.randomUUID();
+
+        mockMvc.perform(post("/posts/{postId}/comments/{commentId}/delete", postId, commentId))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/posts/" + postId));
+
+        verify(commentDao).delete(eq(commentId), eq("id"));
+    }
 
 }
