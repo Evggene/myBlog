@@ -29,12 +29,8 @@ java -jar target/spring-web-demo.jar
 Откройте класс Main в пакете org.bea
 Нажмите ▶️ Run
 
-Настройки Tomcat
-server.port=8082
-
 Тестирование
 Запуск всех тестов:
-
 mvn test
 ````
 ### Доступ к приложению
