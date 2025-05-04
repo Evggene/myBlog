@@ -6,7 +6,6 @@ import org.bea.model.PostAggregate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +25,7 @@ public class DeletePostHandlerTest extends CommonServiceContext {
 
     @Test
     void deletePost_success() {
-        var postId = createAndCheck();
+        var postId = createPostAndCheck();
         deletePostHandler.deletePost(postId);
 
         var postsPreviewMode = postAggregateRepository.findAllPreviewMode(0, 10);
@@ -36,7 +35,7 @@ public class DeletePostHandlerTest extends CommonServiceContext {
         org.junit.jupiter.api.Assertions.assertNull(post);
     }
 
-    private UUID createAndCheck() {
+    private UUID createPostAndCheck() {
         addPostHandler.addPost("test", "test", "123 456", "");
 
         var postsPreviewMode = postAggregateRepository.findAllPreviewMode(0, 10);
