@@ -1,47 +1,117 @@
 package org.bea.controller;
 
+import org.bea.db.entity.Post;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
 
 class PostCrudControllerTest extends CommonControllerContext{
 
     @Test
-    void testAddPost() throws Exception {
-        // Создаем mock файл для загрузки
+    public void addPostGetTest() throws Exception {
+        mockMvc.perform(get("/posts/add"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("add-post"));
+    }
+
+    @Test
+    void addPostPostTest() throws Exception {
         MockMultipartFile mockImage = new MockMultipartFile(
-                "image", // имя параметра должно совпадать с именем в PostRequest
-                "test-image.jpg", // имя файла
-                "image/jpeg", // content type
-                "test image content".getBytes() // содержимое файла
+                "image",
+                "test-image.jpg",
+                "image/jpeg",
+                "test image content".getBytes()
         );
         mockMvc.perform(
-                        multipart("/posts") // используем multipart для формы с файлом
-                                .file(mockImage) // добавляем файл
-                                .param("title", "Test Post") // добавляем обычные параметры
+                        multipart("/posts")
+                                .file(mockImage)
+                                .param("title", "Test Post")
                                 .param("content", "java,spring")
                                 .param("text", "This is a test post content")
                                 .param("tags", "")
                 )
-                .andExpect(status().is3xxRedirection()) // ожидаем редирект
-                .andExpect(redirectedUrl("/posts")); // ожидаем URL редиректа
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/posts"));
     }
-
 
     @Test
-    void posts_add() throws Exception {
-        mockMvc.perform(get("/posts/add"))
-                .andExpect(status().isOk());
+    public void getToEditTest() throws Exception {
+        mockMvc.perform(get("/posts/550e8400-e29b-41d4-a716-446655440001/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("add-post"))
+                .andExpect(model().attributeExists("post"))
+                .andExpect(xpath("/html/body/form/table/tr[1]/td/textarea").string("10 скрытых мест в Италии, которые стоит посетить"));
     }
 
+    @Test
+    void editPostGetTest() throws Exception {
+        mockMvc.perform(get("/posts/550e8400-e29b-41d4-a716-446655440001"))
+                .andExpect(status().isOk())
+                .andExpect(xpath("/html/body/table/tr[2]/td/p[3]").string("""
 
+                                            #Путешествия\s
+                                        \
+                        """))
+                .andExpect(model().attributeExists("post"));
+    }
+
+    @Test
+    void addPostGet() throws Exception {
+        mockMvc.perform(get("/posts/add"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("add-post"));
+    }
+
+    @Test
+    public void testEditPostWithImage() throws Exception {
+        UUID postId = UUID.randomUUID();
+        MockMultipartFile imageFile = new MockMultipartFile(
+                "image",
+                "test.jpg",
+                MediaType.IMAGE_JPEG_VALUE,
+                "test image content".getBytes()
+        );
+
+        mockMvc.perform(multipart("/posts/{id}", postId)
+                        .file(imageFile)
+                        .param("title", "Test Title")
+                        .param("text", "Test Content")
+                        .param("tags", "tag1,tag2")
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/posts"));
+    }
+
+    @Test
+    public void testEditPostWithValidationError() throws Exception {
+        UUID postId = UUID.randomUUID();
+
+        mockMvc.perform(multipart("/posts/{id}", postId)
+                        .param("title", "")
+                        .param("text", "Test Content")
+                        .param("tags", "tag1,tag2")
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().isOk())
+                .andExpect(view().name("error-page"))
+                .andExpect(model().attributeExists("error"));
+    }
 }

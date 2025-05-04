@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class AddPostHandlerTest extends CommonServiceContext {
 
@@ -120,6 +121,7 @@ public class AddPostHandlerTest extends CommonServiceContext {
 
         var postsPreviewMode = postAggregateRepository.findAllPreviewMode(0, 10);
         org.junit.jupiter.api.Assertions.assertEquals(2, postsPreviewMode.size());
+        postsPreviewMode.sort(Comparator.comparing(PostAggregate::getId));
         var postFullMode0 = postAggregateRepository.findByIdFullMode(postsPreviewMode.get(0).getId());
         var postFullMode1 = postAggregateRepository.findByIdFullMode(postsPreviewMode.get(1).getId());
 

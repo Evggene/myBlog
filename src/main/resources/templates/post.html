@@ -74,7 +74,7 @@
                         <button name="like" value="false">&#128078;</button>
                         <span th:text="${'комментарии '+post.getComments().size()}" style="float:right;"></span>
                     </form>
-                </p>
+               </p>
                 <p>
                     <span th:each="tag : ${post.getTags()}" th:text="${'#'+tag+' '}"></span>
                 </p>
