@@ -25,7 +25,7 @@ public class FindPostController {
             @RequestParam(value = "postSize", required = false) Integer postSize,
             @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
             Model model) {
-        var res = findPostHandler.findByTags(search, postSize, pageNumber);
+        var res = findPostHandler.findPreviewModeByTags(search, postSize, pageNumber);
         model.addAttribute("posts", res.posts());
         model.addAttribute("paging", res.pageOfPosts());
         return "posts";

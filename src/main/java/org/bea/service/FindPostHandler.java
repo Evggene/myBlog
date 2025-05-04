@@ -21,7 +21,7 @@ public class FindPostHandler {
     private final PostDao postDao;
     private final TagDao tagDao;
 
-    public PostsAndPageInfo findByTags(String searchRaw, Integer postSizeRaw, Integer pageNumberRaw) {
+    public PostsAndPageInfo findPreviewModeByTags(String searchRaw, Integer postSizeRaw, Integer pageNumberRaw) {
         var postSize = postSizeRaw == null ? 10 : postSizeRaw;
         var search = searchRaw == null ? "" : searchRaw;
         var pageNumber = pageNumberRaw == null ? 0 : pageNumberRaw - 1;

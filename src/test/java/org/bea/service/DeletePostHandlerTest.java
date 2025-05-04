@@ -33,7 +33,7 @@ public class DeletePostHandlerTest extends CommonServiceContext {
         org.junit.jupiter.api.Assertions.assertEquals(0, postsPreviewMode.size());
 
         var post = postDao.findById(postId);
-        org.junit.jupiter.api.Assertions.assertEquals(0, postsPreviewMode.size());
+        org.junit.jupiter.api.Assertions.assertNull(post);
     }
 
     private UUID createAndCheck() {
