@@ -2,8 +2,10 @@ package org.bea.service;
 
 import org.assertj.core.api.Assertions;
 import org.bea.model.PostAggregate;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -11,16 +13,6 @@ import java.util.Comparator;
 public class AddPostHandlerTest extends CommonServiceContext {
 
     // поля title и text не могут быть пустыми (валидация в контроллере)
-
-    @BeforeEach
-    void truncateAllTable() {
-        jdbcTemplate.execute("DELETE FROM posts");
-        jdbcTemplate.execute("DELETE FROM likes");
-        jdbcTemplate.execute("DELETE FROM tags");
-        jdbcTemplate.execute("DELETE FROM tags_to_post");
-        jdbcTemplate.execute("DELETE FROM paragraphs");
-        jdbcTemplate.execute("DELETE FROM comments");
-    }
 
     @Test
     void addPost_onlyTitleAndText_success() {
@@ -121,7 +113,7 @@ public class AddPostHandlerTest extends CommonServiceContext {
 
         var postsPreviewMode = postAggregateRepository.findAllPreviewMode(0, 10);
         org.junit.jupiter.api.Assertions.assertEquals(2, postsPreviewMode.size());
-        postsPreviewMode.sort(Comparator.comparing(PostAggregate::getId));
+        postsPreviewMode.sort(Comparator.comparing(PostAggregate::getTitle));
         var postFullMode0 = postAggregateRepository.findByIdFullMode(postsPreviewMode.get(0).getId());
         var postFullMode1 = postAggregateRepository.findByIdFullMode(postsPreviewMode.get(1).getId());
 
