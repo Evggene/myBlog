@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Post implements UUIDModel{
+public class Post extends AuditFields implements UUIDModel{
     private UUID id;
     private String title;
     private String imagePath;

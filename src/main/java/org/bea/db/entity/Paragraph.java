@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Paragraph implements UUIDModel{
+public class Paragraph extends AuditFields implements UUIDModel{
     private UUID id;
     private UUID postId;
     private int ord;

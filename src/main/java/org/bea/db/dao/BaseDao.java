@@ -1,6 +1,7 @@
 package org.bea.db.dao;
 
 import lombok.RequiredArgsConstructor;
+import org.bea.db.entity.AuditFields;
 import org.bea.db.entity.UUIDModel;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,17 +13,19 @@ import org.springframework.stereotype.Repository;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
-public abstract class BaseDao<T> {
+public abstract class BaseDao<T extends AuditFields & UUIDModel> {
 
     protected final JdbcTemplate jdbcTemplate;
     protected final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public T setIdAndInsert(T entity, String tableName) {
-        ((UUIDModel)entity).setId(UUID.randomUUID());
+        entity.setId(UUID.randomUUID());
+        entity.setCreatedAt(Instant.now(Clock.systemUTC()).truncatedTo(ChronoUnit.MICROS));
         var insert = new SimpleJdbcInsert(jdbcTemplate).withTableName(tableName);
         var paramSource = new BeanPropertySqlParameterSource(entity);
         try {
@@ -48,7 +51,7 @@ public abstract class BaseDao<T> {
         var sql = "UPDATE " + tableName + " SET deleted_at = :deletedAt WHERE " + idName + " = :id ";
         var params = new MapSqlParameterSource()
                 .addValue("id", id)
-                .addValue("deletedAt", Instant.now(Clock.systemUTC()));
+                .addValue("deletedAt", Instant.now(Clock.systemUTC()).truncatedTo(ChronoUnit.MICROS));
         namedParameterJdbcTemplate.update(sql, params);
     }
 }
