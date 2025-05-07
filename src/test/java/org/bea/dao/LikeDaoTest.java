@@ -1,5 +1,6 @@
 package org.bea.dao;
 
+import org.bea.config.CommonDaoTest;
 import org.bea.db.entity.LikeEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

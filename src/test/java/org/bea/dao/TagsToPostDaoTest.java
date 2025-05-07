@@ -1,5 +1,6 @@
 package org.bea.dao;
 
+import org.bea.config.CommonDaoTest;
 import org.bea.db.entity.TagEntity;
 import org.bea.db.entity.TagsToPostEntity;
 import org.junit.jupiter.api.Assertions;

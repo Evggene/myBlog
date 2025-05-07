@@ -1,6 +1,7 @@
-package org.bea.dao;
+package org.bea.config;
 
 
+import org.bea.MainTest;
 import org.bea.db.dao.CommentDao;
 import org.bea.db.dao.LikeDao;
 import org.bea.db.dao.ParagraphDao;
@@ -14,9 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@SpringBootTest
-@ExtendWith(SpringExtension.class)
-public class CommonDaoTest {
+public class CommonDaoTest extends MainTest {
 
     @Autowired
     protected JdbcTemplate jdbcTemplate;
