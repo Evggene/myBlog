@@ -50,7 +50,7 @@ public abstract class BaseDao<T extends AuditFields & UUIDEntity> {
     }
 
     protected void setUpdatedAt(StringBuilder sql, MapSqlParameterSource params) {
-        sql.append(" updatedAt = :updatedAt ");
+        sql.append(" updated_at = :updatedAt ");
         params.addValue("updatedAt", Instant.now(Clock.systemUTC()));
     }
 

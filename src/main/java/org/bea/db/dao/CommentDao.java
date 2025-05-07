@@ -3,6 +3,7 @@ package org.bea.db.dao;
 import org.bea.db.entity.CommentEntity;
 import org.bea.db.entity.PostEntity;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface CommentDao {
@@ -12,4 +13,6 @@ public interface CommentDao {
     CommentEntity setIdAndInsert(CommentEntity commentEntity);
 
     CommentEntity findById(UUID id);
+
+    List<CommentEntity> findListById(UUID id);
 }

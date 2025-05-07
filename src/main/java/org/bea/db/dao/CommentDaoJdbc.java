@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -39,6 +40,11 @@ public class CommentDaoJdbc extends BaseDao<CommentEntity> implements CommentDao
     @Override
     public CommentEntity findById(UUID id) {
         return super.findById(id, CommentEntity.class, TABLE_NAME);
+    }
+
+    @Override
+    public List<CommentEntity> findListById(UUID id) {
+        return super.findListById(id, "post_id", CommentEntity.class, TABLE_NAME);
     }
 
 }

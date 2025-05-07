@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class PostEntityDaoTest extends CommonDaoTest {
 
@@ -33,6 +35,10 @@ public class PostEntityDaoTest extends CommonDaoTest {
         var postSaved = postDao.setIdAndInsert(post);
         var postInDb = postDao.findById(postSaved.getId());
         Assertions.assertNotNull(postInDb);
+        Assertions.assertEquals(postSaved, postInDb);
+        Assertions.assertNotNull(postInDb.getCreatedAt());
+        Assertions.assertNull(postInDb.getUpdatedAt());
+        Assertions.assertNull(postInDb.getDeletedAt());
     }
 
     @Test
@@ -52,6 +58,8 @@ public class PostEntityDaoTest extends CommonDaoTest {
        var post = postDao.findById(id);
        Assertions.assertNotNull(post);
        assertEquals("1 The Future of AI", post.getTitle());
+       assertEquals("Снимок экрана от 2024-08-29 13-21-40.png", post.getImagePath());
+       assertEquals("How AI is changing the world", post.getTextPreview());
     }
 
     @Test
@@ -69,6 +77,9 @@ public class PostEntityDaoTest extends CommonDaoTest {
 
         assertEquals(title, postEdited.getTitle());
         assertEquals(preview, post.getTextPreview());
+        assertNotNull(postEdited.getUpdatedAt());
+        assertNotNull(postEdited.getCreatedAt());
+        assertNull(postEdited.getDeletedAt());
     }
 
     @Test
