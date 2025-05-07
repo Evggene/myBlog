@@ -8,11 +8,12 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class TagsToPostLink implements UUIDEntity {
-    private UUID id;
+@AllArgsConstructor
+@NoArgsConstructor
+public class LikeEntity {
     private UUID postId;
-    private UUID tagId;
+    private int likesCount;
 }
+
+

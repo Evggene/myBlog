@@ -1,10 +1,12 @@
 package org.bea.db.dao;
 
+import org.bea.db.entity.CommentEntity;
 import org.bea.db.entity.ParagraphEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -24,5 +26,15 @@ public class ParagraphDaoJdbc extends BaseDao<ParagraphEntity> implements Paragr
     @Override
     public ParagraphEntity setIdAndInsert(ParagraphEntity paragraphEntity) {
         return super.setIdAndInsert(paragraphEntity, TABLE_NAME);
+    }
+
+    @Override
+    public ParagraphEntity findById(UUID id) {
+        return super.findById(id, ParagraphEntity.class, TABLE_NAME);
+    }
+
+    @Override
+    public List<ParagraphEntity> findListById(UUID id) {
+        return super.findListById(id, "post_id", ParagraphEntity.class, TABLE_NAME);
     }
 }

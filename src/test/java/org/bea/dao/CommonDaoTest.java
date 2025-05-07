@@ -6,6 +6,7 @@ import org.bea.db.dao.LikeDao;
 import org.bea.db.dao.ParagraphDao;
 import org.bea.db.dao.PostDao;
 import org.bea.db.dao.TagDao;
+import org.bea.db.dao.TagsToPostDao;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
@@ -29,5 +30,7 @@ public class CommonDaoTest {
     protected CommentDao commentDao;
     @Autowired
     protected TagDao tagDao;
+    @Autowired
+    protected TagsToPostDao tagsToPostDao;
 
 }
