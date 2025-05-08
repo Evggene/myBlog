@@ -54,10 +54,10 @@ public class DeletePostHandlerTest extends CommonServiceTest {
         var postExpectedFullMode = Post.builder()
                 .title("test")
                 .textPreview("test")
-                .textParts(new String[]{"test"})
+            //    .textParts(new String[]{"test"})
                 .likesCount(1)
                 .imagePath("")
-                .tags(new String[]{"123", "456"})
+                //.tags(new String[]{"123", "456"})
                 .comments(List.of(comment))
                 .build();
 

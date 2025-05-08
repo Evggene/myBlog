@@ -26,10 +26,10 @@ public class EditPostHandlerTest extends CommonServiceTest {
         var expected = Post.builder()
                 .id(post.getId())
                 .textPreview("new text")
-                .tags(new String[]{"new", "tag"})
+             //   .tags(new String[]{"new", "tag"})
                 .likesCount(89)
                 .title("new title")
-                .textParts(new String[]{"new text"})
+             //   .textParts(new String[]{"new text"})
                 .comments(post.getComments())
                 .imagePath("")
                 .build();

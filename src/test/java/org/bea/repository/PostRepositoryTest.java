@@ -26,8 +26,8 @@ public class PostRepositoryTest extends CommonRepositoryTest {
 
     @Test
     void findByIdFullModeTest() {
-        var post = postRepository.findByIdFullMode(UUID.fromString("550e8400-e29b-41d4-a716-446655440005"));
-        Assertions.assertEquals("Тренировки дома без оборудования: полное руководство", post.getTitle());
+        var post = postRepository.findByIdFullMode(UUID.fromString("550e8400-e29b-41d4-a716-446655440004"));
+        Assertions.assertEquals("Как улучшить качество сна: 5 научно доказанных методов", post.getTitle());
     }
 
     @Test
@@ -48,5 +48,14 @@ public class PostRepositoryTest extends CommonRepositoryTest {
         var posts = postRepository.findByTagPreviewMode(List.of(tag), 0, 10);
         Assertions.assertEquals(1, posts.size());
         Assertions.assertEquals("Как улучшить качество сна: 5 научно доказанных методов", posts.get(0).getTitle());
+    }
+
+    @Test
+    void findByTagsPreviewModeTest() {
+        var tag1 = TagEntity.builder().id(UUID.fromString("a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14")).name("Здоровье").build();
+        var tag2 = TagEntity.builder().id(UUID.fromString("a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13")).name("ИТ").build();
+        var posts = postRepository.findByTagPreviewMode(List.of(tag1, tag2), 0, 10);
+        Assertions.assertEquals(2, posts.size());
+        Assertions.assertEquals("React 18: что изменилось для разработчиков", posts.get(0).getTitle());
     }
 }

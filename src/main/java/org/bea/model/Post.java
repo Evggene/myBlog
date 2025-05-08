@@ -5,8 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bea.db.entity.CommentEntity;
+import org.bea.db.entity.ParagraphEntity;
+import org.bea.db.entity.TagEntity;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Builder
@@ -18,19 +22,19 @@ public class Post {
     private String title;
     private String imagePath;
     private String textPreview;
-    private String[] textParts;
+    private List<ParagraphEntity> textParts;
     private int likesCount;
-    private String[] tags;
+    private Set<TagEntity> tags = new HashSet<>();
     private List<CommentEntity> comments;
 
-    public String getTagsAsText() {
-        if (tags == null || tags.length == 0) {
-            return null;
-        }
-        return String.join(" ", tags);
-    }
-
-    public String getText() {
-        return String.join("\n", textParts);
-    }
+//    public String getTagsAsText() {
+//        if (tags == null || tags.length == 0) {
+//            return null;
+//        }
+//        return String.join(" ", tags);
+//    }
+//
+//    public String getText() {
+//        return String.join("\n", textParts);
+//    }
 }
