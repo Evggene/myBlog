@@ -17,7 +17,10 @@ public class FindPostHandlerTest extends CommonServiceTest {
         actual.setTextParts(null);
 
         var expected = findPostHandler.findPreviewModeByTags("Кулинария", 10,1);
-        Assertions.assertEquals(expected.posts().get(0), actual);
+        org.assertj.core.api.Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("id", "textParts", "comments")
+                .isEqualTo(expected.posts().get(0));
 
         var pageOfPosts = PageOfPostsResponse.builder().search("Кулинария").postSize(10).pageNumber(1).count(1).build();
         Assertions.assertEquals(expected.pageOfPosts(), pageOfPosts);

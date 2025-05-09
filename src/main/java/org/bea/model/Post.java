@@ -8,6 +8,7 @@ import org.bea.db.entity.CommentEntity;
 import org.bea.db.entity.ParagraphEntity;
 import org.bea.db.entity.TagEntity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,17 +25,7 @@ public class Post {
     private String textPreview;
     private List<ParagraphEntity> textParts;
     private int likesCount;
-    private Set<TagEntity> tags = new HashSet<>();
+    @Builder.Default
+    private List<TagEntity> tags = new ArrayList<>();
     private List<CommentEntity> comments;
-
-//    public String getTagsAsText() {
-//        if (tags == null || tags.length == 0) {
-//            return null;
-//        }
-//        return String.join(" ", tags);
-//    }
-//
-//    public String getText() {
-//        return String.join("\n", textParts);
-//    }
 }

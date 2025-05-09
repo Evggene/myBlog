@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,6 +35,7 @@ public class PostByIdFullModeExtractor implements ResultSetExtractor<Post> {
         LEFT JOIN tags t ON t.id = pt.tag_id
         LEFT JOIN paragraphs pg ON pg.post_id = p.id AND pg.deleted_at IS NULL
         WHERE p.id = :postId
+        AND p.deleted_at is null;
     """;
     @Override
     public Post extractData(ResultSet rs) throws SQLException {
@@ -50,18 +52,18 @@ public class PostByIdFullModeExtractor implements ResultSetExtractor<Post> {
                         .textPreview(rs.getString("text_preview"))
                         .likesCount(rs.getInt("likes_count"))
                         .textParts(new ArrayList<>())
-                        .tags(new HashSet<>())
+                        .tags(new ArrayList<>())
                         .comments(new ArrayList<>())
                         .build();
             }
-            UUID tagId = (UUID) rs.getObject("tag_id");
+            var tagId = (UUID) rs.getObject("tag_id");
             if (tagId != null) {
                 tags.add(TagEntity.builder()
                         .id(tagId)
                         .name(rs.getString("tag_name"))
                         .build());
             }
-            UUID paragraphId = (UUID) rs.getObject("paragraph_id");
+            var paragraphId = (UUID) rs.getObject("paragraph_id");
             if (paragraphId != null) {
                 paragraphs.add(ParagraphEntity.builder()
                         .id(paragraphId)
@@ -73,7 +75,9 @@ public class PostByIdFullModeExtractor implements ResultSetExtractor<Post> {
             post.setLikesCount(rs.getInt("likes_count"));
         }
         if (post != null) {
-            post.setTags(tags);
+            var tagsSorted = new ArrayList<>(tags);
+            tagsSorted.sort(Comparator.comparing(TagEntity::getName));
+            post.setTags(tagsSorted);
             post.setTextParts(paragraphs.stream()
                     .sorted(Comparator.comparingInt(ParagraphEntity::getOrd))
                     .collect(Collectors.toList()));

@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 
 public class PostListPreviewModeExtractor implements ResultSetExtractor<Void> {
 
-    // 1. Запрос для получения основных данных постов
     public static final String postsSqlWithTag = """
         SELECT
             p.id,
@@ -31,8 +30,7 @@ public class PostListPreviewModeExtractor implements ResultSetExtractor<Void> {
         WHERE p.id IN (
             SELECT DISTINCT pt.post_id 
             FROM tags_to_post pt
-            LEFT JOIN tags t ON t.id = pt.tag_id
-            WHERE pt.deleted_at IS NULL
+            LEFT JOIN tags t ON t.id = pt.tag_id WHERE pt.deleted_at IS NULL
             and t.id in (:tagList)
         )
         AND p.deleted_at IS NULL
@@ -46,23 +44,21 @@ public class PostListPreviewModeExtractor implements ResultSetExtractor<Void> {
             p.title,
             p.text_preview,
             p.image_path,
-            COALESCE(l.likes_count, 0) as likes_count 
-        FROM posts p 
-        LEFT JOIN likes l ON l.post_id = p.id
-        AND p.deleted_at IS NULL
+            COALESCE(l.likes_count, 0) as likes_count
+        FROM posts p
+        LEFT JOIN likes l ON l.post_id = p.id AND p.deleted_at IS NULL
+        WHERE p.deleted_at is null
         ORDER BY p.updated_at DESC
         LIMIT :limit OFFSET :offset
         """;
 
-    // 2. Запрос для получения тегов для каждого поста
     public static final String tagsSql = """
         SELECT
             pt.post_id,
             t.id,
-            t.name 
+            t.name
         FROM tags_to_post pt
-        LEFT JOIN tags t ON t.id = pt.tag_id
-        WHERE pt.deleted_at IS NULL 
+        LEFT JOIN tags t ON t.id = pt.tag_id WHERE pt.deleted_at IS NULL
         AND pt.post_id IN (:postIds)
         """;
 
@@ -70,15 +66,15 @@ public class PostListPreviewModeExtractor implements ResultSetExtractor<Void> {
 
     public PostListPreviewModeExtractor(List<Post> posts) {
         this.postsMap = posts.stream()
-                .peek(it -> it.setTags(new HashSet<>()))
+                .peek(it -> it.setTags(new ArrayList<>()))
                 .collect(Collectors.toMap(Post::getId, Function.identity()));
     }
 
     @Override
     public Void extractData(ResultSet rs) throws SQLException {
         while (rs.next()) {
-            UUID postId = rs.getObject("post_id", UUID.class);
-            Post post = postsMap.get(postId);
+            var postId = rs.getObject("post_id", UUID.class);
+            var post = postsMap.get(postId);
 
             if (post != null) {
                 post.getTags().add(TagEntity.builder()

@@ -23,7 +23,6 @@ public class PostRepositoryJdbc implements PostRepository {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final BeanPropertyRowMapper<Post> rowMapper = new BeanPropertyRowMapper<>(Post.class);
-    private final BeanPropertyRowMapper<CommentEntity> commentMapper = new BeanPropertyRowMapper<>(CommentEntity.class);
 
     private final static String SELECT_ALL_COMMENTS = """
             SELECT * from comments where post_id = :postId AND deleted_at IS NULL order by updated_at;
@@ -31,23 +30,17 @@ public class PostRepositoryJdbc implements PostRepository {
 
     @Override
     public List<Post> findAllPreviewMode(int offset, int limit) {
-        var paramMap = new HashMap<String, Object>();
-        paramMap.put("offset", offset);
-        paramMap.put("limit", limit);
+        var paramMap = Map.of("offset", offset, "limit", limit);
         var posts = namedParameterJdbcTemplate.query(PostListPreviewModeExtractor.postsSqlWithoutTag, paramMap, rowMapper);
-        List<UUID> postIds = posts.stream().map(Post::getId).toList();
-        var extractor = new PostListPreviewModeExtractor(posts);
+        var postIds = posts.stream().map(Post::getId).toList();
         namedParameterJdbcTemplate.query(
-                PostListPreviewModeExtractor.tagsSql,
-                Map.of("postIds", postIds),
-                extractor
-        );
+                PostListPreviewModeExtractor.tagsSql, Map.of("postIds", postIds), new PostListPreviewModeExtractor(posts));
         return posts;
     }
 
     private Post findCommentsAndSet(Post it) {
-        var commentParamMap = new HashMap<String, Object>();
-        commentParamMap.put("postId", it.getId().toString());
+        var commentMapper = new BeanPropertyRowMapper<>(CommentEntity.class);
+        var commentParamMap = Map.of("postId", it.getId().toString());
         var comments = namedParameterJdbcTemplate.query(SELECT_ALL_COMMENTS, commentParamMap, commentMapper);
         it.setComments(comments);
         return it;
@@ -56,9 +49,10 @@ public class PostRepositoryJdbc implements PostRepository {
     @Override
     public Post findByIdFullMode(UUID id) {
         var res = namedParameterJdbcTemplate.query(
-                PostByIdFullModeExtractor.sql,
-                Collections.singletonMap("postId", id),
-                new PostByIdFullModeExtractor());
+                PostByIdFullModeExtractor.sql, Collections.singletonMap("postId", id), new PostByIdFullModeExtractor());
+        if (res == null) {
+            return null;
+        }
         return findCommentsAndSet(res);
     }
 
@@ -67,18 +61,11 @@ public class PostRepositoryJdbc implements PostRepository {
         var tagIdsForSql = tags.stream()
                 .map(it -> it.getId().toString())
                 .toList();
-        var paramMap = new HashMap<String, Object>();
-        paramMap.put("offset", offset);
-        paramMap.put("limit", limit);
-        paramMap.put("tagList", tagIdsForSql);
+        var paramMap = Map.of("offset", offset, "limit", limit, "tagList", tagIdsForSql);
         var posts = namedParameterJdbcTemplate.query(PostListPreviewModeExtractor.postsSqlWithTag, paramMap, rowMapper);
-        List<UUID> postIds = posts.stream().map(Post::getId).toList();
-        var extractor = new PostListPreviewModeExtractor(posts);
+        var postIds = posts.stream().map(Post::getId).toList();
         namedParameterJdbcTemplate.query(
-                PostListPreviewModeExtractor.tagsSql,
-                Map.of("postIds", postIds),
-                extractor
-        );
+                PostListPreviewModeExtractor.tagsSql, Map.of("postIds", postIds), new PostListPreviewModeExtractor(posts));
         return posts;
     }
 }

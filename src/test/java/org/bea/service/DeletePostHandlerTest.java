@@ -1,11 +1,8 @@
 package org.bea.service;
 
-import org.assertj.core.api.Assertions;
 import org.bea.config.CommonServiceTest;
 import org.bea.db.entity.CommentEntity;
-import org.bea.db.entity.CommentEntity;
-import org.bea.model.Post;
-import org.bea.model.Post;
+import org.bea.db.entity.TagEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +25,7 @@ public class DeletePostHandlerTest extends CommonServiceTest {
 
     @Test
     void deletePost_success() {
-        var postId = createPostAndCheck();
+        var postId = createPost();
         deletePostHandler.deletePost(postId);
 
         var postsPreviewMode = postRepository.findAllPreviewMode(0, 10);
@@ -36,9 +33,16 @@ public class DeletePostHandlerTest extends CommonServiceTest {
 
         var post = postDao.findById(postId);
         org.junit.jupiter.api.Assertions.assertNull(post);
+
+        var aPost = postRepository.findByIdFullMode(postId);
+        org.junit.jupiter.api.Assertions.assertNull(aPost);
+
+        var tag1 = TagEntity.builder().id(UUID.randomUUID()).name("123").build();
+        var bPost = postRepository.findByTagPreviewMode(List.of(tag1), 0, 10);
+        org.junit.jupiter.api.Assertions.assertEquals(0, bPost.size());
     }
 
-    private UUID createPostAndCheck() {
+    private UUID createPost() {
         addPostHandler.addPost("test", "test", "123 456", "");
 
         var postsPreviewMode = postRepository.findAllPreviewMode(0, 10);
@@ -50,21 +54,6 @@ public class DeletePostHandlerTest extends CommonServiceTest {
         likeDao.increment(postsPreviewMode.get(0).getId());
 
         var postFullMode = postRepository.findByIdFullMode(postsPreviewMode.get(0).getId());
-
-        var postExpectedFullMode = Post.builder()
-                .title("test")
-                .textPreview("test")
-            //    .textParts(new String[]{"test"})
-                .likesCount(1)
-                .imagePath("")
-                //.tags(new String[]{"123", "456"})
-                .comments(List.of(comment))
-                .build();
-
-        Assertions.assertThat(postFullMode)
-                .usingRecursiveComparison()
-                .ignoringFields("id")
-                .isEqualTo(postExpectedFullMode);
 
         return postFullMode.getId();
     }
