@@ -2,7 +2,6 @@ package org.bea.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.bea.db.dao.CommentDao;
-import org.bea.db.entity.Comment;
 import org.bea.db.entity.CommentEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
