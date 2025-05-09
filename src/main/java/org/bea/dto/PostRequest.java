@@ -1,6 +1,7 @@
 package org.bea.dto;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.bea.db.entity.CommentEntity;
@@ -23,16 +24,23 @@ public class PostRequest {
     private List<String> textParts;
     private int likesCount;
     private List<String> tags;
-    private List<String> comments;
+    private List<Comment> comments;
 
     public String getTagsAsText() {
         if (tags == null || tags.isEmpty()) {
             return null;
         }
-        return String.join((CharSequence) " ", (CharSequence) tags);
+        return String.join( " ", tags);
     }
 
     public String getText() {
-        return String.join((CharSequence) "\n", (CharSequence) textParts);
+        return String.join( "\n", textParts);
+    }
+
+    @Data
+    @Builder
+    public static class Comment {
+        private UUID id;
+        private String content;
     }
 }

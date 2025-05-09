@@ -16,7 +16,7 @@ public class PostPresenter implements Presenter<Post, PostRequest> {
                 .toList();
         var tags = post.getTags().stream().map(TagEntity::getName).toList();
         var comments = post.getComments().stream()
-                .map(CommentEntity::getContent)
+                .map(it -> PostRequest.Comment.builder().id(it.getId()).content(it.getContent()).build())
                 .toList();
 
         return PostRequest.builder()
