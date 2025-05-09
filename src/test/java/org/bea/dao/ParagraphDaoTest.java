@@ -15,8 +15,12 @@ public class ParagraphDaoTest extends CommonDaoTest {
 
     @BeforeEach
     void setUp() {
-        jdbcTemplate.execute("DELETE FROM paragraphs");
         jdbcTemplate.execute("DELETE FROM posts");
+        jdbcTemplate.execute("DELETE FROM likes");
+        jdbcTemplate.execute("DELETE FROM tags");
+        jdbcTemplate.execute("DELETE FROM tags_to_post");
+        jdbcTemplate.execute("DELETE FROM paragraphs");
+        jdbcTemplate.execute("DELETE FROM comments");
 
         jdbcTemplate.execute(
                 """
@@ -56,11 +60,20 @@ public class ParagraphDaoTest extends CommonDaoTest {
         var firstParahraoh = paragraphDao.findListById(postId);
         Assertions.assertEquals(1, firstParahraoh.size());
 
+    }
+
+    @Test
+    void deleteTest2() {
+        var paragraphRaw = createParagraphWithoutId(postId);
+        var secondParagraph = paragraphDao.setIdAndInsert(paragraphRaw);
+
+        var paragraphs = paragraphDao.findListById(postId);
+        Assertions.assertEquals(2, paragraphs.size());
+
         paragraphDao.delete(postId, "post_id");
 
         var deleted = commentDao.findListById(postId);
         Assertions.assertEquals(0, deleted.size());
-
     }
 
     private ParagraphEntity createParagraphWithoutId(UUID id) {

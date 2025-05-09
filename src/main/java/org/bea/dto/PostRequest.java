@@ -22,7 +22,7 @@ public class PostRequest {
     private String textPreview;
     private List<String> textParts;
     private int likesCount;
-    private Set<String> tags;
+    private List<String> tags;
     private List<String> comments;
 
     public String getTagsAsText() {

@@ -4,5 +4,5 @@ import org.bea.model.Post;
 
 import java.util.List;
 
-public record PostsAndPageInfo(List<Post> posts, PageOfPostsResponse pageOfPosts) {
+public record PostsAndPageInfo(List<PostRequest> posts, PageOfPostsResponse pageOfPosts) {
 }

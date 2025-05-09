@@ -19,7 +19,8 @@ public class FindPostControllerTest extends CommonControllerTest {
                         .param("pageNumber", "1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("posts"))
-                .andExpect(xpath("/html/body/table/tr[2]/td/h2").string("Как улучшить качество сна: 5 научно доказанных методов"))
+                .andExpect(xpath("/html/body/table/tr[2]/td/h2")
+                        .string("Как улучшить качество сна: 5 научно доказанных методов"))
                 .andExpect(model().attributeExists("posts"))
                 .andExpect(model().attributeExists("paging"));
     }

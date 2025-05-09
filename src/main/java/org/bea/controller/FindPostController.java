@@ -15,7 +15,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FindPostController {
 
-    private final PostRepository postRepository;
     private final FindPostHandler findPostHandler;
 
     @GetMapping(path = "/posts")
@@ -33,7 +32,7 @@ public class FindPostController {
 
     @GetMapping("/posts/{id}")
     public String getPostById(@PathVariable("id") UUID id, Model model) {
-        var post = postRepository.findByIdFullMode(id);
+        var post = findPostHandler.findByIdFullMode(id);
         model.addAttribute("post", post);
         return "post";
     }

@@ -43,7 +43,6 @@ class CommentCrudControllerTest extends CommonControllerTest{
         verify(commentDao).setIdAndInsert(ArgumentMatchers.any(CommentEntity.class));
     }
 
-    // Тест редактирования комментария
     @Test
     void editComment_ShouldUpdateAndRedirect() throws Exception {
         UUID postId = UUID.fromString("550e8400-e29b-41d4-a716-446655440001");

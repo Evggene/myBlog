@@ -6,6 +6,7 @@ import org.bea.dto.AddEditPostRequest;
 import org.bea.service.AddPostHandler;
 import org.bea.service.DeletePostHandler;
 import org.bea.service.EditPostHandler;
+import org.bea.service.FindPostHandler;
 import org.bea.util.FileStorageService;
 import org.bea.validator.AddPostValidator;
 import org.springframework.http.MediaType;
@@ -25,7 +26,7 @@ public class PostCrudController {
     private final DeletePostHandler deletePostHandler;
     private final AddPostHandler addPostHandler;
     private final EditPostHandler editPostHandler;
-    private final PostRepository postRepository;
+    private final FindPostHandler findPostHandler;
     private final FileStorageService fileStorageService;
 
     @GetMapping(path = "/posts/add")
@@ -52,7 +53,7 @@ public class PostCrudController {
 
     @GetMapping("/posts/{id}/edit")
     public String getToEdit(@PathVariable("id") UUID id, Model model) {
-       var post = postRepository.findByIdFullMode(id);
+       var post = findPostHandler.findByIdFullMode(id);
        model.addAttribute("post", post);
        return "add-post";
     }

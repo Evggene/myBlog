@@ -23,9 +23,11 @@ public class Post {
     private String title;
     private String imagePath;
     private String textPreview;
-    private List<ParagraphEntity> textParts;
+    @Builder.Default
+    private List<ParagraphEntity> textParts = new ArrayList<>();
     private int likesCount;
     @Builder.Default
     private List<TagEntity> tags = new ArrayList<>();
-    private List<CommentEntity> comments;
+    @Builder.Default
+    private List<CommentEntity> comments = new ArrayList<>();
 }
