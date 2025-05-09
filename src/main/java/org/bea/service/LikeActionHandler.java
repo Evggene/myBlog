@@ -39,7 +39,6 @@ public class LikeActionHandler {
     }
 
     public void handle(UUID postId, boolean isIncrement) {
-        var action = LikeActionType.fromBoolean(isIncrement);
         if (isIncrement) {
             likeDao.increment(postId);
         } else {

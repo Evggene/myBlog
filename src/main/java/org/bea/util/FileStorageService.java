@@ -26,6 +26,7 @@ public class FileStorageService {
                     rootPath.getRootPathTo(ResourceRootPathConfiguration.IMAGES)
                             + File.separator
                             + image.getOriginalFilename());
+            Files.createDirectories(path.getParent());
             Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             System.out.println(e);
