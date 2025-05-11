@@ -1,6 +1,5 @@
 package org.bea.service;
 
-import org.assertj.core.api.Assertions;
 import org.bea.config.CommonServiceTest;
 import org.bea.db.entity.ParagraphEntity;
 import org.bea.db.entity.TagEntity;
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;

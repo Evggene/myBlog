@@ -1,6 +1,5 @@
 package org.bea.db.dao;
 
-import org.bea.db.entity.CommentEntity;
 import org.bea.db.entity.ParagraphEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

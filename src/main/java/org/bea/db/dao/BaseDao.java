@@ -2,7 +2,6 @@ package org.bea.db.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.bea.db.entity.AuditFields;
-import org.bea.db.entity.PostEntity;
 import org.bea.db.entity.UUIDEntity;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;

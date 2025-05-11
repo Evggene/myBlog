@@ -1,6 +1,5 @@
 package org.bea.presenter;
 
-import org.bea.db.entity.CommentEntity;
 import org.bea.db.entity.ParagraphEntity;
 import org.bea.db.entity.TagEntity;
 import org.bea.dto.PostRequest;

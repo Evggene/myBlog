@@ -1,7 +1,6 @@
 package org.bea.db.dao;
 
 import org.bea.db.entity.CommentEntity;
-import org.bea.db.entity.PostEntity;
 
 import java.util.List;
 import java.util.UUID;

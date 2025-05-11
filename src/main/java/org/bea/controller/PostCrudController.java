@@ -1,7 +1,6 @@
 package org.bea.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.bea.db.repository.PostRepository;
 import org.bea.dto.AddEditPostRequest;
 import org.bea.service.AddPostHandler;
 import org.bea.service.DeletePostHandler;

@@ -4,13 +4,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.bea.db.entity.CommentEntity;
-import org.bea.db.entity.ParagraphEntity;
-import org.bea.db.entity.TagEntity;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Setter

@@ -8,12 +8,8 @@ import org.bea.db.dao.ParagraphDao;
 import org.bea.db.dao.PostDao;
 import org.bea.db.dao.TagDao;
 import org.bea.db.dao.TagsToPostDao;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 public class CommonDaoTest extends MainTest {
 
