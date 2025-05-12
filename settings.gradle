@@ -1,9 +1,2 @@
-pluginManagement {
-	repositories {
-		mavenCentral()
-		maven { url 'https://repo.spring.io/milestone' }
-		maven { url 'https://repo.spring.io/snapshot' }
-		gradlePluginPortal()
-	}
-}
+
 rootProject.name = 'blog.v2'

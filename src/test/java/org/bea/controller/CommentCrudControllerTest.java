@@ -5,7 +5,7 @@ import org.bea.db.dao.CommentDao;
 import org.bea.db.entity.CommentEntity;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.UUID;
 
@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class CommentCrudControllerTest extends CommonControllerTest{
 
-    @MockitoBean
+    @MockBean
     CommentDao commentDao;
 
     @Test

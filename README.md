@@ -1,12 +1,12 @@
 # Лента постов на Spring MVC
 
-Веб-приложение блога с возможностью просмотра и создания постов, построенное на Spring MVC 6 с использованием встроенного Tomcat.
+Веб-приложение блога с возможностью просмотра и создания постов, построенное на Spring Boot 3 с использованием встроенного Tomcat.
 
 ## 📋 Технический стек
 
 ### Основные технологии
 - **Backend**:
-    - Spring MVC 6
+    - Spring Boot 3
     - Spring JDBC
     - Встроенный Tomcat 10
 - **База данных**: H2 (in-memory)
@@ -15,24 +15,24 @@
 
 ### Системные требования
 - Java 21
-- Maven 3.8+
+- Gradle 8.5+
 
 ## 🛠️ Сборка и запуск
 
 ### Сборка проекта
 ```bash
-mvn clean package
+./gradlew clean build
+
 Запуск из командной строки
-java -jar target/spring-web-demo.jar
+java -jar build/libs/blog-app-0.0.1-SNAPSHOT.jar
 
 Запуск из IntelliJ IDEA
 Откройте класс Main в пакете org.bea
 Нажмите ▶️ Run
 
-Тестирование
 Запуск всех тестов:
-mvn test
+./gradlew test
 ````
 ### Доступ к приложению
 После запуска приложение будет доступно по адресу:
-http://localhost:8082
+http://localhost:8080

@@ -2,9 +2,8 @@ package org.bea.controller;
 
 import org.bea.config.CommonControllerTest;
 import org.bea.service.LikeActionHandler;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-
 import java.util.UUID;
 
 import static org.mockito.Mockito.verify;
@@ -14,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class LikeCrudControllerTest extends CommonControllerTest {
 
-    @MockitoBean
+    @MockBean
     LikeActionHandler likeActionHandler;
 
     @Test
